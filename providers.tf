@@ -1,3 +1,4 @@
+/*
 provider "helm" {
   kubernetes {
     host                   = var.cluster_endpoint
@@ -9,3 +10,4 @@ provider "helm" {
     }
   }
 }
+*/
