@@ -22,3 +22,8 @@ variable "namespace_labels" {
   default     = {}
 }
 
+variable "prometheus_version" {
+  description = "Version of prom/prometheus image to deploy."
+  default = "v2.34.0"
+}
+
