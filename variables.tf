@@ -1,23 +1,24 @@
-variable "namespace" {
-  description = "namespace to deploy container runner to"
+variable "istio_chart_version" {
+  description = "Helm chart version"
+  type        = string
+  default     = "1.16"
+}
+
+variable "istio_namespace" {
+  description = "Namespace to which Istio Helm chart will be deployed"
   type        = string
   default     = "istio-system"
 }
 
-variable "values" {
-  description = "path to values.yaml file"
+variable "kiali_namespace" {
+  description = "Namespace to which Kiali Operator Helm chart will be deployed"
   type        = string
-  default     = "."
-}
-
-variable "chart_version" {
-  description = "helm chart version"
-  type        = string
-  default     = ""
+  default     = "kiali-operator"
 }
 
 variable "namespace_labels" {
-  description = ""
-  type = map(string)
-  default = {}
+  description = "Labels to be applied to namespaces."
+  type        = map(string)
+  default     = {}
 }
+

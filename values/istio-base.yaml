@@ -27,3 +27,4 @@ base:
   enableIstioConfigCRDs: true
 
 defaultRevision: "default"
+
