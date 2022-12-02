@@ -107,9 +107,9 @@ resource "kubernetes_service_v1" "prometheus" {
 resource "kubernetes_config_map_v1" "prometheus" {
 
   metadata {
+    name      = "prometheus"
+    namespace = "istio-system"
     labels = {
-      name      = "prometheus"
-      namespace = "istio-system"
       app       = "prometheus"
       chart     = "prometheus-15.9.0"
       component = "server"
@@ -127,9 +127,9 @@ resource "kubernetes_config_map_v1" "prometheus" {
 resource "kubernetes_deployment_v1" "prometheus" {
 
   metadata {
+    name      = "prometheus"
+    namespace = "istio-system"
     labels = {
-      name      = "prometheus"
-      namespace = "istio-system"
       app       = "prometheus"
       chart     = "prometheus-15.9.0"
       component = "server"
