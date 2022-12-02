@@ -169,50 +169,50 @@ resource "kubernetes_deployment_v1" "prometheus" {
             mount_path = "/etc/config"
             name       = "config-volume"
             read_only  = "true"
-            }
           }
-          container {
-            args              = ["--storage.tsdb.retention.time=15d", "--config.file=/etc/config/prometheus.yml", "--storage.tsdb.path=/data", "--web.console.libraries=/etc/prometheus/console_libraries", "--web.console.templates=/etc/prometheus/consoles", "--web.enable-lifecycle"]
-            image             = "prom/prometheus:v2.34.0"
-            image_pull_policy = "IfNotPresent"
-            liveness_probe {
-              failure_threshold = "3"
-              http_get {
-                path   = "/-/healthy"
-                port   = "9090"
-                scheme = "HTTP"
-              }
-              initial_delay_seconds = "30"
-              period_seconds        = "15"
-              success_threshold     = "1"
-              timeout_seconds       = "10"
+        }
+        container {
+          args              = ["--storage.tsdb.retention.time=15d", "--config.file=/etc/config/prometheus.yml", "--storage.tsdb.path=/data", "--web.console.libraries=/etc/prometheus/console_libraries", "--web.console.templates=/etc/prometheus/consoles", "--web.enable-lifecycle"]
+          image             = "prom/prometheus:v2.34.0"
+          image_pull_policy = "IfNotPresent"
+          liveness_probe {
+            failure_threshold = "3"
+            http_get {
+              path   = "/-/healthy"
+              port   = "9090"
+              scheme = "HTTP"
             }
-            name = "prometheus-server"
-            port {
-              container_port = "9090"
-            }
-            readiness_probe {
-              failure_threshold = "3"
-              http_get {
-                path   = "/-/ready"
-                port   = "9090"
-                scheme = "HTTP"
-              }
-              initial_delay_seconds = "0"
-              period_seconds        = "5"
-              success_threshold     = "1"
-              timeout_seconds       = "4"
-            }
-            volume_mount {
-              mount_path = "/etc/config"
-              name       = "config-volume"
-            }
-            volume_mount {
-              mount_path = "/data"
-              name       = "storage-volume"
-              sub_path   = ""
-            }
+            initial_delay_seconds = "30"
+            period_seconds        = "15"
+            success_threshold     = "1"
+            timeout_seconds       = "10"
           }
+          name = "prometheus-server"
+          port {
+            container_port = "9090"
+          }
+          readiness_probe {
+            failure_threshold = "3"
+            http_get {
+              path   = "/-/ready"
+              port   = "9090"
+              scheme = "HTTP"
+            }
+            initial_delay_seconds = "0"
+            period_seconds        = "5"
+            success_threshold     = "1"
+            timeout_seconds       = "4"
+          }
+          volume_mount {
+            mount_path = "/etc/config"
+            name       = "config-volume"
+          }
+          volume_mount {
+            mount_path = "/data"
+            name       = "storage-volume"
+            sub_path   = ""
+          }
+        }
         dns_policy           = "ClusterFirst"
         enable_service_links = "true"
         host_network         = "false"
