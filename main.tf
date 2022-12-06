@@ -51,15 +51,36 @@ resource "helm_release" "kiali_operator" {
 
   name = "kiali-operator"
 
-  repository = "https://kiali.org/helm-charts"
-  chart      = "kiali-operator"
-  namespace  = var.kiali_namespace
-  #version          = var.istio_chart_version  # Not sure about this -- maybe latest is okay?
+  repository       = "https://kiali.org/helm-charts"
+  chart            = "kiali-operator"
+  namespace        = var.kiali_namespace
   create_namespace = true # we'll create it separately so we can label it properly
   atomic           = true #purges chart on failed deploy
+  #version          = var.istio_chart_version  # Not sure about this -- maybe latest is okay?
+
 
   values = [
     file("${path.module}/values/kiali-operator.yaml")
+  ]
+
+  depends_on = [
+    kubernetes_namespace.istio
+  ]
+}
+
+resource "helm_release" "jaeger_operator" {
+
+  name = "jaeger-operator"
+
+  repository       = "https://jaegertracing.github.io/helm-charts"
+  chart            = "jaeger-operator"
+  namespace        = var.istio_namespace
+  create_namespace = true # we'll create it separately so we can label it properly
+  atomic           = true #purges chart on failed deploy
+  #version          = var.istio_chart_version  # Not sure about this -- maybe latest is okay?
+
+  values = [
+    file("${path.module}/values/jaeger-operator.yaml")
   ]
 
   depends_on = [
@@ -72,3 +93,9 @@ resource "helm_release" "kiali_operator" {
 #resource "kubernetes_manifest" "prometheus_quickstart" {
 #  manifest = data.http.prometheus_manifest.response_body
 #}
+
+
+# https://github.com/AwesomeCICD/cera-services/tree/main/istio
+#TODO: Jaeger
+#TODO: Grafana
+#TODO: Cert Manager
