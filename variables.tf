@@ -16,6 +16,12 @@ variable "kiali_namespace" {
   default     = "kiali-operator"
 }
 
+variable "cert_manager_namespace" {
+  description = "Namespace to which Kiali Operator Helm chart will be deployed"
+  type        = string
+  default     = "cert-manager"
+}
+
 variable "namespace_labels" {
   description = "Labels to be applied to namespaces."
   type        = map(string)

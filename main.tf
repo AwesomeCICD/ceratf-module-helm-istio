@@ -68,6 +68,27 @@ resource "helm_release" "kiali_operator" {
   ]
 }
 
+
+
+resource "helm_release" "cert_manager" {
+
+  name = "cert-manager"
+
+  repository       = "https://charts.jetstack.io"
+  chart            = "cert-manager"
+  namespace        = var.cert_manager_namespace
+  create_namespace = true # we'll create it separately so we can label it properly
+  atomic           = true #purges chart on failed deploy
+  #version          = var.istio_chart_version  # Not sure about this -- maybe latest is okay?
+
+
+  values = [
+    file("${path.module}/values/cert-manager.yaml")
+  ]
+}
+
+
+
 resource "helm_release" "jaeger_operator" {
 
   name = "jaeger-operator"
@@ -84,7 +105,8 @@ resource "helm_release" "jaeger_operator" {
   ]
 
   depends_on = [
-    kubernetes_namespace.istio
+    kubernetes_namespace.istio,
+    helm_release.cert_manager
   ]
 }
 
