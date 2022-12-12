@@ -97,7 +97,7 @@ resource "helm_release" "jaeger_operator" {
   chart            = "jaeger-operator"
   namespace        = var.istio_namespace
   create_namespace = true # we'll create it separately so we can label it properly
-  atomic           = true #purges chart on failed deploy
+  atomic           = false #true #purges chart on failed deploy
   #version          = var.istio_chart_version  # Not sure about this -- maybe latest is okay?
 
   values = [
