@@ -1,6 +1,6 @@
 ### Required 
 
-variable "controlplane_security_group_id" {
+variable "cluster_security_group_id" {
   description = "EKS controlplane SG ID."
 }
 
