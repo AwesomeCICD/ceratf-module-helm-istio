@@ -16,7 +16,8 @@ resource "aws_security_group_rule" "istio_nodes_to_controlplane_envoy_outbound" 
   to_port     = "15001"
   protocol    = "tcp"
 
-  security_group_id = var.controlplane_security_group_id
+  security_group_id        = var.controlplane_security_group_id
+  source_security_group_id = var.node_security_group_id
 }
 
 resource "aws_security_group_rule" "istio_nodes_to_controlplane_envoy_inbound" {
@@ -27,7 +28,8 @@ resource "aws_security_group_rule" "istio_nodes_to_controlplane_envoy_inbound" {
   to_port     = "15006"
   protocol    = "tcp"
 
-  security_group_id = var.controlplane_security_group_id
+  security_group_id        = var.controlplane_security_group_id
+  source_security_group_id = var.node_security_group_id
 }
 
 resource "aws_security_group_rule" "istio_nodes_to_controlplane_hbone_mtls" {
@@ -38,7 +40,8 @@ resource "aws_security_group_rule" "istio_nodes_to_controlplane_hbone_mtls" {
   to_port     = "15008"
   protocol    = "tcp"
 
-  security_group_id = var.controlplane_security_group_id
+  security_group_id        = var.controlplane_security_group_id
+  source_security_group_id = var.node_security_group_id
 }
 
 resource "aws_security_group_rule" "istio_nodes_to_controlplane_hbone_secure" {
@@ -49,7 +52,8 @@ resource "aws_security_group_rule" "istio_nodes_to_controlplane_hbone_secure" {
   to_port     = "15009"
   protocol    = "tcp"
 
-  security_group_id = var.controlplane_security_group_id
+  security_group_id        = var.controlplane_security_group_id
+  source_security_group_id = var.node_security_group_id
 }
 
 resource "aws_security_group_rule" "istio_nodes_to_controlplane_merged_prometheus_telemetry" {
@@ -60,7 +64,8 @@ resource "aws_security_group_rule" "istio_nodes_to_controlplane_merged_prometheu
   to_port     = "15020"
   protocol    = "tcp"
 
-  security_group_id = var.controlplane_security_group_id
+  security_group_id        = var.controlplane_security_group_id
+  source_security_group_id = var.node_security_group_id
 }
 
 resource "aws_security_group_rule" "istio_nodes_to_controlplane_health_checks" {
@@ -71,7 +76,8 @@ resource "aws_security_group_rule" "istio_nodes_to_controlplane_health_checks" {
   to_port     = "15021"
   protocol    = "tcp"
 
-  security_group_id = var.controlplane_security_group_id
+  security_group_id        = var.controlplane_security_group_id
+  source_security_group_id = var.node_security_group_id
 }
 
 resource "aws_security_group_rule" "istio_nodes_to_controlplane_envoy_prometheus_telemetry" {
@@ -82,7 +88,8 @@ resource "aws_security_group_rule" "istio_nodes_to_controlplane_envoy_prometheus
   to_port     = "15090"
   protocol    = "tcp"
 
-  security_group_id = var.controlplane_security_group_id
+  security_group_id        = var.controlplane_security_group_id
+  source_security_group_id = var.node_security_group_id
 }
 
 
@@ -99,7 +106,8 @@ resource "aws_security_group_rule" "istio_controlplane_to_nodes_webhook_containe
   to_port     = "15017"
   protocol    = "tcp"
 
-  security_group_id = var.node_security_group_id
+  security_group_id        = var.node_security_group_id
+  source_security_group_id = var.controlplane_security_group_id
 }
 
 
@@ -111,7 +119,8 @@ resource "aws_security_group_rule" "istio_controlplane_to_nodes_monitoring" {
   to_port     = "15014"
   protocol    = "tcp"
 
-  security_group_id = var.node_security_group_id
+  security_group_id        = var.node_security_group_id
+  source_security_group_id = var.controlplane_security_group_id
 }
 
 resource "aws_security_group_rule" "istio_controlplane_to_nodes_xda_tls" {
@@ -122,7 +131,8 @@ resource "aws_security_group_rule" "istio_controlplane_to_nodes_xda_tls" {
   to_port     = "15012"
   protocol    = "tcp"
 
-  security_group_id = var.node_security_group_id
+  security_group_id        = var.node_security_group_id
+  source_security_group_id = var.controlplane_security_group_id
 }
 
 resource "aws_security_group_rule" "istio_controlplane_to_nodes_xda_plain" {
@@ -133,7 +143,8 @@ resource "aws_security_group_rule" "istio_controlplane_to_nodes_xda_plain" {
   to_port     = "15010"
   protocol    = "tcp"
 
-  security_group_id = var.node_security_group_id
+  security_group_id        = var.node_security_group_id
+  source_security_group_id = var.controlplane_security_group_id
 }
 
 resource "aws_security_group_rule" "istio_controlplane_to_nodes_debug" {
@@ -144,7 +155,8 @@ resource "aws_security_group_rule" "istio_controlplane_to_nodes_debug" {
   to_port     = "8080"
   protocol    = "tcp"
 
-  security_group_id = var.node_security_group_id
+  security_group_id        = var.node_security_group_id
+  source_security_group_id = var.controlplane_security_group_id
 }
 
 resource "aws_security_group_rule" "istio_controlplane_to_nodes_webhook_svc" {
@@ -155,5 +167,6 @@ resource "aws_security_group_rule" "istio_controlplane_to_nodes_webhook_svc" {
   to_port     = "443"
   protocol    = "tcp"
 
-  security_group_id = var.node_security_group_id
+  security_group_id        = var.node_security_group_id
+  source_security_group_id = var.controlplane_security_group_id
 }
