@@ -1,3 +1,15 @@
+### Required 
+
+variable "controlplane_security_group_id" {
+  description = "EKS controlplane SG ID."
+}
+
+variable "node_security_group_id" {
+  description = "EKS node SG ID."
+}
+
+### Optional 
+
 variable "istio_chart_version" {
   description = "Helm chart version"
   type        = string
