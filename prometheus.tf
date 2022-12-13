@@ -1,5 +1,16 @@
 
-#TODO: TEST THIS FILE
+# This is just a quickstart demo and should be replaced by a more robust Prometheus deployment
+# Also, it would probably be better to use native TF k8s resources instead of this manifest file
+#data "http" "prometheus_manifest" {
+#  url = "https://raw.githubusercontent.com/istio/istio/release-${var.istio_chart_version}/samples/addons/prometheus.yaml"
+#
+#  request_headers = {
+#    Accept = "application/yaml"
+#  }
+#}
+#resource "kubernetes_manifest" "prometheus_quickstart" {
+#  manifest = data.http.prometheus_manifest.response_body
+#}
 
 
 resource "kubernetes_service_account_v1" "prometheus" {
