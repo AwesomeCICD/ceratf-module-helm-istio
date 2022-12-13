@@ -8,6 +8,10 @@ variable "node_security_group_id" {
   description = "EKS node SG ID."
 }
 
+variable "circleci_region" {
+  description = "Region in which services will be deployed."
+}
+
 ### Optional 
 
 variable "istio_chart_version" {
@@ -44,4 +48,3 @@ variable "prometheus_version" {
   description = "Version of prom/prometheus image to deploy."
   default     = "v2.34.0"
 }
-
