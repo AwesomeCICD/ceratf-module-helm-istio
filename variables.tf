@@ -12,6 +12,10 @@ variable "circleci_region" {
   description = "Region in which services will be deployed."
 }
 
+variable "target_domain" {
+  description = "Domain for which certs will be provisioned."
+}
+
 ### Optional 
 
 variable "istio_chart_version" {
