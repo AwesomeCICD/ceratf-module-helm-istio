@@ -122,7 +122,7 @@ resource "helm_release" "grafana" {
 
   values = [
     templatefile(
-      "${path.module}/values/grafana.yaml",
+      "${path.module}/values/grafana.yaml.tpl",
       {
         circleci_region = var.circleci_region
       }
