@@ -1,7 +1,18 @@
-resource "kubernetes_manifest" "letsencrypt_clusterissuer" {
+resource "kubernetes_manifest" "letsencrypt_clusterissuer_prod" {
   manifest = yamldecode(
     templatefile(
-      "${path.module}/certmanager/letsencrypt-clusterissuer.yaml.tpl",
+      "${path.module}/certmanager/letsencrypt-clusterissuer-prod.yaml.tpl",
+      {
+        istio_namespace = var.istio_namespace
+      }
+    )
+  )
+}
+
+resource "kubernetes_manifest" "letsencrypt_clusterissuer_staging" {
+  manifest = yamldecode(
+    templatefile(
+      "${path.module}/certmanager/letsencrypt-clusterissuer-staging.yaml.tpl",
       {
         istio_namespace = var.istio_namespace
       }
