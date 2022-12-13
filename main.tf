@@ -33,8 +33,8 @@ resource "helm_release" "istiod" {
   chart            = "istiod"
   namespace        = var.istio_namespace
   version          = var.istio_chart_version
-  create_namespace = false # we'll create it separately so we can label it properly
-  atomic           = true  #purges chart on failed deploy
+  create_namespace = false
+  atomic           = true
 
   values = [
     file("${path.module}/values/istiod.yaml")
@@ -55,8 +55,8 @@ resource "helm_release" "kiali_operator" {
   chart            = "kiali-operator"
   namespace        = var.kiali_namespace
   create_namespace = true # we'll create it separately so we can label it properly
-  atomic           = true #purges chart on failed deploy
-  #version          = var.istio_chart_version  # Not sure about this -- maybe latest is okay?
+  atomic           = true
+
 
 
   values = [
@@ -78,8 +78,8 @@ resource "helm_release" "cert_manager" {
   chart            = "cert-manager"
   namespace        = var.cert_manager_namespace
   create_namespace = true # we'll create it separately so we can label it properly
-  atomic           = true #purges chart on failed deploy
-  #version          = var.istio_chart_version  # Not sure about this -- maybe latest is okay?
+  atomic           = true
+
 
 
   values = [
@@ -96,9 +96,9 @@ resource "helm_release" "jaeger_operator" {
   repository       = "https://jaegertracing.github.io/helm-charts"
   chart            = "jaeger-operator"
   namespace        = var.istio_namespace
-  create_namespace = true # we'll create it separately so we can label it properly
-  atomic           = false #true #purges chart on failed deploy
-  #version          = var.istio_chart_version  # Not sure about this -- maybe latest is okay?
+  create_namespace = false
+  atomic           = true
+
 
   values = [
     file("${path.module}/values/jaeger-operator.yaml")
@@ -110,14 +110,43 @@ resource "helm_release" "jaeger_operator" {
   ]
 }
 
+resource "helm_release" "grafana" {
+
+  name = "grafana"
+
+  repository       = "https://grafana.github.io/helm-charts"
+  chart            = "grafana"
+  namespace        = var.istio_namespace
+  create_namespace = false
+  atomic           = true
+
+  values = [
+    templatefile(
+      "${path.module}/values/grafana.yaml",
+      {
+        circleci_region = var.circleci_region
+      }
+    )
+  ]
+
+  depends_on = [
+    kubernetes_namespace.istio,
+    kubernetes_config_map_v1.istio_grafana_dashboards,
+    kubernetes_config_map_v1.istio_services_grafana_dashboards
+  ]
+}
+
+
 # This is just a quickstart demo and should be replaced by a more robust Prometheus deployment
 # Also, it would probably be better to use native TF k8s resources instead of this manifest file
+#data "http" "prometheus_manifest" {
+#  url = "https://raw.githubusercontent.com/istio/istio/release-${var.istio_chart_version}/samples/addons/prometheus.yaml"
+#
+#  request_headers = {
+#    Accept = "application/yaml"
+#  }
+#}
 #resource "kubernetes_manifest" "prometheus_quickstart" {
 #  manifest = data.http.prometheus_manifest.response_body
 #}
 
-
-# https://github.com/AwesomeCICD/cera-services/tree/main/istio
-#TODO: Jaeger
-#TODO: Grafana
-#TODO: Cert Manager
