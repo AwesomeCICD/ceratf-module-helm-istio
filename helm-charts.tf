@@ -17,7 +17,7 @@ resource "helm_release" "istio_base" {
   atomic           = true                    #purges chart on failed deploy
 
   values = [
-    file("${path.module}/values/istio-base.yaml")
+    file("${path.module}/helm-values/istio-base.yaml")
   ]
 
   depends_on = [
@@ -37,7 +37,7 @@ resource "helm_release" "istiod" {
   atomic           = true
 
   values = [
-    file("${path.module}/values/istiod.yaml")
+    file("${path.module}/helm-values/istiod.yaml")
   ]
 
   depends_on = [
@@ -60,7 +60,7 @@ resource "helm_release" "kiali_operator" {
 
 
   values = [
-    file("${path.module}/values/kiali-operator.yaml")
+    file("${path.module}/helm-values/kiali-operator.yaml")
   ]
 
   depends_on = [
@@ -83,7 +83,7 @@ resource "helm_release" "cert_manager" {
 
 
   values = [
-    file("${path.module}/values/cert-manager.yaml")
+    file("${path.module}/helm-values/cert-manager.yaml")
   ]
 }
 
@@ -101,7 +101,7 @@ resource "helm_release" "jaeger_operator" {
 
 
   values = [
-    file("${path.module}/values/jaeger-operator.yaml")
+    file("${path.module}/helm-values/jaeger-operator.yaml")
   ]
 
   depends_on = [
@@ -122,7 +122,7 @@ resource "helm_release" "grafana" {
 
   values = [
     templatefile(
-      "${path.module}/values/grafana.yaml.tpl",
+      "${path.module}/helm-values/grafana.yaml.tpl",
       {
         circleci_region = var.circleci_region
       }
