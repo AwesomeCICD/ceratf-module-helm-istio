@@ -75,7 +75,7 @@ resource "helm_release" "istio_ingress" {
 
 resource "helm_release" "istio_egress" {
 
-  name = "istio-ingress"
+  name = "istio-egress"
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "gateway"
