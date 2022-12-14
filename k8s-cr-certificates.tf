@@ -1,7 +1,7 @@
 resource "kubernetes_manifest" "certmanager_letsencrypt_clusterissuer_prod" {
   manifest = yamldecode(
     templatefile(
-      "${path.module}/custom-resources/certificate/letsencrypt-clusterissuer-prod.yaml.tpl",
+      "${path.module}/custom-resource/certificate/letsencrypt-clusterissuer-prod.yaml.tpl",
       {
         istio_namespace = var.istio_namespace
       }
@@ -12,7 +12,7 @@ resource "kubernetes_manifest" "certmanager_letsencrypt_clusterissuer_prod" {
 resource "kubernetes_manifest" "certmanager_letsencrypt_clusterissuer_staging" {
   manifest = yamldecode(
     templatefile(
-      "${path.module}/custom-resources/certificate/letsencrypt-clusterissuer-staging.yaml.tpl",
+      "${path.module}/custom-resource/certificate/letsencrypt-clusterissuer-staging.yaml.tpl",
       {
         istio_namespace = var.istio_namespace
       }
@@ -23,7 +23,7 @@ resource "kubernetes_manifest" "certmanager_letsencrypt_clusterissuer_staging" {
 resource "kubernetes_manifest" "certmanager_cert_targetdomain_region" {
   manifest = yamldecode(
     templatefile(
-      "${path.module}/custom-resources/certificate/targetdomain-region.yaml.tpl",
+      "${path.module}/custom-resource/certificate/targetdomain-region.yaml.tpl",
       {
         istio_namespace           = var.istio_namespace,
         circleci_region           = var.circleci_region,
@@ -37,7 +37,7 @@ resource "kubernetes_manifest" "certmanager_cert_targetdomain_region" {
 resource "kubernetes_manifest" "certmanager_cert_targetdomain_region_dev" {
   manifest = yamldecode(
     templatefile(
-      "${path.module}/custom-resources/certificate/targetdomain-region-dev.yaml.tpl",
+      "${path.module}/custom-resource/certificate/targetdomain-region-dev.yaml.tpl",
       {
         istio_namespace           = var.istio_namespace,
         circleci_region           = var.circleci_region,
@@ -51,7 +51,7 @@ resource "kubernetes_manifest" "certmanager_cert_targetdomain_region_dev" {
 resource "kubernetes_manifest" "certmanager_cert_targetdomain_region_nexus" {
   manifest = yamldecode(
     templatefile(
-      "${path.module}/custom-resources/certificate/targetdomain-region-nexus.yaml.tpl",
+      "${path.module}/custom-resource/certificate/targetdomain-region-nexus.yaml.tpl",
       {
         istio_namespace           = var.istio_namespace,
         circleci_region           = var.circleci_region,
@@ -65,7 +65,7 @@ resource "kubernetes_manifest" "certmanager_cert_targetdomain_region_nexus" {
 resource "kubernetes_manifest" "certmanager_cert_targetdomain_region_server4" {
   manifest = yamldecode(
     templatefile(
-      "${path.module}/custom-resources/certificate/targetdomain-region-server4.yaml.tpl",
+      "${path.module}/custom-resource/certificate/targetdomain-region-server4.yaml.tpl",
       {
         istio_namespace           = var.istio_namespace,
         circleci_region           = var.circleci_region,
