@@ -1,3 +1,7 @@
+#-------------------------------------------------------------------------------
+# ISTIO RESOURCES
+#-------------------------------------------------------------------------------
+
 resource "kubernetes_namespace" "istio" {
   metadata {
     name   = var.istio_namespace
@@ -45,6 +49,59 @@ resource "helm_release" "istiod" {
     helm_release.istio_base
   ]
 }
+
+
+resource "helm_release" "istio_ingress" {
+
+  name = "istio-ingress"
+
+  repository       = "https://istio-release.storage.googleapis.com/charts"
+  chart            = "gateway"
+  namespace        = var.istio_namespace
+  version          = var.istio_chart_version
+  create_namespace = false
+  atomic           = true
+
+  values = [
+    file("${path.module}/helm-values/istio-ingress.yaml")
+  ]
+
+  depends_on = [
+    kubernetes_namespace.istio,
+    helm_release.istio_base,
+    helm_release.istiod
+  ]
+}
+
+resource "helm_release" "istio_egress" {
+
+  name = "istio-ingress"
+
+  repository       = "https://istio-release.storage.googleapis.com/charts"
+  chart            = "gateway"
+  namespace        = var.istio_namespace
+  version          = var.istio_chart_version
+  create_namespace = false
+  atomic           = true
+
+  values = [
+    file("${path.module}/helm-values/istio-egress.yaml")
+  ]
+
+  depends_on = [
+    kubernetes_namespace.istio,
+    helm_release.istio_base,
+    helm_release.istiod
+  ]
+}
+
+
+
+
+
+#-------------------------------------------------------------------------------
+# ISTIO PERIPHERAL SERVICES
+#-------------------------------------------------------------------------------
 
 
 resource "helm_release" "kiali_operator" {
