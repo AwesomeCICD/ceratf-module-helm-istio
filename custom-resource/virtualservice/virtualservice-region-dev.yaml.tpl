@@ -5,7 +5,7 @@ metadata:
   namespace: ${istio_namespace}
 spec:
   hosts:
-    - "dev.${circleci_region}.${target_domain}"
+    - "dev.${target_domain}"
   gateways:
     - ${circleci_region}-istio-gateway-2
   http:

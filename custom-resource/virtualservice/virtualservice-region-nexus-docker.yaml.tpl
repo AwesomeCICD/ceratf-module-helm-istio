@@ -5,7 +5,7 @@ metadata:
   namespace: ${istio_namespace}
 spec:
   hosts:
-    - "docker.nexus.${circleci_region}.${target_domain}"
+    - "docker.nexus.${target_domain}"
   gateways:
     - ${circleci_region}-istio-gateway-nexus
   http:

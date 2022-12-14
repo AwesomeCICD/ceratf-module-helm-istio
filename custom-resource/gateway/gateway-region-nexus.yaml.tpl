@@ -12,15 +12,15 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "nexus.${circleci_region}.${target_domain}" 
-    - "docker.nexus.${circleci_region}.${target_domain}" 
+    - "nexus.${target_domain}" 
+    - "docker.nexus.${target_domain}" 
   - port:
       number: 443
       name: https
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: "nexus-${circleci_region}-${target_domain_stringified}"
+      credentialName: "nexus-${target_domain_stringified}"
     hosts:
-    - "nexus.${circleci_region}.${target_domain}" 
-    - "docker.nexus.${circleci_region}.${target_domain}" 
+    - "nexus.${target_domain}" 
+    - "docker.nexus.${target_domain}" 

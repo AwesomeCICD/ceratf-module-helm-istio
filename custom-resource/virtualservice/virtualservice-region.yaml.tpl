@@ -5,7 +5,7 @@ metadata:
   namespace: ${istio_namespace}
 spec:
   hosts:      # which incoming host are we applying the proxy rules to???
-    - "${circleci_region}.${target_domain}"
+    - "${target_domain}"
   gateways:
     - ${circleci_region}-istio-gateway
   http:

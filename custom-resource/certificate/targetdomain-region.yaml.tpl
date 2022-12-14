@@ -1,10 +1,10 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: ${circleci_region}-${target_domain_stringified}
+  name: ${target_domain_stringified}
   namespace: ${istio_namespace}
 spec:
-  secretName: ${circleci_region}-${target_domain_stringified}
+  secretName: ${target_domain_stringified}
   duration: 2160h0m0s # 90d
   renewBefore: 360h0m0s # 15d
   isCA: null #false
@@ -16,9 +16,9 @@ spec:
     - server auth
     - client auth
   dnsNames:
-    - "${circleci_region}.${target_domain}" # BOA prod
-    - "monitor.${circleci_region}.${target_domain}" # Kiali / Grafana
-    - "vault.${circleci_region}.${target_domain}" # Vault
+    - "${target_domain}" # BOA prod
+    - "monitor.${target_domain}" # Kiali / Grafana
+    - "vault.${target_domain}" # Vault
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer

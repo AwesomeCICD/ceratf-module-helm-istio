@@ -13,8 +13,8 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: "${circleci_region}-${target_domain_stringified}"
+      credentialName: "${target_domain_stringified}"
     hosts:
-    - "${circleci_region}.${target_domain}" # BOA prod
-    - "monitor.${circleci_region}.${target_domain}" # Kiali / Grafana
-    - "vault.${circleci_region}.${target_domain}" # Vault
+    - "${target_domain}" # BOA prod
+    - "monitor.${target_domain}" # Kiali / Grafana
+    - "vault.${target_domain}" # Vault

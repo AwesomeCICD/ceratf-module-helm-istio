@@ -5,8 +5,8 @@ metadata:
   namespace: ${istio_namespace}
 spec:
   hosts:    
-    - "server4.${circleci_region}.${target_domain}"
-    - "app.server4.${circleci_region}.${target_domain}" # Server Front End
+    - "server4.${target_domain}"
+    - "app.server4.${target_domain}" # Server Front End
   gateways:
     - ${circleci_region}-istio-gateway-server4
   http:

@@ -5,7 +5,7 @@ metadata:
   namespace: ${istio_namespace}
 spec:
   hosts:
-    - "nexus.${circleci_region}.${target_domain}"
+    - "nexus.${target_domain}"
   gateways:
     - ${circleci_region}-istio-gateway-nexus
   http:

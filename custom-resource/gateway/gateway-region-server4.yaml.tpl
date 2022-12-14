@@ -12,15 +12,15 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "server4.${circleci_region}.${target_domain}"
-    - "app.server4.${circleci_region}.${target_domain}" # Server Front End
+    - "server4.${target_domain}"
+    - "app.server4.${target_domain}" # Server Front End
   - port:
       number: 443
       name: https
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: "server4-${circleci_region}-${target_domain_stringified}"
+      credentialName: "server4-${target_domain_stringified}"
     hosts:
-    - "server4.${circleci_region}.${target_domain}"
-    - "app.server4.${circleci_region}.${target_domain}" # Server Front End
+    - "server4.${target_domain}"
+    - "app.server4.${target_domain}" # Server Front End

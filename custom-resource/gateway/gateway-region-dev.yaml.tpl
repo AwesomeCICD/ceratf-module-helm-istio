@@ -13,7 +13,7 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: "${circleci_region}-${target_domain_stringified}-2"
+      credentialName: "${target_domain_stringified}-2"
     hosts:
-    - "dev.${circleci_region}.${target_domain}" # BOA dev
-    - "dev.vault.${circleci_region}.${target_domain}" # Vault dev
+    - "dev.${target_domain}" # BOA dev
+    - "dev.vault.${target_domain}" # Vault dev
