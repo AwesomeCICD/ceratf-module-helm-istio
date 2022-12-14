@@ -129,7 +129,7 @@ resource "kubernetes_config_map_v1" "prometheus" {
     }
   }
 
-  data = yamldecode(file("${path.module}/prometheus/configmap_data.yaml"))
+  data = yamldecode(file("${path.module}/app-config/prometheus/configmap_data.yaml"))
 }
 
 

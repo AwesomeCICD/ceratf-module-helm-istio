@@ -7,7 +7,7 @@ resource "kubernetes_config_map_v1" "istio_grafana_dashboards" {
     namespace = var.istio_namespace
   }
 
-  data = yamldecode(file("${path.module}/grafana/istio-grafana-dashboards.yaml"))
+  data = yamldecode(file("${path.module}/app-config/grafana/istio-grafana-dashboards.yaml"))
 }
 
 resource "kubernetes_config_map_v1" "istio_services_grafana_dashboards" {
@@ -17,5 +17,5 @@ resource "kubernetes_config_map_v1" "istio_services_grafana_dashboards" {
     namespace = var.istio_namespace
   }
 
-  data = yamldecode(file("${path.module}/grafana/istio-services-grafana-dashboards.yaml"))
+  data = yamldecode(file("${path.module}/app-config/grafana/istio-services-grafana-dashboards.yaml"))
 }
