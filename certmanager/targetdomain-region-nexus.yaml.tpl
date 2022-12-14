@@ -5,9 +5,9 @@ metadata:
   namespace: ${istio_namespace}
 spec:
   secretName: nexus-${circleci_region}-${target_domain_stringified}
-  duration: 2160h # 90d
-  renewBefore: 360h # 15d
-  isCA: false
+  duration: 2160h0m0s # 90d
+  renewBefore: 360h0m0s # 15d
+  isCA: null #false
   privateKey:
     algorithm: RSA
     encoding: PKCS1
