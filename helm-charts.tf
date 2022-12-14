@@ -124,7 +124,7 @@ resource "helm_release" "grafana" {
     templatefile(
       "${path.module}/helm-values/grafana.yaml.tpl",
       {
-        circleci_region = var.circleci_region
+        target_domain = var.target_domain
       }
     )
   ]
