@@ -16,6 +16,10 @@ variable "target_domain" {
   description = "Domain for which certs will be provisioned."
 }
 
+variable "r53_zone_id" {
+  description = "Hosted zone ID for domain."
+}
+
 ### Optional 
 
 variable "istio_chart_version" {
