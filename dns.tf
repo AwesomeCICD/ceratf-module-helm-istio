@@ -27,7 +27,7 @@ resource "aws_route53_record" "records" {
   type    = "CNAME"
   ttl     = 5
 
-  records = [data.kubernetes_service_v1.istio_ingress.status.loadBalancer.ingress[0].hostname]
+  records = [data.kubernetes_service_v1.istio_ingress.status.loadBalancer.ingress.0.hostname]
 }
 
 
