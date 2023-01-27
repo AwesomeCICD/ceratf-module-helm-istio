@@ -23,7 +23,7 @@ resource "aws_route53_record" "records" {
   ])
 
   zone_id = var.r53_zone_id
-  name    = var.target_domain
+  name    = each.key
   type    = "CNAME"
   ttl     = 5
 
