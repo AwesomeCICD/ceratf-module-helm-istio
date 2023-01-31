@@ -3,7 +3,10 @@ resource "kubernetes_manifest" "certmanager_letsencrypt_clusterissuer_prod" {
     templatefile(
       "${path.module}/custom-resource/certificate/letsencrypt-clusterissuer-prod.yaml.tpl",
       {
-        istio_namespace = var.istio_namespace
+        istio_namespace = var.istio_namespace,
+        aws_region      = data.aws_region.current.name,
+        hosted_zone_id  = var.hosted_zone_id,
+        irsa_role_arn   = aws_iam_role.k8s_route53_access.arn
       }
     )
   )
@@ -14,7 +17,10 @@ resource "kubernetes_manifest" "certmanager_letsencrypt_clusterissuer_staging" {
     templatefile(
       "${path.module}/custom-resource/certificate/letsencrypt-clusterissuer-staging.yaml.tpl",
       {
-        istio_namespace = var.istio_namespace
+        istio_namespace = var.istio_namespace,
+        aws_region      = data.aws_region.current.name,
+        hosted_zone_id  = var.hosted_zone_id,
+        irsa_role_arn   = aws_iam_role.k8s_route53_access.arn
       }
     )
   )

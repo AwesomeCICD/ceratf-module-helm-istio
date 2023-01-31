@@ -1,4 +1,4 @@
-# issuer-lets-encrypt-staging.yaml
+# Staging Lets Encrypt Issuer
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -11,6 +11,17 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
-    - http01:
-        ingress:
-          class: istio
+    - dns01:
+        route53:
+          region: ${aws_region}
+          hostedZoneID: ${hosted_zone_id}
+          role: ${irsa_role}
+      # I don't think we need a selector since we've only got one zone
+      #selector:
+      #  dnsZones:
+      #    - "example.com"
+
+#    solvers:
+#   - http01:
+#        ingress:
+#          class: istio
