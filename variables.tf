@@ -1,5 +1,9 @@
 ### Required 
 
+variable "eks_cluster_name" {
+  description = "EKS cluster name."
+}
+
 variable "cluster_security_group_id" {
   description = "EKS controlplane SG ID."
 }
