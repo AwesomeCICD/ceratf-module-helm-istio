@@ -47,14 +47,14 @@ resource "aws_route53_record" "apex_record" {
 ####
 
 resource "aws_iam_role" "k8s_route53_access" {
-  name = "cera-${circleci_region}-eks-regional-r53-access"
+  name = "cera-${var.circleci_region}-eks-regional-r53-access"
 
   assume_role_policy = templatefile(
     "${path.module}/iam/k8s_r53_role_trust_policy.json.tpl",
     {
       oidc_provider_name       = local.oidc_provider_name,
       istio_namespace          = var.istio_namespace,
-      r53_service_account_name = kubernetes_service_account_v1.metadata.0.name
+      r53_service_account_name = kubernetes_service_account_v1.k8s_route53_access.metadata.0.name
     }
   )
 
