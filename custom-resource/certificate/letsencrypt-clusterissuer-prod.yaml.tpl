@@ -14,7 +14,7 @@ spec:
     - dns01:
         route53:
           region: ${aws_region}
-          hostedZoneID: ${hosted_zone_id}
+          hostedZoneID: ${r53_zone_id}
           role: ${irsa_role}
       # I don't think we need a selector since we've only got one zone
       #selector:

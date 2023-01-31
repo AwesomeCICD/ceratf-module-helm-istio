@@ -14,7 +14,7 @@ data "kubernetes_service_v1" "istio_ingress" {
 
 # Get data from OIDC provider attached to EKS cluster so that we can create IRSA for cert-manager access to R53 via k8s SAs
 data "aws_eks_cluster" "this_region" {
-  name = var.cluster_name
+  name = var.eks_cluster_name
 }
 
 data "aws_iam_openid_connect_provider" "this_region" {

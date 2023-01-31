@@ -64,11 +64,11 @@ resource "aws_iam_role" "k8s_route53_access" {
 }
 
 resource "aws_iam_policy" "k8s_route53_access" {
-  name = "cera-${circleci_region}-eks-regional-r53-access"
+  name = "cera-${var.circleci_region}-eks-regional-r53-access"
   policy = templatefile(
     "${path.module}/iam/k8s_r53_role_policy.json.tpl",
     {
-      hosted_zone_id = var.hosted_zone_id
+      r53_zone_id = var.r53_zone_id
     }
   )
 }
@@ -81,10 +81,10 @@ resource "aws_iam_role_policy_attachment" "k8s_route53_access" {
 
 resource "kubernetes_service_account_v1" "k8s_route53_access" {
   metadata {
-    name      = "cera-${circleci_region}-eks-regional-r53-access"
+    name      = "cera-${var.circleci_region}-eks-regional-r53-access"
     namespace = var.istio_namespace
     annotations = {
-      "eks.amazonaws.com/role-arn" : "${aws.iam_role.k8s_route53_access.arn}"
+      "eks.amazonaws.com/role-arn" : "${aws_iam_role.k8s_route53_access.arn}"
     }
   }
 
