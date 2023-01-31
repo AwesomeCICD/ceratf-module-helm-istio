@@ -127,6 +127,7 @@ securityContext:
   runAsNonRoot: true
   seccompProfile:
     type: RuntimeDefault
+  fsGroup: 1001 # allows cert-manager to read ServiceAccount token, see https://cert-manager.io/docs/configuration/acme/dns01/route53/#service-annotation
 
 # Container Security Context to be set on the controller component container
 # ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -346,7 +347,7 @@ webhook:
 
   serviceAccount:
     # Specifies whether a service account should be created
-    create: true
+    #create: true
     # The name of the service account to use.
     # If not set and create is true, a name is generated using the fullname template
     # name: ""
@@ -356,6 +357,9 @@ webhook:
     # labels: {}
     # Automount API credentials for a Service Account.
     automountServiceAccountToken: true
+    annotations: # see https://cert-manager.io/docs/configuration/acme/dns01/route53/#service-annotation
+      eks.amazonaws.com/role-arn: arn:aws:iam::XXXXXXXXXXX:role/cert-manager
+
 
   # Automounting API credentials for a particular pod
   # automountServiceAccountToken: true
