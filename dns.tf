@@ -11,10 +11,9 @@ Actually...
 
 resource "aws_route53_record" "records" {
   for_each = toset([
-    "",
     "app.server4.",
     "dev.vault.",
-    "dev",
+    "dev.",
     "docker.nexus.",
     "monitor.",
     "nexus.",
@@ -30,5 +29,63 @@ resource "aws_route53_record" "records" {
   records = [data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname]
 }
 
+resource "aws_route53_record" "apex_record" {
+
+  zone_id = var.r53_zone_id
+  name    = ""
+  type    = "A"
+  ttl     = 5
+
+  records = [data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname]
+}
 
 
+
+####
+# Create AWS and k8s resources for cert manager to perform DNS01 auth
+# See https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html
+####
+
+resource "aws_iam_role" "k8s_route53_access" {
+  name = "cera-${circleci_region}-eks-regional-r53-access"
+
+  assume_role_policy = templatefile(
+    "${path.module}/iam/k8s_r53_role_trust_policy.json.tpl",
+    {
+      oidc_provider_name       = local.oidc_provider_name,
+      istio_namespace          = var.istio_namespace,
+      r53_service_account_name = kubernetes_service_account_v1.metadata.0.name
+    }
+  )
+
+  tags = {
+    tag-key = "tag-value"
+  }
+}
+
+resource "aws_iam_policy" "k8s_route53_access" {
+  name = "cera-${circleci_region}-eks-regional-r53-access"
+  policy = templatefile(
+    "${path.module}/iam/k8s_r53_role_policy.json.tpl",
+    {
+      hosted_zone_id = var.hosted_zone_id
+    }
+  )
+}
+
+resource "aws_iam_role_policy_attachment" "k8s_route53_access" {
+  role       = aws_iam_role.k8s_route53_access.name
+  policy_arn = aws_iam_policy.k8s_route53_access.arn
+}
+
+
+resource "kubernetes_service_account_v1" "k8s_route53_access" {
+  metadata {
+    name      = "cera-${circleci_region}-eks-regional-r53-access"
+    namespace = var.istio_namespace
+    annotations = {
+      "eks.amazonaws.com/role-arn" : "${aws.iam_role.k8s_route53_access.arn}"
+    }
+  }
+
+}
