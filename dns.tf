@@ -54,7 +54,7 @@ resource "aws_iam_role" "k8s_route53_access" {
     {
       oidc_provider_name       = local.oidc_provider_name,
       istio_namespace          = var.istio_namespace,
-      r53_service_account_name = kubernetes_service_account_v1.k8s_route53_access.metadata.0.name
+      r53_service_account_name = local.k8s_r53_access_sa_name # necessary to avoid TF cycle error between k8s SA and IAM role
     }
   )
 
@@ -81,7 +81,7 @@ resource "aws_iam_role_policy_attachment" "k8s_route53_access" {
 
 resource "kubernetes_service_account_v1" "k8s_route53_access" {
   metadata {
-    name      = "cera-${var.circleci_region}-eks-regional-r53-access"
+    name      = local.k8s_r53_access_sa_name # necessary to avoid TF cycle error between k8s SA and IAM role
     namespace = var.istio_namespace
     annotations = {
       "eks.amazonaws.com/role-arn" : "${aws_iam_role.k8s_route53_access.arn}"
