@@ -1,7 +1,7 @@
 ### Required 
 
-variable "eks_cluster_name" {
-  description = "EKS cluster name."
+variable "oidc_provider_arn" {
+  description = "ARN of OIDC provider used for cluster access. This is NOT the OIDC provider automatically provisioned with an EKS cluster, but a separate one deployed in the global CERA TF plan."
 }
 
 variable "cluster_security_group_id" {
