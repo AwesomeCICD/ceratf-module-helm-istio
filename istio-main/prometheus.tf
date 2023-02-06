@@ -1,16 +1,4 @@
-
-# This is just a quickstart demo and should be replaced by a more robust Prometheus deployment
-# Also, it would probably be better to use native TF k8s resources instead of this manifest file
-#data "http" "prometheus_manifest" {
-#  url = "https://raw.githubusercontent.com/istio/istio/release-${var.istio_chart_version}/samples/addons/prometheus.yaml"
-#
-#  request_headers = {
-#    Accept = "application/yaml"
-#  }
-#}
-#resource "kubernetes_manifest" "prometheus_quickstart" {
-#  manifest = data.http.prometheus_manifest.response_body
-#}
+# Split this out from main because it was so long
 
 
 resource "kubernetes_service_account_v1" "prometheus" {
