@@ -1,6 +1,6 @@
 locals {
-  oidc_provider_name        = trimprefix(data.aws_iam_openid_connect_provider.cera_global.arn, "https://")
-  k8s_r53_access_sa_name    = "cera-${var.circleci_region}-eks-regional-r53-access"
+  oidc_provider_name     = trimprefix(data.aws_iam_openid_connect_provider.cera_global.arn, "https://")
+  k8s_r53_access_sa_name = "cera-${var.circleci_region}-eks-regional-r53-access"
 }
 
 data "aws_region" "current" {}
