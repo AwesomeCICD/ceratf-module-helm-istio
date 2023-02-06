@@ -2,6 +2,8 @@
 # ISTIO RESOURCES
 #-------------------------------------------------------------------------------
 
+# Istio Helm charts
+
 resource "kubernetes_namespace" "istio" {
   metadata {
     name   = var.istio_namespace
@@ -95,6 +97,98 @@ resource "helm_release" "istio_egress" {
   ]
 }
 
+# Istio DNS resources
+
+resource "aws_route53_record" "records" {
+  for_each = toset([
+    "app.server4.",
+    "dev.vault.",
+    "dev.",
+    "docker.nexus.",
+    "monitor.",
+    "nexus.",
+    "server4.",
+    "vault."
+  ])
+
+  zone_id = var.r53_zone_id
+  name    = each.key
+  type    = "CNAME"
+  ttl     = 5
+
+  records = [data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname]
+}
+
+resource "aws_route53_record" "apex_record" {
+
+  zone_id = var.r53_zone_id
+  name    = ""
+  type    = "A"
+  ttl     = 5
+
+  records = [data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname]
+}
+
+# Istio Kubernetes Custom Resources 
+### These need to be in a module because Terraform can't create CRDs and CRs in the same plan.  See https://github.com/hashicorp/terraform-provider-kubernetes/issues/1917#issuecomment-1341077967
+
+module "istio_custom_resources" {
+  source = "./istio-k8s-crs"
+
+  depends_on = [
+    helm_release.istio_egress
+  ]
+}
+
+####
+# Create AWS and k8s resources for cert manager to perform DNS01 auth
+# See https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html
+####
+
+resource "aws_iam_role" "k8s_route53_access" {
+  name = "cera-${var.circleci_region}-eks-regional-r53-access"
+
+  assume_role_policy = templatefile(
+    "${path.module}/iam/k8s_r53_role_trust_policy.json.tpl",
+    {
+      oidc_provider_name       = local.oidc_provider_name,
+      istio_namespace          = var.istio_namespace,
+      r53_service_account_name = local.k8s_r53_access_sa_name # necessary to avoid TF cycle error between k8s SA and IAM role
+    }
+  )
+
+  tags = {
+    tag-key = "tag-value"
+  }
+}
+
+resource "aws_iam_policy" "k8s_route53_access" {
+  name = "cera-${var.circleci_region}-eks-regional-r53-access"
+  policy = templatefile(
+    "${path.module}/iam/k8s_r53_role_policy.json.tpl",
+    {
+      r53_zone_id = var.r53_zone_id
+    }
+  )
+}
+
+resource "aws_iam_role_policy_attachment" "k8s_route53_access" {
+  role       = aws_iam_role.k8s_route53_access.name
+  policy_arn = aws_iam_policy.k8s_route53_access.arn
+}
+
+
+resource "kubernetes_service_account_v1" "k8s_route53_access" {
+  metadata {
+    name      = local.k8s_r53_access_sa_name # necessary to avoid TF cycle error between k8s SA and IAM role
+    namespace = var.istio_namespace
+    annotations = {
+      "eks.amazonaws.com/role-arn" : "${aws_iam_role.k8s_route53_access.arn}"
+    }
+  }
+
+}
+
 
 
 
@@ -167,6 +261,12 @@ resource "helm_release" "jaeger_operator" {
   ]
 }
 
+
+
+#-------------------------------------------------------------------------------
+# GRAFANA RESOURCES
+#-------------------------------------------------------------------------------
+
 resource "helm_release" "grafana" {
 
   name = "grafana"
@@ -193,3 +293,24 @@ resource "helm_release" "grafana" {
   ]
 }
 
+# These config maps contain the dashboards that will be loaded into Grafana after it is deployed via Helm.
+
+resource "kubernetes_config_map_v1" "istio_grafana_dashboards" {
+
+  metadata {
+    name      = "istio-grafana-dashboards"
+    namespace = var.istio_namespace
+  }
+
+  data = yamldecode(file("${path.module}/app-config/grafana/istio-grafana-dashboards.yaml"))
+}
+
+resource "kubernetes_config_map_v1" "istio_services_grafana_dashboards" {
+
+  metadata {
+    name      = "istio-services-grafana-dashboards"
+    namespace = var.istio_namespace
+  }
+
+  data = yamldecode(file("${path.module}/app-config/grafana/istio-services-grafana-dashboards.yaml"))
+}
