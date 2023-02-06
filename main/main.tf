@@ -129,17 +129,6 @@ resource "aws_route53_record" "apex_record" {
   records = [data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname]
 }
 
-# Istio Kubernetes Custom Resources 
-### These need to be in a module because Terraform can't create CRDs and CRs in the same plan.  See https://github.com/hashicorp/terraform-provider-kubernetes/issues/1917#issuecomment-1341077967
-
-module "istio_custom_resources" {
-  source = "./istio-k8s-crs"
-
-  depends_on = [
-    helm_release.istio_egress
-  ]
-}
-
 ####
 # Create AWS and k8s resources for cert manager to perform DNS01 auth
 # See https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html
