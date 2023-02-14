@@ -1,8 +1,9 @@
 locals {
-  oidc_provider_name     = trimprefix(data.aws_iam_openid_connect_provider.cera_global.arn, "https://")
+  oidc_provider_name     = trimprefix(data.aws_iam_openid_connect_provider.cera_global.arn, "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/")
   k8s_r53_access_sa_name = "cera-${var.circleci_region}-eks-regional-r53-access"
 }
 
+data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 data "kubernetes_service_v1" "istio_ingress" {

@@ -4,7 +4,7 @@
       {
         "Effect": "Allow",
         "Principal": {
-          "Federated": "https://${oidc_provider_name}"
+          "Federated": "${oidc_provider_arn}"
         },
         "Action": "sts:AssumeRoleWithWebIdentity",
         "Condition": {
