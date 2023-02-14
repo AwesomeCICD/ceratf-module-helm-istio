@@ -5,7 +5,7 @@ resource "kubernetes_manifest" "certmanager_letsencrypt_clusterissuer_prod" {
       {
         istio_namespace = var.istio_namespace,
         aws_region      = var.aws_region,
-        r53_zone_id     = var.r53_zone_id,
+        r53_subdomain_zone_id     = var.r53_subdomain_zone_id,
         irsa_role_arn   = var.irsa_role_arn
       }
     )
@@ -19,7 +19,7 @@ resource "kubernetes_manifest" "certmanager_letsencrypt_clusterissuer_staging" {
       {
         istio_namespace = var.istio_namespace,
         aws_region      = var.aws_region,
-        r53_zone_id     = var.r53_zone_id,
+        r53_subdomain_zone_id     = var.r53_subdomain_zone_id,
         irsa_role_arn   = var.irsa_role_arn
       }
     )
