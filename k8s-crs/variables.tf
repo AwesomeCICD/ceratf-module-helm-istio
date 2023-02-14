@@ -3,3 +3,4 @@ variable "r53_zone_id" {}
 variable "target_domain" {}
 variable "circleci_region" {}
 variable "irsa_role_arn" {}
+variable "aws_region" {}
