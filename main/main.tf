@@ -124,7 +124,6 @@ resource "aws_route53_record" "apex_record" {
   zone_id = var.r53_zone_id
   name    = var.target_domain
   type    = "A"
-  ttl     = 60
 
   #see data.tf for details
   alias {
