@@ -347,10 +347,10 @@ webhook:
 
   serviceAccount:
     # Specifies whether a service account should be created
-    #create: true
+    create: true
     # The name of the service account to use.
     # If not set and create is true, a name is generated using the fullname template
-    # name: ""
+    name: ${k8s_r53_access_sa_name}
     # Optional additional annotations to add to the controller's ServiceAccount
     # annotations: {}
     # Optional additional labels to add to the webhook's ServiceAccount

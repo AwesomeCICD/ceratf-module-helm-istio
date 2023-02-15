@@ -173,7 +173,7 @@ resource "aws_iam_role_policy_attachment" "k8s_route53_access" {
   policy_arn = aws_iam_policy.k8s_route53_access.arn
 }
 
-
+/*
 resource "kubernetes_service_account_v1" "k8s_route53_access" {
   metadata {
     name      = local.k8s_r53_access_sa_name # necessary to avoid TF cycle error between k8s SA and IAM role
@@ -184,7 +184,7 @@ resource "kubernetes_service_account_v1" "k8s_route53_access" {
   }
 
 }
-
+*/
 
 
 
@@ -237,7 +237,8 @@ resource "helm_release" "cert_manager" {
     templatefile(
       "${path.module}/helm-values/cert-manager.yaml.tpl",
       {
-        r53_access_role_arn = aws_iam_role.k8s_route53_access.arn
+        r53_access_role_arn    = aws_iam_role.k8s_route53_access.arn,
+        k8s_r53_access_sa_name = local.k8s_r53_access_sa_name
       }
     )
   ]
