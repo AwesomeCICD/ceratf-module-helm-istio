@@ -229,9 +229,19 @@ resource "helm_release" "cert_manager" {
 
 
 
+  #values = [
+  #  file("${path.module}/helm-values/cert-manager.yaml")
+  #]
+
   values = [
-    file("${path.module}/helm-values/cert-manager.yaml")
+    templatefile(
+      "${path.module}/helm-values/cert-manager.yaml.tpl",
+      {
+        r53_access_role_arn = aws_iam_role.k8s_route53_access.arn
+      }
+    )
   ]
+
 }
 
 

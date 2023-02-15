@@ -358,7 +358,7 @@ webhook:
     # Automount API credentials for a Service Account.
     automountServiceAccountToken: true
     annotations: # see https://cert-manager.io/docs/configuration/acme/dns01/route53/#service-annotation
-      eks.amazonaws.com/role-arn: arn:aws:iam::XXXXXXXXXXX:role/cert-manager
+      eks.amazonaws.com/role-arn: ${r53_access_role_arn}
 
 
   # Automounting API credentials for a particular pod
