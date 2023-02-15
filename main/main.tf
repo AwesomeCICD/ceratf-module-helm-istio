@@ -128,7 +128,7 @@ resource "aws_route53_record" "apex_record" {
   #see data.tf for details
   alias {
     name                   = data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname
-    zone_id                = data.aws_elb.istio_ingress.zone_id 
+    zone_id                = data.aws_elb.istio_ingress.zone_id
     evaluate_target_health = true
   }
 
