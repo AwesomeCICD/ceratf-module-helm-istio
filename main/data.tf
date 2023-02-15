@@ -11,6 +11,10 @@ data "kubernetes_service_v1" "istio_ingress" {
     name      = "istio-ingress"
     namespace = var.istio_namespace
   }
+
+  depends_on = [
+    helm_release.istio_ingress
+  ]
 }
 
 # This data source is used for getting the ELB's Zone ID so that we can create a Route53 apex record pointing to the ELB
@@ -18,6 +22,10 @@ data "kubernetes_service_v1" "istio_ingress" {
 # There's also data.aws_lb_hosted_zone_id, but I think this is more explicitly tied to the actual deployed infra
 data "aws_elb" "istio_ingress" {
   name = substr(data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname, 0, 32)
+
+  depends_on = [
+    helm_release.istio_ingress
+  ]
 }
 
 # Get data from OIDC provider used for granting access to EKS cluster so that we can create IRSA for cert-manager access to R53 via k8s SAs
