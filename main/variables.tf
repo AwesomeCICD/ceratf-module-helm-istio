@@ -1,7 +1,11 @@
 ### Required 
 
-variable "oidc_provider_arn" {
-  description = "ARN of OIDC provider used for cluster access. This is NOT the OIDC provider automatically provisioned with an EKS cluster, but a separate one deployed in the global CERA TF plan."
+#variable "global_oidc_provider_arn" {
+#  description = "ARN of OIDC provider used for cluster access from AwesomeCICD CircleCI org via AWS SSO."
+#}
+
+variable "cluster_oidc_provider_arn" {
+  description = "ARN of OIDC provider attached to EKS cluster for IRSA."
 }
 
 variable "cluster_security_group_id" {

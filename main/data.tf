@@ -1,6 +1,6 @@
 locals {
-  oidc_provider_name     = trimprefix(data.aws_iam_openid_connect_provider.cera_global.arn, "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/")
-  k8s_r53_access_sa_name = "cera-${var.circleci_region}-eks-regional-r53-access"
+  cluster_oidc_provider_name = trimprefix(var.cluster_oidc_provider_arn, "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/")
+  k8s_r53_access_sa_name     = "cera-${var.circleci_region}-eks-regional-r53-access"
 }
 
 data "aws_caller_identity" "current" {}
@@ -28,7 +28,6 @@ data "aws_elb" "istio_ingress" {
   ]
 }
 
-# Get data from OIDC provider used for granting access to EKS cluster so that we can create IRSA for cert-manager access to R53 via k8s SAs
-data "aws_iam_openid_connect_provider" "cera_global" {
-  arn = var.oidc_provider_arn
+data "aws_iam_openid_connect_provider" "cluster_oidc_provider_arn" {
+  arn = var.cluster_oidc_provider_arn
 }
