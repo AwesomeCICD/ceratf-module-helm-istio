@@ -24,7 +24,7 @@ variable "target_domain" {
   description = "Domain for which certs will be provisioned."
 }
 
-variable "r53_zone_id" {
+variable "r53_subdomain_zone_id" {
   description = "Hosted zone ID for domain."
 }
 
