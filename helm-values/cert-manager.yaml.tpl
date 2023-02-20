@@ -124,11 +124,11 @@ resources: {}
 # Pod Security Context
 # ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 securityContext:
-  runAsNonRoot: true
+  runAsNonRoot: false #true  #see https://github.com/external-secrets/kubernetes-external-secrets/issues/452#issuecomment-664198648
   seccompProfile:
     type: RuntimeDefault
-  fsGroup: 1001 # allows cert-manager to read ServiceAccount token, see https://cert-manager.io/docs/configuration/acme/dns01/route53/#service-annotation
-  #enabled: true # per https://github.com/cert-manager/cert-manager/issues/3079#issuecomment-657795131
+  #fsGroup: 1001 # allows cert-manager to read ServiceAccount token, see https://cert-manager.io/docs/configuration/acme/dns01/route53/#service-annotation
+  fsGroup: 65534 # see https://github.com/external-secrets/kubernetes-external-secrets/issues/452#issuecomment-664198648
 
 # Container Security Context to be set on the controller component container
 # ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
