@@ -2,8 +2,8 @@
 # ISTIO VIRTUAL SERVICES
 #-------------------------------------------------------------------------------
 
-resource "kubernetes_manifest" "istio_virtualservice_region" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "istio_virtualservice_region" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/virtualservice/virtualservice-region.yaml.tpl",
       {
@@ -16,8 +16,8 @@ resource "kubernetes_manifest" "istio_virtualservice_region" {
 }
 
 
-resource "kubernetes_manifest" "istio_virtualservice_region_dev" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "istio_virtualservice_region_dev" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/virtualservice/virtualservice-region-dev.yaml.tpl",
       {
@@ -29,8 +29,8 @@ resource "kubernetes_manifest" "istio_virtualservice_region_dev" {
   )
 }
 
-resource "kubernetes_manifest" "istio_virtualservice_region_dev_vault" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "istio_virtualservice_region_dev_vault" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/virtualservice/virtualservice-region-dev-vault.yaml.tpl",
       {
@@ -44,8 +44,8 @@ resource "kubernetes_manifest" "istio_virtualservice_region_dev_vault" {
 
 
 
-resource "kubernetes_manifest" "istio_virtualservice_region_monitor" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "istio_virtualservice_region_monitor" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/virtualservice/virtualservice-region-monitor.yaml.tpl",
       {
@@ -57,8 +57,8 @@ resource "kubernetes_manifest" "istio_virtualservice_region_monitor" {
   )
 }
 
-resource "kubernetes_manifest" "istio_virtualservice_region_nexus_docker" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "istio_virtualservice_region_nexus_docker" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/virtualservice/virtualservice-region-nexus-docker.yaml.tpl",
       {
@@ -70,8 +70,8 @@ resource "kubernetes_manifest" "istio_virtualservice_region_nexus_docker" {
   )
 }
 
-resource "kubernetes_manifest" "istio_virtualservice_region_nexus" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "istio_virtualservice_region_nexus" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/virtualservice/virtualservice-region-nexus.yaml.tpl",
       {
@@ -83,8 +83,8 @@ resource "kubernetes_manifest" "istio_virtualservice_region_nexus" {
   )
 }
 
-resource "kubernetes_manifest" "istio_virtualservice_region_server4" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "istio_virtualservice_region_server4" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/virtualservice/virtualservice-region-server4.yaml.tpl",
       {
@@ -96,8 +96,8 @@ resource "kubernetes_manifest" "istio_virtualservice_region_server4" {
   )
 }
 
-resource "kubernetes_manifest" "istio_virtualservice_region_vault" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "istio_virtualservice_region_vault" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/virtualservice/virtualservice-region-vault.yaml.tpl",
       {

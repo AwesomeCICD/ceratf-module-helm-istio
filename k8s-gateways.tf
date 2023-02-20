@@ -3,8 +3,8 @@
 #-------------------------------------------------------------------------------
 
 
-resource "kubernetes_manifest" "istio_gateway_region" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "istio_gateway_region" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/gateway/gateway-region.yaml.tpl",
       {
@@ -17,8 +17,8 @@ resource "kubernetes_manifest" "istio_gateway_region" {
   )
 }
 
-resource "kubernetes_manifest" "istio_gateway_region_dev" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "istio_gateway_region_dev" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/gateway/gateway-region-dev.yaml.tpl",
       {
@@ -31,8 +31,8 @@ resource "kubernetes_manifest" "istio_gateway_region_dev" {
   )
 }
 
-resource "kubernetes_manifest" "istio_gateway_region_nexus" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "istio_gateway_region_nexus" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/gateway/gateway-region-nexus.yaml.tpl",
       {
@@ -45,8 +45,8 @@ resource "kubernetes_manifest" "istio_gateway_region_nexus" {
   )
 }
 
-resource "kubernetes_manifest" "istio_gateway_region_server4" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "istio_gateway_region_server4" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/gateway/gateway-region-server4.yaml.tpl",
       {

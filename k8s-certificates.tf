@@ -1,5 +1,5 @@
-resource "kubernetes_manifest" "certmanager_letsencrypt_clusterissuer_prod" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_prod" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/certificate/letsencrypt-clusterissuer-prod.yaml.tpl",
       {
@@ -12,8 +12,8 @@ resource "kubernetes_manifest" "certmanager_letsencrypt_clusterissuer_prod" {
   )
 }
 
-resource "kubernetes_manifest" "certmanager_letsencrypt_clusterissuer_staging" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_staging" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/certificate/letsencrypt-clusterissuer-staging.yaml.tpl",
       {
@@ -26,8 +26,8 @@ resource "kubernetes_manifest" "certmanager_letsencrypt_clusterissuer_staging" {
   )
 }
 
-resource "kubernetes_manifest" "certmanager_cert_targetdomain_region" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "certmanager_cert_targetdomain_region" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/certificate/targetdomain-region.yaml.tpl",
       {
@@ -39,8 +39,8 @@ resource "kubernetes_manifest" "certmanager_cert_targetdomain_region" {
   )
 }
 
-resource "kubernetes_manifest" "certmanager_cert_targetdomain_region_dev" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "certmanager_cert_targetdomain_region_dev" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/certificate/targetdomain-region-dev.yaml.tpl",
       {
@@ -52,8 +52,8 @@ resource "kubernetes_manifest" "certmanager_cert_targetdomain_region_dev" {
   )
 }
 
-resource "kubernetes_manifest" "certmanager_cert_targetdomain_region_nexus" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "certmanager_cert_targetdomain_region_nexus" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/certificate/targetdomain-region-nexus.yaml.tpl",
       {
@@ -65,8 +65,8 @@ resource "kubernetes_manifest" "certmanager_cert_targetdomain_region_nexus" {
   )
 }
 
-resource "kubernetes_manifest" "certmanager_cert_targetdomain_region_server4" {
-  manifest = yamldecode(
+resource "kubectl_manifest" "certmanager_cert_targetdomain_region_server4" {
+  yaml_body = yamldecode(
     templatefile(
       "${path.module}/custom-resource/certificate/targetdomain-region-server4.yaml.tpl",
       {
