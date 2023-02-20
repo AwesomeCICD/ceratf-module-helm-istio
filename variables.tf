@@ -65,8 +65,5 @@ variable "prometheus_version" {
   default     = "v2.34.0"
 }
 
-variable "istio_namespace" {}
-variable "r53_subdomain_zone_id" {}
-variable "target_domain" {}
-variable "circleci_region" {}
 variable "aws_region" {}
+variable "aws_account_no" {}

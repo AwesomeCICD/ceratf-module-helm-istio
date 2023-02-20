@@ -1,11 +1,8 @@
 locals {
-  cluster_oidc_provider_name = trimprefix(var.cluster_oidc_provider_arn, "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/")
+  cluster_oidc_provider_name = trimprefix(var.cluster_oidc_provider_arn, "arn:aws:iam::${var.aws_account_no}:oidc-provider/")
   k8s_r53_access_sa_name     = "cera-${var.circleci_region}-eks-regional-r53-access"
-  target_domain_stringified = replace(var.target_domain, ".", "-")
+  target_domain_stringified  = replace(var.target_domain, ".", "-")
 }
-
-data "aws_caller_identity" "current" {}
-data "aws_region" "current" {}
 
 data "kubernetes_service_v1" "istio_ingress" {
   metadata {
