@@ -111,7 +111,7 @@ resource "aws_route53_record" "records" {
     "vault."
   ])
 
-  zone_id = var.r53_zone_id
+  zone_id = var.r53_subdomain_zone_id
   name    = each.key
   type    = "CNAME"
   ttl     = 5
@@ -121,7 +121,7 @@ resource "aws_route53_record" "records" {
 
 resource "aws_route53_record" "apex_record" {
 
-  zone_id = var.r53_zone_id
+  zone_id = var.r53_subdomain_zone_id
   name    = var.target_domain
   type    = "A"
 
@@ -163,7 +163,7 @@ resource "aws_iam_policy" "k8s_route53_access" {
   policy = templatefile(
     "${path.module}/iam/k8s_r53_role_policy.json.tpl",
     {
-      r53_zone_id = var.r53_zone_id
+      r53_zone_id = var.r53_subdomain_zone_id
     }
   )
 }
