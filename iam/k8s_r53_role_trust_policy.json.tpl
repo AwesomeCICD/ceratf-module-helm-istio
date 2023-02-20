@@ -9,7 +9,7 @@
         "Action": "sts:AssumeRoleWithWebIdentity",
         "Condition": {
           "StringEquals": {
-            "${oidc_provider_name}:sub": "system:serviceaccount:${istio_namespace}:${r53_service_account_name}"
+            "${oidc_provider_name}:sub": "system:serviceaccount:${namespace}:${r53_service_account_name}"
           }
         }
       }

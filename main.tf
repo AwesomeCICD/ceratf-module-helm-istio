@@ -148,7 +148,7 @@ resource "aws_iam_role" "k8s_route53_access" {
     {
       oidc_provider_name       = local.cluster_oidc_provider_name,
       oidc_provider_arn        = var.cluster_oidc_provider_arn,
-      istio_namespace          = var.istio_namespace,
+      namespace                = var.cert_manager_namespace,
       r53_service_account_name = local.k8s_r53_access_sa_name # necessary to avoid TF cycle error between k8s SA and IAM role
     }
   )
