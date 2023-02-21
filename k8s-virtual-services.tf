@@ -11,6 +11,10 @@ resource "kubectl_manifest" "istio_virtualservice_region" {
       target_domain   = var.target_domain
     }
   )
+  depends_on = [
+    helm_release.istio_ingress,
+    helm_release.istio_egress
+  ]
 }
 
 
@@ -23,6 +27,10 @@ resource "kubectl_manifest" "istio_virtualservice_region_dev" {
       target_domain   = var.target_domain
     }
   )
+  depends_on = [
+    helm_release.istio_ingress,
+    helm_release.istio_egress
+  ]
 }
 
 resource "kubectl_manifest" "istio_virtualservice_region_dev_vault" {
@@ -34,6 +42,10 @@ resource "kubectl_manifest" "istio_virtualservice_region_dev_vault" {
       target_domain   = var.target_domain
     }
   )
+  depends_on = [
+    helm_release.istio_ingress,
+    helm_release.istio_egress
+  ]
 }
 
 
@@ -47,6 +59,10 @@ resource "kubectl_manifest" "istio_virtualservice_region_monitor" {
       target_domain   = var.target_domain
     }
   )
+  depends_on = [
+    helm_release.istio_ingress,
+    helm_release.istio_egress
+  ]
 }
 
 resource "kubectl_manifest" "istio_virtualservice_region_nexus_docker" {
@@ -58,6 +74,10 @@ resource "kubectl_manifest" "istio_virtualservice_region_nexus_docker" {
       target_domain   = var.target_domain
     }
   )
+  depends_on = [
+    helm_release.istio_ingress,
+    helm_release.istio_egress
+  ]
 }
 
 resource "kubectl_manifest" "istio_virtualservice_region_nexus" {
@@ -69,6 +89,10 @@ resource "kubectl_manifest" "istio_virtualservice_region_nexus" {
       target_domain   = var.target_domain
     }
   )
+  depends_on = [
+    helm_release.istio_ingress,
+    helm_release.istio_egress
+  ]
 }
 
 resource "kubectl_manifest" "istio_virtualservice_region_server4" {
@@ -80,6 +104,10 @@ resource "kubectl_manifest" "istio_virtualservice_region_server4" {
       target_domain   = var.target_domain
     }
   )
+  depends_on = [
+    helm_release.istio_ingress,
+    helm_release.istio_egress
+  ]
 }
 
 resource "kubectl_manifest" "istio_virtualservice_region_vault" {
@@ -91,4 +119,8 @@ resource "kubectl_manifest" "istio_virtualservice_region_vault" {
       target_domain   = var.target_domain
     }
   )
+  depends_on = [
+    helm_release.istio_ingress,
+    helm_release.istio_egress
+  ]
 }

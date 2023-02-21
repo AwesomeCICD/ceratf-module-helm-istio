@@ -13,6 +13,10 @@ resource "kubectl_manifest" "istio_gateway_region" {
       target_domain_stringified = local.target_domain_stringified
     }
   )
+  depends_on = [
+    helm_release.istio_ingress,
+    helm_release.istio_egress
+  ]
 }
 
 resource "kubectl_manifest" "istio_gateway_region_dev" {
@@ -25,6 +29,10 @@ resource "kubectl_manifest" "istio_gateway_region_dev" {
       target_domain_stringified = local.target_domain_stringified
     }
   )
+  depends_on = [
+    helm_release.istio_ingress,
+    helm_release.istio_egress
+  ]
 }
 
 resource "kubectl_manifest" "istio_gateway_region_nexus" {
@@ -37,6 +45,10 @@ resource "kubectl_manifest" "istio_gateway_region_nexus" {
       target_domain_stringified = local.target_domain_stringified
     }
   )
+  depends_on = [
+    helm_release.istio_ingress,
+    helm_release.istio_egress
+  ]
 }
 
 resource "kubectl_manifest" "istio_gateway_region_server4" {
@@ -49,6 +61,10 @@ resource "kubectl_manifest" "istio_gateway_region_server4" {
       target_domain_stringified = local.target_domain_stringified
     }
   )
+  depends_on = [
+    helm_release.istio_ingress,
+    helm_release.istio_egress
+  ]
 }
 
 

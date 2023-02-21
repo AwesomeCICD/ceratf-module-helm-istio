@@ -9,6 +9,9 @@ resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_prod" {
       target_domain         = var.target_domain
     }
   )
+  depends_on = [
+    helm_release.cert_manager
+  ]
 }
 
 resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_staging" {
@@ -22,6 +25,9 @@ resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_staging" {
       target_domain         = var.target_domain
     }
   )
+  depends_on = [
+    helm_release.cert_manager
+  ]
 }
 
 resource "kubectl_manifest" "certmanager_cert_targetdomain_region" {
@@ -33,6 +39,9 @@ resource "kubectl_manifest" "certmanager_cert_targetdomain_region" {
       target_domain_stringified = local.target_domain_stringified
     }
   )
+  depends_on = [
+    helm_release.cert_manager
+  ]
 }
 
 resource "kubectl_manifest" "certmanager_cert_targetdomain_region_dev" {
@@ -44,6 +53,9 @@ resource "kubectl_manifest" "certmanager_cert_targetdomain_region_dev" {
       target_domain_stringified = local.target_domain_stringified
     }
   )
+  depends_on = [
+    helm_release.cert_manager
+  ]
 }
 
 resource "kubectl_manifest" "certmanager_cert_targetdomain_region_nexus" {
@@ -55,6 +67,9 @@ resource "kubectl_manifest" "certmanager_cert_targetdomain_region_nexus" {
       target_domain_stringified = local.target_domain_stringified
     }
   )
+  depends_on = [
+    helm_release.cert_manager
+  ]
 }
 
 resource "kubectl_manifest" "certmanager_cert_targetdomain_region_server4" {
@@ -66,4 +81,7 @@ resource "kubectl_manifest" "certmanager_cert_targetdomain_region_server4" {
       target_domain_stringified = local.target_domain_stringified
     }
   )
+  depends_on = [
+    helm_release.cert_manager
+  ]
 }
