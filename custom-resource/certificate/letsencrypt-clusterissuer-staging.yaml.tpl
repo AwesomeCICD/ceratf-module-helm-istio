@@ -16,10 +16,9 @@ spec:
           region: ${aws_region}
           hostedZoneID: ${r53_subdomain_zone_id}
           role: ${irsa_role_arn}
-      # I don't think we need a selector since we've only got one zone
-      #selector:
-      #  dnsZones:
-      #    - "example.com"
+      selector:
+        dnsZones:
+          - ${target_domain}
 
 #    solvers:
 #   - http01:
