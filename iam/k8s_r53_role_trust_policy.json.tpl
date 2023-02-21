@@ -10,7 +10,7 @@
         "Condition": {
           "StringEquals": {
             "${oidc_provider_name}:sub":"system:serviceaccount:${cert_manager_namespace}:${r53_service_account_name}"
-          },
+          }
         },
         "Action": "sts:AssumeRoleWithWebIdentity",
         "Condition": {
