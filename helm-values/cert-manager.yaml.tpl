@@ -124,11 +124,11 @@ resources: {}
 # Pod Security Context
 # ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 securityContext:
-  runAsNonRoot: false #true  #see https://github.com/external-secrets/kubernetes-external-secrets/issues/452#issuecomment-664198648
-  seccompProfile:
-    type: RuntimeDefault
-  #fsGroup: 1001 # allows cert-manager to read ServiceAccount token, see https://cert-manager.io/docs/configuration/acme/dns01/route53/#service-annotation
-  fsGroup: 65534 # see https://github.com/external-secrets/kubernetes-external-secrets/issues/452#issuecomment-664198648
+  #runAsNonRoot: true  #false  #see https://github.com/external-secrets/kubernetes-external-secrets/issues/452#issuecomment-664198648
+  #seccompProfile:
+  #  type: RuntimeDefault
+  fsGroup: 1001 # allows cert-manager to read ServiceAccount token, see https://cert-manager.io/docs/configuration/acme/dns01/route53/#service-annotation
+  #fsGroup: 65534 # see https://github.com/external-secrets/kubernetes-external-secrets/issues/452#issuecomment-664198648
 
 # Container Security Context to be set on the controller component container
 # ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -353,13 +353,12 @@ webhook:
     # If not set and create is true, a name is generated using the fullname template
     name: ${k8s_r53_access_sa_name}
     # Optional additional annotations to add to the controller's ServiceAccount
-    # annotations: {}
-    # Optional additional labels to add to the webhook's ServiceAccount
+    annotations: # see https://cert-manager.io/docs/configuration/acme/dns01/route53/#service-annotation
+      eks.amazonaws.com/role-arn: ${r53_access_role_arn}    # Optional additional labels to add to the webhook's ServiceAccount
     # labels: {}
     # Automount API credentials for a Service Account.
     automountServiceAccountToken: true
-    annotations: # see https://cert-manager.io/docs/configuration/acme/dns01/route53/#service-annotation
-      eks.amazonaws.com/role-arn: ${r53_access_role_arn}
+
 
 
   # Automounting API credentials for a particular pod
