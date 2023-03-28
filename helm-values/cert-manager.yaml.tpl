@@ -93,12 +93,12 @@ serviceAccount:
   create: true
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  # name: ""
+  name: ${k8s_r53_access_sa_name}
   # Optional additional annotations to add to the controller's ServiceAccount
-  # annotations: {}
-  # Automount API credentials for a Service Account.
-  # Optional additional labels to add to the controller's ServiceAccount
+  annotations: # see https://cert-manager.io/docs/configuration/acme/dns01/route53/#service-annotation
+    eks.amazonaws.com/role-arn: ${r53_access_role_arn}    # Optional additional labels to add to the webhook's ServiceAccount
   # labels: {}
+  # Automount API credentials for a Service Account.
   automountServiceAccountToken: true
 
 # Automounting API credentials for a particular pod
@@ -351,10 +351,10 @@ webhook:
     create: true
     # The name of the service account to use.
     # If not set and create is true, a name is generated using the fullname template
-    name: ${k8s_r53_access_sa_name}
+    # name: ""
     # Optional additional annotations to add to the controller's ServiceAccount
-    annotations: # see https://cert-manager.io/docs/configuration/acme/dns01/route53/#service-annotation
-      eks.amazonaws.com/role-arn: ${r53_access_role_arn}    # Optional additional labels to add to the webhook's ServiceAccount
+    # annotations: {}
+    # Optional additional labels to add to the webhook's ServiceAccount
     # labels: {}
     # Automount API credentials for a Service Account.
     automountServiceAccountToken: true
