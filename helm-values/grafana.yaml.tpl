@@ -170,7 +170,7 @@ podPortName: grafana
 service:
   enabled: true
   type: ClusterIP
-  port: 80
+  port: 3000
   targetPort: 3000
     # targetPort: 4181 To be used with a proxy extraContainer
   ## Service annotations. Can be templated.
