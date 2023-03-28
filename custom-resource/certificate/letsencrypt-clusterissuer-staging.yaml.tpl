@@ -14,11 +14,11 @@ spec:
     - dns01:
         route53:
           region: ${aws_region}
-          hostedZoneID: ${r53_subdomain_zone_id}
-          role: ${irsa_role_arn}
-      selector:
-        dnsZones:
-          - ${target_domain}
+      #    hostedZoneID: ${r53_subdomain_zone_id}
+      #    role: ${irsa_role_arn}
+      #selector:
+      #  dnsZones:
+      #    - ${target_domain}
 
 #    solvers:
 #   - http01:
