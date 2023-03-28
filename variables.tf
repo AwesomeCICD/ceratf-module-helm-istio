@@ -49,9 +49,10 @@ variable "kiali_namespace" {
 }
 
 variable "cert_manager_namespace" {
-  description = "Namespace to which Kiali Operator Helm chart will be deployed"
+  description = "Namespace to which cert-manager Helm chart will be deployed"
   type        = string
-  default     = "istio-system" #"cert-manager" <-- This caused problems
+  default     = "cert-manager"
+  #default     = "istio-system" #"cert-manager" <-- This caused problems
 }
 
 variable "namespace_labels" {
