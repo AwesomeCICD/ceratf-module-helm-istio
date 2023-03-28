@@ -561,7 +561,8 @@ startupapicheck:
   tolerations: []
 
   # Optional additional labels to add to the startupapicheck Pods
-  podLabels: {}
+  podLabels: 
+    sidecar.istio.io/inject: "false" #see note above re. sidecars
 
   image:
     repository: quay.io/jetstack/cert-manager-ctl
