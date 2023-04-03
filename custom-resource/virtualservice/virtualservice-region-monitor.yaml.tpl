@@ -23,3 +23,12 @@ spec:
           host: kiali
           port:
             number: 20001
+
+    - match:
+      - uri:
+          prefix: "/prometheus"
+      route:
+      - destination:
+          host: prometheus
+          port:
+            number: 9090
