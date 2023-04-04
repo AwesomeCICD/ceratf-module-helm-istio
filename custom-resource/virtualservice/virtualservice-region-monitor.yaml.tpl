@@ -12,6 +12,8 @@ spec:
     - match:
       - uri:
           prefix: "/grafana/"
+      rewrite:
+        uri: /
       route:
       - destination:
           host: grafana
