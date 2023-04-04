@@ -631,21 +631,23 @@ notifiers: {}
 ## `path` must be /var/lib/grafana/dashboards/<provider_name>
 ##
 dashboardProviders: 
-  providers:
-    - disableDeletion: false
-      folder: istio
-      name: istio
-      options:
-        path: /var/lib/grafana/dashboards/istio
-      orgId: 1
-      type: file
-    - disableDeletion: false
-      folder: istio
-      name: istio-services
-      options:
-        path: /var/lib/grafana/dashboards/istio-services
-      orgId: 1
-      type: file
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - disableDeletion: false
+        folder: istio
+        name: istio
+        options:
+          path: /var/lib/grafana/dashboards/istio
+        orgId: 1
+        type: file
+      - disableDeletion: false
+        folder: istio
+        name: istio-services
+        options:
+          path: /var/lib/grafana/dashboards/istio-services
+        orgId: 1
+        type: file
 #  dashboardproviders.yaml:
 #    apiVersion: 1
 #    providers:
