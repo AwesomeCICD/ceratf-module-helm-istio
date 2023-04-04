@@ -171,7 +171,16 @@ resource "kubernetes_deployment_v1" "prometheus" {
           }
         }
         container {
-          args              = ["--storage.tsdb.retention.time=15d", "--config.file=/etc/config/prometheus.yml", "--storage.tsdb.path=/data", "--web.console.libraries=/etc/prometheus/console_libraries", "--web.console.templates=/etc/prometheus/consoles", "--web.enable-lifecycle"]
+          args = [
+            "--storage.tsdb.retention.time=15d",
+            "--config.file=/etc/config/prometheus.yml",
+            "--storage.tsdb.path=/data",
+            "--web.console.libraries=/etc/prometheus/console_libraries",
+            "--web.console.templates=/etc/prometheus/consoles",
+            "--web.enable-lifecycle",
+            "--web.route-prefix=/",
+            "--web.external-url=https://monitor.japac.circleci-labs.com/prometheus/"
+          ]
           image             = "prom/prometheus:${var.prometheus_version}"
           image_pull_policy = "IfNotPresent"
           liveness_probe {
