@@ -720,7 +720,7 @@ grafana.ini:
     url: https://grafana.net
   server:
     domain: monitor.${target_domain}
-    root_url: https://monitor.${target_domain}/grafana/    
+    root_url: https://monitor.${target_domain}/grafana   
     #domain: "{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ .Values.ingress.hosts | first }}{{ else }}''{{ end }}"
 ## grafana Authentication can be enabled with the following values on grafana.ini
  # server:
