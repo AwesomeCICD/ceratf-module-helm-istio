@@ -28,7 +28,7 @@ spec:
 
     - match:
       - uri:
-          prefix: "/prometheus"
+          prefix: "/prometheus/"
       route:
       - destination:
           host: prometheus
