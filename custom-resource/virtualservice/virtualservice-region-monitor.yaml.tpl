@@ -29,8 +29,10 @@ spec:
     - match:
       - uri:
           prefix: "/prometheus/"
+      #rewrite:
+      # uri: /
       route:
       - destination:
-          host: prometheus
+          host: prometheus-server
           port:
-            number: 9090
+            number: 80
