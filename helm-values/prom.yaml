@@ -427,7 +427,7 @@ server:
   ## Labels to be added to Prometheus server pods
   ##
   podLabels:
-    sidecar.istio.io/inject: false
+    sidecar.istio.io/inject: "false"
 
   ## Prometheus AlertManager configuration
   ##
