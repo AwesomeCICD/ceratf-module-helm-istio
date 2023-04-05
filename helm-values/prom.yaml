@@ -126,11 +126,11 @@ server:
   ## The URL prefix at which the container can be accessed. Useful in the case the '-web.external-url' includes a slug
   ## so that the various internal URLs are still able to access as they are in the default case.
   ## (Optional)
-  prefixURL: ""
+  prefixURL: "" #"/"
 
   ## External URL which can access prometheus
   ## Maybe same with Ingress host name
-  baseURL: "https://monitor.japac.circleci-labs.com/"
+  baseURL: "" #https://monitor.japac.circleci-labs.com/"
 
   ## Additional server container environment variables
   ##
@@ -426,8 +426,8 @@ server:
 
   ## Labels to be added to Prometheus server pods
   ##
-  podLabels: {}
-  #  sidecar.istio.io/inject: false
+  podLabels:
+    sidecar.istio.io/inject: false
 
   ## Prometheus AlertManager configuration
   ##
