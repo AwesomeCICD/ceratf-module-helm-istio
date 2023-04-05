@@ -255,7 +255,7 @@ resource "helm_release" "prometheus" {
   name = "prometheus"
 
   repository       = "https://prometheus-community.github.io/helm-charts"
-  chart            = "prometheus-community"
+  chart            = "prometheus"
   namespace        = var.istio_namespace
   create_namespace = false
   atomic           = true
