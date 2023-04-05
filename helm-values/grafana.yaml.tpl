@@ -724,6 +724,8 @@ grafana.ini:
     domain: monitor.${target_domain}
     root_url: https://monitor.${target_domain}/grafana/   
     #domain: "{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ .Values.ingress.hosts | first }}{{ else }}''{{ end }}"
+  auth.anonymous:
+    enabled: true
 ## grafana Authentication can be enabled with the following values on grafana.ini
  # server:
       # The full public facing url you use in browser, used for redirects and emails
