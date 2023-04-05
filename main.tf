@@ -131,8 +131,6 @@ resource "aws_route53_record" "apex_record" {
     zone_id                = data.aws_elb.istio_ingress.zone_id
     evaluate_target_health = true
   }
-
-  #records = [data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname]
 }
 
 ####
@@ -174,24 +172,12 @@ resource "aws_iam_role_policy_attachment" "k8s_route53_access" {
   policy_arn = aws_iam_policy.k8s_route53_access.arn
 }
 
-/*
-resource "kubernetes_service_account_v1" "k8s_route53_access" {
-  metadata {
-    name      = local.k8s_r53_access_sa_name # necessary to avoid TF cycle error between k8s SA and IAM role
-    namespace = var.istio_namespace
-    annotations = {
-      "eks.amazonaws.com/role-arn" : "${aws_iam_role.k8s_route53_access.arn}"
-    }
-  }
-
-}
-*/
 
 
 
 
 #-------------------------------------------------------------------------------
-# ISTIO PERIPHERAL SERVICES
+# ISTIO PERIPHERAL SERVICE HELM CHARTS
 #-------------------------------------------------------------------------------
 
 
@@ -266,7 +252,7 @@ resource "helm_release" "jaeger_operator" {
 
 
 #-------------------------------------------------------------------------------
-# GRAFANA RESOURCES
+# GRAFANA HELM CHART & RESOURCES
 #-------------------------------------------------------------------------------
 
 resource "helm_release" "grafana" {
