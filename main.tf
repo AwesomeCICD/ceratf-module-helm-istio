@@ -250,10 +250,27 @@ resource "helm_release" "jaeger_operator" {
 }
 
 
+resource "helm_release" "prometheus" {
 
-#-------------------------------------------------------------------------------
-# GRAFANA HELM CHART & RESOURCES
-#-------------------------------------------------------------------------------
+  name = "prometheus"
+
+  repository       = "https://prometheus-community.github.io/helm-charts"
+  chart            = "prometheus-community"
+  namespace        = var.istio_namespace
+  create_namespace = false
+  atomic           = true
+
+  values = [
+    file("${path.module}/helm-values/prom.yaml")
+  ]
+
+  depends_on = [
+    kubernetes_namespace.istio
+  ]
+}
+
+
+
 
 resource "helm_release" "grafana" {
 

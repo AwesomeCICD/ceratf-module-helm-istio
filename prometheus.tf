@@ -1,6 +1,6 @@
 # Split this out from main because it was so long
 
-
+/*
 resource "kubernetes_service_account_v1" "prometheus" {
   metadata {
     name      = "prometheus"
@@ -246,3 +246,4 @@ resource "kubernetes_deployment_v1" "prometheus" {
     }
   }
 }
+*/
