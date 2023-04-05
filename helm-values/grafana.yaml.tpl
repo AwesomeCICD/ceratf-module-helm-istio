@@ -524,7 +524,7 @@ datasources:
       name: Prometheus
       orgId: 1
       type: prometheus
-      url: http://prometheus:9090
+      url: http://prometheus-server:80
 #  datasources.yaml:
 #    apiVersion: 1
 #    datasources:
