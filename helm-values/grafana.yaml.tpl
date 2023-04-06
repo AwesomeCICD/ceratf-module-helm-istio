@@ -515,24 +515,14 @@ plugins: []
 ## ref: http://docs.grafana.org/administration/provisioning/#datasources
 ##
 datasources: 
-  datasources:
-    - access: proxy
-      editable: true
-      isDefault: true
-      jsonData:
-        timeInterval: 5s
-      name: Prometheus
-      orgId: 1
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
       type: prometheus
       url: http://prometheus-server:80
-#  datasources.yaml:
-#    apiVersion: 1
-#    datasources:
-#    - name: Prometheus
-#      type: prometheus
-#      url: http://prometheus-prometheus-server
-#      access: proxy
-#      isDefault: true
+      access: proxy
+      isDefault: true
 #    - name: CloudWatch
 #      type: cloudwatch
 #      access: proxy
