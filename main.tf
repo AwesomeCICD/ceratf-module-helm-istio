@@ -177,7 +177,7 @@ resource "aws_iam_role_policy_attachment" "k8s_route53_access" {
 
 
 #-------------------------------------------------------------------------------
-# ISTIO PERIPHERAL SERVICE HELM CHARTS
+# KIALI RESOURCES
 #-------------------------------------------------------------------------------
 
 
@@ -202,7 +202,26 @@ resource "helm_release" "kiali_operator" {
   ]
 }
 
+# Creates a custom resource of kind "Kiali" that commands the Kiali operator to deploy a Kiali server instance
+# See https://kiali.io/docs/installation/installation-guide/example-install/#install-kiali-server-via-operator
+resource "kubectl_manifest" "kiali_server" {
+  yaml_body = templatefile(
+    "${path.module}/custom-resource/kiali/kiali.yaml.tpl",
+    {
+      istio_namespace = var.istio_namespace,
+      auth_strategy   = "anonymous" # we may want to change this later
+    }
+  )
+  depends_on = [
+    helm_release.kiali_operator
+  ]
+}
 
+
+#-------------------------------------------------------------------------------
+# CERT MANAGER HELM CHART
+# See k8s-certificate.tf for CRs
+#-------------------------------------------------------------------------------
 
 resource "helm_release" "cert_manager" {
 
@@ -226,7 +245,9 @@ resource "helm_release" "cert_manager" {
 
 }
 
-
+#-------------------------------------------------------------------------------
+# JAEGER RESOURCES 
+#-------------------------------------------------------------------------------
 
 resource "helm_release" "jaeger_operator" {
 
@@ -249,6 +270,22 @@ resource "helm_release" "jaeger_operator" {
   ]
 }
 
+resource "kubectl_manifest" "jaeger_server" {
+  yaml_body = templatefile(
+    "${path.module}/custom-resource/jaeger/jaeger.yaml.tpl",
+    {
+      istio_namespace = var.istio_namespace
+    }
+  )
+  depends_on = [
+    helm_release.jaeger_operator
+  ]
+}
+
+
+#-------------------------------------------------------------------------------
+# PROMETHEUS RESOURCES 
+#-------------------------------------------------------------------------------
 
 resource "helm_release" "prometheus" {
 
@@ -270,6 +307,9 @@ resource "helm_release" "prometheus" {
 }
 
 
+#-------------------------------------------------------------------------------
+# GRAFANA RESOURCES 
+#-------------------------------------------------------------------------------
 
 
 resource "helm_release" "grafana" {
