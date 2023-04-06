@@ -187,8 +187,8 @@ resource "helm_release" "kiali_operator" {
 
   repository       = "https://kiali.org/helm-charts"
   chart            = "kiali-operator"
-  namespace        = var.kiali_namespace
-  create_namespace = true # we'll create it separately so we can label it properly
+  namespace        = var.istio-namespace
+  create_namespace = false # we'll create it separately so we can label it properly
   atomic           = true
 
 
@@ -202,8 +202,11 @@ resource "helm_release" "kiali_operator" {
   ]
 }
 
+# Actually, this should be handled by cr.create=true in the kiali operator helm chart...
+#
 # Creates a custom resource of kind "Kiali" that commands the Kiali operator to deploy a Kiali server instance
 # See https://kiali.io/docs/installation/installation-guide/example-install/#install-kiali-server-via-operator
+/*
 resource "kubectl_manifest" "kiali_server" {
   yaml_body = templatefile(
     "${path.module}/custom-resource/kiali/kiali.yaml.tpl",
@@ -216,6 +219,7 @@ resource "kubectl_manifest" "kiali_server" {
     helm_release.kiali_operator
   ]
 }
+*/
 
 
 #-------------------------------------------------------------------------------
