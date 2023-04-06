@@ -187,7 +187,7 @@ resource "helm_release" "kiali_operator" {
 
   repository       = "https://kiali.org/helm-charts"
   chart            = "kiali-operator"
-  namespace        = var.istio-namespace
+  namespace        = var.istio_namespace
   create_namespace = false # we'll create it separately so we can label it properly
   atomic           = true
 
