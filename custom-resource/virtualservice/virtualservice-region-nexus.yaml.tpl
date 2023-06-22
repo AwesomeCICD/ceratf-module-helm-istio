@@ -11,6 +11,6 @@ spec:
   http:
   - route:
     - destination:
-        host: nexus-service.nexus.svc.cluster.local #prod namespace
+        host: nxrm-nexus-repository-manager.nexus.svc.cluster.local #prod namespace
         port:
           number: 8081
