@@ -8,13 +8,6 @@ spec:
     istio: ingress# use Istio default gateway implementation
   servers:
   - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "nexus.${target_domain}" 
-    - "docker.nexus.${target_domain}" 
-  - port:
       number: 443
       name: https
       protocol: HTTPS
