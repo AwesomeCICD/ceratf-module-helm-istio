@@ -11,6 +11,6 @@ spec:
   http:
     - route:
       - destination:
-          host: hashicorp-vault.vault.svc.cluster.local #prod namespace
+          host: vault.vault.svc.cluster.local #prod namespace
           port:
             number: 8200
