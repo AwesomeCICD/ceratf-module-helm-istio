@@ -8,6 +8,16 @@ spec:
     istio: ingress # use Istio default gateway implementation
   servers:
   - port:
+       name: http
+       number: 80
+       protocol: HTTP2
+    tls:
+       httpsRedirect: true
+    hosts:
+    - "${target_domain}" # BOA prod
+    - "monitor.${target_domain}" # Kiali / Grafana
+    - "vault.${target_domain}" # Vault
+  - port:
       number: 443
       name: https
       protocol: HTTPS
