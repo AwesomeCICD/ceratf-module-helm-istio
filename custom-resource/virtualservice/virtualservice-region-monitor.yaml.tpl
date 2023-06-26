@@ -19,13 +19,6 @@ spec:
           host: grafana
           port:
             number: 3000
-
-    - route:
-      - destination:
-          host: kiali
-          port:
-            number: 20001
-
     - match:
       - uri:
           prefix: "/prometheus/"
@@ -36,3 +29,8 @@ spec:
           host: prometheus-server
           port:
             number: 80
+    - route:
+      - destination:
+          host: kiali
+          port:
+            number: 20001
