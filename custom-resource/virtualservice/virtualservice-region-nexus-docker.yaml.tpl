@@ -10,7 +10,7 @@ spec:
     - ${circleci_region}-istio-gateway-nexus
   http:
   - route:
-      - destination:
-          host: nxrm-nexus-repository-manager.nexus.svc.cluster.local #prod namespace
-          port:
-            number: 8443
+    - destination:
+        host: nxrm-nexus-repository-manager-docker-8443.nexus.svc.cluster.local #prod namespace
+        port:
+          number: 8443
