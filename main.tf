@@ -209,7 +209,8 @@ resource "kubectl_manifest" "kiali_server" {
   yaml_body = templatefile(
     "${path.module}/custom-resource/kiali/kiali.yaml.tpl",
     {
-      auth_strategy = "anonymous" # we may want to change this later
+      istio_namespace = var.istio_namespace,
+      auth_strategy   = "anonymous" # we may want to change this later
     }
   )
   depends_on = [
