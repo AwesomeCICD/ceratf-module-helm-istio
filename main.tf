@@ -205,24 +205,17 @@ resource "helm_release" "kiali_operator" {
   ]
 }
 
-# Actually, this should be handled by cr.create=true in the kiali operator helm chart...
-#
-# Creates a custom resource of kind "Kiali" that commands the Kiali operator to deploy a Kiali server instance
-# See https://kiali.io/docs/installation/installation-guide/example-install/#install-kiali-server-via-operator
-/*
 resource "kubectl_manifest" "kiali_server" {
   yaml_body = templatefile(
     "${path.module}/custom-resource/kiali/kiali.yaml.tpl",
     {
-      istio_namespace = var.istio_namespace,
-      auth_strategy   = "anonymous" # we may want to change this later
+      auth_strategy = "anonymous" # we may want to change this later
     }
   )
   depends_on = [
     helm_release.kiali_operator
   ]
 }
-*/
 
 
 #-------------------------------------------------------------------------------
