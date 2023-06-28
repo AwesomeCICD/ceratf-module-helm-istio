@@ -101,6 +101,12 @@ resource "aws_security_group_rule" "istio_nodes_to_controlplane_envoy_prometheus
 resource "aws_security_group_rule" "istio_controlplane_to_nodes_webhook_container" {
   type = "ingress"
 
+  #TODO: Narrow this down.
+  #description = "TEMP Allow all traffic from controlplane to nodes"
+  #from_port   = "0"
+  #to_port     = "0"
+  #protocol    = "-1"
+
   description = "Webhook container port forwarded from 443"
   from_port   = "15017"
   to_port     = "15017"
@@ -159,6 +165,8 @@ resource "aws_security_group_rule" "istio_controlplane_to_nodes_debug" {
   source_security_group_id = var.cluster_security_group_id
 }
 
+# Automatically created by EKS
+/*
 resource "aws_security_group_rule" "istio_controlplane_to_nodes_webhook_svc" {
   type = "ingress"
 
@@ -170,22 +178,4 @@ resource "aws_security_group_rule" "istio_controlplane_to_nodes_webhook_svc" {
   security_group_id        = var.node_security_group_id
   source_security_group_id = var.cluster_security_group_id
 }
-
-resource "aws_security_group_rule" "istio_controlplane_to_nodes_all_traffic" {
-  type = "ingress"
-
-  #TODO: Narrow this down.
-  #description = "TEMP Allow all traffic from controlplane to nodes"
-  #from_port   = "0"
-  #to_port     = "0"
-  #protocol    = "-1"
-
-  description = "Webhook container port forwarded from 443"
-  from_port   = "15017"
-  to_port     = "15017"
-  protocol    = "tcp"
-
-
-  security_group_id        = var.node_security_group_id
-  source_security_group_id = var.cluster_security_group_id
-}
+*/
