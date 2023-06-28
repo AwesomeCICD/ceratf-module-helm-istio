@@ -28,7 +28,7 @@ resource "helm_release" "istio_base" {
 
   depends_on = [
     kubernetes_namespace.istio,
-    aws_security_group_rule.istio_controlplane_to_nodes_webhook_svc
+    #aws_security_group_rule.istio_controlplane_to_nodes_webhook_svc
   ]
 }
 
@@ -200,7 +200,7 @@ resource "helm_release" "kiali_operator" {
 
   depends_on = [
     kubernetes_namespace.istio,
-    aws_security_group_rule.istio_controlplane_to_nodes_webhook_svc
+    #aws_security_group_rule.istio_controlplane_to_nodes_webhook_svc
   ]
 }
 
@@ -273,7 +273,7 @@ resource "helm_release" "jaeger_operator" {
   depends_on = [
     kubernetes_namespace.istio,
     helm_release.cert_manager,
-    aws_security_group_rule.istio_controlplane_to_nodes_webhook_svc
+    #aws_security_group_rule.istio_controlplane_to_nodes_webhook_svc
   ]
 }
 
@@ -310,7 +310,7 @@ resource "helm_release" "prometheus" {
 
   depends_on = [
     kubernetes_namespace.istio,
-    aws_security_group_rule.istio_controlplane_to_nodes_webhook_svc
+    #aws_security_group_rule.istio_controlplane_to_nodes_webhook_svc
   ]
 }
 
