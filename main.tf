@@ -191,6 +191,7 @@ resource "helm_release" "kiali_operator" {
   namespace        = var.istio_namespace
   create_namespace = false # we'll create it separately so we can label it properly
   atomic           = true
+  version          = var.kiali_operator_chart_version
 
 
 
