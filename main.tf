@@ -28,7 +28,6 @@ resource "helm_release" "istio_base" {
 
   depends_on = [
     kubernetes_namespace.istio,
-    aws_security_group_rule.istio_controlplane_to_nodes_webhook_svc
   ]
 }
 
@@ -191,6 +190,7 @@ resource "helm_release" "kiali_operator" {
   namespace        = var.istio_namespace
   create_namespace = false # we'll create it separately so we can label it properly
   atomic           = true
+  version          = var.kiali_operator_chart_version
 
 
 
@@ -199,16 +199,10 @@ resource "helm_release" "kiali_operator" {
   ]
 
   depends_on = [
-    kubernetes_namespace.istio,
-    aws_security_group_rule.istio_controlplane_to_nodes_webhook_svc
+    kubernetes_namespace.istio
   ]
 }
 
-# Actually, this should be handled by cr.create=true in the kiali operator helm chart...
-#
-# Creates a custom resource of kind "Kiali" that commands the Kiali operator to deploy a Kiali server instance
-# See https://kiali.io/docs/installation/installation-guide/example-install/#install-kiali-server-via-operator
-/*
 resource "kubectl_manifest" "kiali_server" {
   yaml_body = templatefile(
     "${path.module}/custom-resource/kiali/kiali.yaml.tpl",
@@ -221,7 +215,6 @@ resource "kubectl_manifest" "kiali_server" {
     helm_release.kiali_operator
   ]
 }
-*/
 
 
 #-------------------------------------------------------------------------------
@@ -272,8 +265,7 @@ resource "helm_release" "jaeger_operator" {
 
   depends_on = [
     kubernetes_namespace.istio,
-    helm_release.cert_manager,
-    aws_security_group_rule.istio_controlplane_to_nodes_webhook_svc
+    helm_release.cert_manager
   ]
 }
 
@@ -309,8 +301,7 @@ resource "helm_release" "prometheus" {
   ]
 
   depends_on = [
-    kubernetes_namespace.istio,
-    aws_security_group_rule.istio_controlplane_to_nodes_webhook_svc
+    kubernetes_namespace.istio
   ]
 }
 
