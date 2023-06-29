@@ -72,8 +72,7 @@ autoscaling:
 
 # Pod environment variables
 env: 
-  - name: PILOT_HTTP_DELAYED_CLOSE_TIMEOUT
-    value: 5s
+  PILOT_HTTP_DELAYED_CLOSE_TIMEOUT: 5s
 
 # Labels to apply to all resources
 labels: {}
