@@ -75,6 +75,16 @@ resource "helm_release" "istio_ingress" {
   ]
 }
 
+resource "helm_release" "metrics_server" {
+  name = "metrics-server"
+
+  repository       = "https://kubernetes-sigs.github.io/metrics-server/"
+  chart            = "metrics-server"
+  create_namespace = false
+  atomic           = true
+
+}
+
 resource "helm_release" "istio_egress" {
 
   name = "istio-egress"
