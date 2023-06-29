@@ -33,7 +33,7 @@ variable "r53_subdomain_zone_id" {
 variable "istio_chart_version" {
   description = "Helm chart version"
   type        = string
-  default     = "1.16"
+  default     = "1.18"
 }
 
 variable "istio_namespace" {
