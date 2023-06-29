@@ -71,7 +71,9 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 
 # Pod environment variables
-env: {}
+env: 
+  - name: PILOT_HTTP_DELAYED_CLOSE_TIMEOUT
+    value: 5s
 
 # Labels to apply to all resources
 labels: {}
