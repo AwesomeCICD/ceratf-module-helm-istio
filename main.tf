@@ -21,6 +21,9 @@ resource "helm_release" "istio_base" {
   version          = var.istio_chart_version #not sure yet if we need to pin this -- might constantly grab the latest chart leading to unintended destroy/creates?
   create_namespace = false                   # we'll create it separately so we can label it properly
   atomic           = true                    #purges chart on failed deploy
+  force_update     = true
+  recreate_pods    = true
+  cleanup_on_fail  = true 
 
   values = [
     file("${path.module}/helm-values/istio-base.yaml")
@@ -41,6 +44,9 @@ resource "helm_release" "istiod" {
   version          = var.istio_chart_version
   create_namespace = false
   atomic           = true
+  force_update     = true
+  recreate_pods    = true
+  cleanup_on_fail  = true 
 
   values = [
     file("${path.module}/helm-values/istiod.yaml")
@@ -63,6 +69,9 @@ resource "helm_release" "istio_ingress" {
   version          = var.istio_chart_version
   create_namespace = false
   atomic           = true
+  force_update     = true
+  recreate_pods    = true
+  cleanup_on_fail  = true 
 
   values = [
     file("${path.module}/helm-values/istio-ingress.yaml")
@@ -95,6 +104,9 @@ resource "helm_release" "istio_egress" {
   version          = var.istio_chart_version
   create_namespace = false
   atomic           = true
+  force_update     = true
+  recreate_pods    = true
+  cleanup_on_fail  = true 
 
   values = [
     file("${path.module}/helm-values/istio-egress.yaml")
