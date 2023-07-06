@@ -3,6 +3,7 @@
 #-------------------------------------------------------------------------------
 
 resource "kubectl_manifest" "istio_virtualservice_region" {
+  force_new = true
   yaml_body = templatefile(
     "${path.module}/custom-resource/virtualservice/virtualservice-region.yaml.tpl",
     {
@@ -19,6 +20,7 @@ resource "kubectl_manifest" "istio_virtualservice_region" {
 
 
 resource "kubectl_manifest" "istio_virtualservice_region_dev" {
+  force_new = true
   yaml_body = templatefile(
     "${path.module}/custom-resource/virtualservice/virtualservice-region-dev.yaml.tpl",
     {
@@ -34,6 +36,7 @@ resource "kubectl_manifest" "istio_virtualservice_region_dev" {
 }
 
 resource "kubectl_manifest" "istio_virtualservice_region_dev_vault" {
+  force_new = true
   yaml_body = templatefile(
     "${path.module}/custom-resource/virtualservice/virtualservice-region-dev-vault.yaml.tpl",
     {
@@ -51,6 +54,7 @@ resource "kubectl_manifest" "istio_virtualservice_region_dev_vault" {
 
 
 resource "kubectl_manifest" "istio_virtualservice_region_monitor" {
+  force_new = true
   yaml_body = templatefile(
     "${path.module}/custom-resource/virtualservice/virtualservice-region-monitor.yaml.tpl",
     {
@@ -66,6 +70,7 @@ resource "kubectl_manifest" "istio_virtualservice_region_monitor" {
 }
 
 resource "kubectl_manifest" "istio_virtualservice_region_nexus_docker" {
+  force_new = true
   yaml_body = templatefile(
     "${path.module}/custom-resource/virtualservice/virtualservice-region-nexus-docker.yaml.tpl",
     {
@@ -81,6 +86,7 @@ resource "kubectl_manifest" "istio_virtualservice_region_nexus_docker" {
 }
 
 resource "kubectl_manifest" "istio_virtualservice_region_nexus" {
+  force_new = true
   yaml_body = templatefile(
     "${path.module}/custom-resource/virtualservice/virtualservice-region-nexus.yaml.tpl",
     {
@@ -96,6 +102,7 @@ resource "kubectl_manifest" "istio_virtualservice_region_nexus" {
 }
 
 resource "kubectl_manifest" "istio_virtualservice_region_server4" {
+  force_new = true
   yaml_body = templatefile(
     "${path.module}/custom-resource/virtualservice/virtualservice-region-server4.yaml.tpl",
     {
@@ -111,6 +118,7 @@ resource "kubectl_manifest" "istio_virtualservice_region_server4" {
 }
 
 resource "kubectl_manifest" "istio_virtualservice_region_vault" {
+  force_new = true
   yaml_body = templatefile(
     "${path.module}/custom-resource/virtualservice/virtualservice-region-vault.yaml.tpl",
     {
