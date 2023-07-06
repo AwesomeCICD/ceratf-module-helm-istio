@@ -10,7 +10,7 @@ spec:
   - port:
        name: http
        number: 80
-       protocol: HTTP2
+       protocol: HTTP
     tls:
        httpsRedirect: true
     hosts:
