@@ -4,6 +4,7 @@
 
 
 resource "kubectl_manifest" "istio_gateway_region" {
+  force_new = true
   yaml_body = templatefile(
     "${path.module}/custom-resource/gateway/gateway-region.yaml.tpl",
     {
@@ -20,6 +21,7 @@ resource "kubectl_manifest" "istio_gateway_region" {
 }
 
 resource "kubectl_manifest" "istio_gateway_region_dev" {
+  force_new = true
   yaml_body = templatefile(
     "${path.module}/custom-resource/gateway/gateway-region-dev.yaml.tpl",
     {
@@ -36,6 +38,7 @@ resource "kubectl_manifest" "istio_gateway_region_dev" {
 }
 
 resource "kubectl_manifest" "istio_gateway_region_nexus" {
+  force_new = true
   yaml_body = templatefile(
     "${path.module}/custom-resource/gateway/gateway-region-nexus.yaml.tpl",
     {
@@ -52,6 +55,7 @@ resource "kubectl_manifest" "istio_gateway_region_nexus" {
 }
 
 resource "kubectl_manifest" "istio_gateway_region_server4" {
+  force_new = true
   yaml_body = templatefile(
     "${path.module}/custom-resource/gateway/gateway-region-server4.yaml.tpl",
     {
