@@ -61,7 +61,7 @@ resource "helm_release" "istiod" {
 
 resource "helm_release" "istio_ingress" {
 
-  name = "istio-ingress"
+  name = "istio-ingressgateway"
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "gateway"
@@ -94,30 +94,6 @@ resource "helm_release" "metrics_server" {
 
 }
 
-resource "helm_release" "istio_egress" {
-
-  name = "istio-egress"
-
-  repository       = "https://istio-release.storage.googleapis.com/charts"
-  chart            = "gateway"
-  namespace        = var.istio_namespace
-  version          = var.istio_chart_version
-  create_namespace = false
-  atomic           = true
-  force_update     = true
-  recreate_pods    = true
-  cleanup_on_fail  = true 
-
-  values = [
-    file("${path.module}/helm-values/istio-egress.yaml")
-  ]
-
-  depends_on = [
-    kubernetes_namespace.istio,
-    helm_release.istio_base,
-    helm_release.istiod
-  ]
-}
 
 # Istio DNS resources
 
