@@ -15,8 +15,7 @@ resource "kubectl_manifest" "istio_gateway_region" {
     }
   )
   depends_on = [
-    helm_release.istio_ingress,
-    helm_release.istio_egress
+    helm_release.istio_ingress
   ]
 }
 
@@ -32,8 +31,7 @@ resource "kubectl_manifest" "istio_gateway_region_dev" {
     }
   )
   depends_on = [
-    helm_release.istio_ingress,
-    helm_release.istio_egress
+    helm_release.istio_ingress
   ]
 }
 
@@ -49,8 +47,7 @@ resource "kubectl_manifest" "istio_gateway_region_nexus" {
     }
   )
   depends_on = [
-    helm_release.istio_ingress,
-    helm_release.istio_egress
+    helm_release.istio_ingress
   ]
 }
 
@@ -66,8 +63,7 @@ resource "kubectl_manifest" "istio_gateway_region_server4" {
     }
   )
   depends_on = [
-    helm_release.istio_ingress,
-    helm_release.istio_egress
+    helm_release.istio_ingress
   ]
 }
 

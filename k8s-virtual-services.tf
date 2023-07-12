@@ -13,8 +13,7 @@ resource "kubectl_manifest" "istio_virtualservice_region" {
     }
   )
   depends_on = [
-    helm_release.istio_ingress,
-    helm_release.istio_egress
+    helm_release.istio_ingress
   ]
 }
 
@@ -30,8 +29,7 @@ resource "kubectl_manifest" "istio_virtualservice_region_dev" {
     }
   )
   depends_on = [
-    helm_release.istio_ingress,
-    helm_release.istio_egress
+    helm_release.istio_ingress
   ]
 }
 
@@ -46,8 +44,7 @@ resource "kubectl_manifest" "istio_virtualservice_region_dev_vault" {
     }
   )
   depends_on = [
-    helm_release.istio_ingress,
-    helm_release.istio_egress
+    helm_release.istio_ingress
   ]
 }
 
@@ -64,8 +61,7 @@ resource "kubectl_manifest" "istio_virtualservice_region_monitor" {
     }
   )
   depends_on = [
-    helm_release.istio_ingress,
-    helm_release.istio_egress
+    helm_release.istio_ingress
   ]
 }
 
@@ -80,8 +76,7 @@ resource "kubectl_manifest" "istio_virtualservice_region_nexus_docker" {
     }
   )
   depends_on = [
-    helm_release.istio_ingress,
-    helm_release.istio_egress
+    helm_release.istio_ingress
   ]
 }
 
@@ -96,8 +91,7 @@ resource "kubectl_manifest" "istio_virtualservice_region_nexus" {
     }
   )
   depends_on = [
-    helm_release.istio_ingress,
-    helm_release.istio_egress
+    helm_release.istio_ingress
   ]
 }
 
@@ -112,8 +106,7 @@ resource "kubectl_manifest" "istio_virtualservice_region_server4" {
     }
   )
   depends_on = [
-    helm_release.istio_ingress,
-    helm_release.istio_egress
+    helm_release.istio_ingress
   ]
 }
 
@@ -128,7 +121,6 @@ resource "kubectl_manifest" "istio_virtualservice_region_vault" {
     }
   )
   depends_on = [
-    helm_release.istio_ingress,
-    helm_release.istio_egress
+    helm_release.istio_ingress
   ]
 }
