@@ -25,9 +25,9 @@ resource "helm_release" "istio_base" {
   recreate_pods    = true
   cleanup_on_fail  = true
 
-  values = [
-    file("${path.module}/helm-values/istio-base.yaml")
-  ]
+  #values = [
+  #  file("${path.module}/helm-values/istio-base.yaml")
+  #]
 
   depends_on = [
     kubernetes_namespace.istio,
@@ -48,9 +48,9 @@ resource "helm_release" "istiod" {
   recreate_pods    = true
   cleanup_on_fail  = true
 
-  values = [
-    file("${path.module}/helm-values/istiod.yaml")
-  ]
+  #values = [
+  # file("${path.module}/helm-values/istiod.yaml")
+  #]
 
   depends_on = [
     kubernetes_namespace.istio,
@@ -81,9 +81,9 @@ resource "helm_release" "istio_ingress" {
   recreate_pods    = true
   cleanup_on_fail  = true
 
-  values = [
-    file("${path.module}/helm-values/istio-ingress.yaml")
-  ]
+  #values = [
+  #  file("${path.module}/helm-values/istio-ingress.yaml")
+  #]
 
   depends_on = [
     kubernetes_namespace.istio-ingress,
