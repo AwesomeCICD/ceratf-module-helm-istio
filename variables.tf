@@ -41,6 +41,11 @@ variable "istio_namespace" {
   type        = string
   default     = "istio-system"
 }
+variable "ingress_namespace" {
+  description = "Namespace to which Istio Helm chart will be deployed"
+  type        = string
+  default     = "istio-ingress"
+}
 
 variable "kiali_namespace" {
   description = "Namespace to which Kiali Operator Helm chart will be deployed"
