@@ -6,7 +6,7 @@ locals {
 
 data "kubernetes_service_v1" "istio_ingress" {
   metadata {
-    name      = "istio-ingress"
+    name      = "istio-ingressgateway"
     namespace = var.istio_namespace
   }
 
