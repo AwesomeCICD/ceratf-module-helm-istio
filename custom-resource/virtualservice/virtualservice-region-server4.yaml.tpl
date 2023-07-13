@@ -2,7 +2,7 @@ kind: VirtualService
 apiVersion: networking.istio.io/v1alpha3
 metadata:
   name: ${circleci_region}-prod-virtual-service-server4
-  namespace: ${istio_namespace}
+  namespace: ${ingress_namespace}
 spec:
   hosts:    
     - "server4.${target_domain}"

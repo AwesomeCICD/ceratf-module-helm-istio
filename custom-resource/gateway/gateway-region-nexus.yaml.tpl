@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: ${circleci_region}-istio-gateway-nexus
-  namespace: ${istio_namespace}
+  namespace: ${ingress_namespace}
 spec:
   selector:
     istio: ingressgateway # use Istio default gateway implementation
