@@ -23,7 +23,7 @@ resource "helm_release" "istio_base" {
   atomic           = true                    #purges chart on failed deploy
   force_update     = true
   recreate_pods    = true
-  cleanup_on_fail  = true 
+  cleanup_on_fail  = true
 
   values = [
     file("${path.module}/helm-values/istio-base.yaml")
@@ -46,7 +46,7 @@ resource "helm_release" "istiod" {
   atomic           = true
   force_update     = true
   recreate_pods    = true
-  cleanup_on_fail  = true 
+  cleanup_on_fail  = true
 
   values = [
     file("${path.module}/helm-values/istiod.yaml")
@@ -79,7 +79,7 @@ resource "helm_release" "istio_ingress" {
   atomic           = true
   force_update     = true
   recreate_pods    = true
-  cleanup_on_fail  = true 
+  cleanup_on_fail  = true
 
   values = [
     file("${path.module}/helm-values/istio-ingress.yaml")
