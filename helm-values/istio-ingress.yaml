@@ -60,7 +60,7 @@ service:
     targetPort: 15443
   selector:
     app: istio-ingress
-    istio: ingress
+    istio: ingressgateway
   annotations: {}
   loadBalancerIP: ""
   loadBalancerSourceRanges: []
