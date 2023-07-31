@@ -3,6 +3,7 @@ apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt-prod
+  namespace: istio-ingress
 spec:
   acme:
     email: solutions@circleci.com

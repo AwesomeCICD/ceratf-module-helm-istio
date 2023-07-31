@@ -205,7 +205,8 @@ resource "helm_release" "kiali_operator" {
   ]
 
   depends_on = [
-    kubernetes_namespace.istio
+    kubernetes_namespace.istio,
+    helm_release.istiod
   ]
 }
 
@@ -248,6 +249,10 @@ resource "helm_release" "cert_manager" {
     )
   ]
 
+  depends_on = [ 
+    helm_release.istiod
+   ]
+
 }
 
 #-------------------------------------------------------------------------------
@@ -271,7 +276,8 @@ resource "helm_release" "jaeger_operator" {
 
   depends_on = [
     kubernetes_namespace.istio,
-    helm_release.cert_manager
+    helm_release.cert_manager,
+    helm_release.istiod
   ]
 }
 
@@ -338,6 +344,7 @@ resource "helm_release" "grafana" {
 
   depends_on = [
     kubernetes_namespace.istio,
+    helm_release.istiod,
     kubernetes_config_map_v1.istio_grafana_dashboards,
     kubernetes_config_map_v1.istio_services_grafana_dashboards
   ]
