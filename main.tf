@@ -249,7 +249,7 @@ resource "helm_release" "cert_manager" {
     )
   ]
 
-  depends_on = [ 
+  depends_on = [
     helm_release.istiod
   ]
 
