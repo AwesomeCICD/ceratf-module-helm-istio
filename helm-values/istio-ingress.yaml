@@ -64,7 +64,7 @@ service:
   annotations: {}
   loadBalancerIP: ""
   loadBalancerSourceRanges: []
-  externalTrafficPolicy: ""
+  externalTrafficPolicy: "Local"
   externalIPs: []
 
 resources:
