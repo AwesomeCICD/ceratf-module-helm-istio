@@ -25,9 +25,9 @@ resource "helm_release" "istio_base" {
   recreate_pods    = true
   cleanup_on_fail  = true
 
-  #values = [
-  #  file("${path.module}/helm-values/istio-base.yaml")
-  #]
+  values = [
+    file("${path.module}/helm-values/istio-base.yaml")
+  ]
 
   depends_on = [
     kubernetes_namespace.istio,
@@ -48,9 +48,9 @@ resource "helm_release" "istiod" {
   recreate_pods    = true
   cleanup_on_fail  = true
 
-  #values = [
-  # file("${path.module}/helm-values/istiod.yaml")
-  #]
+  values = [
+   file("${path.module}/helm-values/istiod.yaml")
+  ]
 
   depends_on = [
     kubernetes_namespace.istio,
@@ -81,9 +81,9 @@ resource "helm_release" "istio_ingress" {
   recreate_pods    = true
   cleanup_on_fail  = true
 
-  #values = [
-  #  file("${path.module}/helm-values/istio-ingress.yaml")
-  #]
+  values = [
+    file("${path.module}/helm-values/istio-ingress.yaml")
+  ]
 
   depends_on = [
     kubernetes_namespace.istio-ingress,
@@ -114,7 +114,8 @@ resource "aws_route53_record" "records" {
     "monitor.",
     "nexus.",
     "server4.",
-    "vault."
+    "vault.",
+    "app"
   ])
 
   zone_id = var.r53_subdomain_zone_id
@@ -123,6 +124,7 @@ resource "aws_route53_record" "records" {
   ttl     = 5
 
   records = [data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname]
+  depends_on = [ helm_release.istio_ingress ]
 }
 
 resource "aws_route53_record" "apex_record" {
@@ -206,7 +208,8 @@ resource "helm_release" "kiali_operator" {
 
   depends_on = [
     kubernetes_namespace.istio,
-    helm_release.istiod
+    helm_release.istiod,
+    helm_release.prometheus
   ]
 }
 
@@ -250,7 +253,7 @@ resource "helm_release" "cert_manager" {
   ]
 
   depends_on = [
-    helm_release.istiod
+    helm_release.istio_ingress  
   ]
 
 }
