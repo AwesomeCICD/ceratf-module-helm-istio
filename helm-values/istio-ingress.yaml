@@ -26,7 +26,7 @@ podAnnotations:
   prometheus.io/scrape: "true"
   prometheus.io/path: "/stats/prometheus"
   inject.istio.io/templates: "gateway"
-  sidecar.istio.io/inject: "true"
+  sidecar.istio.io/inject: "false"
 
 # Define the security context for the pod.
 # If unset, this will be automatically set to the minimum privileges required to bind to port 80 and 443.
@@ -50,10 +50,21 @@ service:
     port: 443
     protocol: TCP
     targetPort: 443
+  - name: tcp
+    port: 31400
+    protocol: TCP
+    targetPort: 31400
+  - name: tls
+    port: 15443
+    protocol: TCP
+    targetPort: 15443
+  selector:
+    app: istio-ingress
+    istio: ingressgateway
   annotations: {}
   loadBalancerIP: ""
   loadBalancerSourceRanges: []
-  externalTrafficPolicy: ""
+  externalTrafficPolicy: "Local"
   externalIPs: []
 
 resources:
@@ -90,4 +101,6 @@ affinity: {}
 # If specified, the gateway will act as a network gateway for the given network.
 networkGateway: ""
 
+
 imagePullSecrets: []
+

@@ -2,7 +2,7 @@ kind: VirtualService
 apiVersion: networking.istio.io/v1alpha3
 metadata:
   name: nexus-virtual-service
-  namespace: ${istio_namespace}
+  namespace: ${ingress_namespace}
 spec:
   hosts:
     - "nexus.${target_domain}"

@@ -33,13 +33,18 @@ variable "r53_subdomain_zone_id" {
 variable "istio_chart_version" {
   description = "Helm chart version"
   type        = string
-  default     = "1.18"
+  default     = "1.18.2"
 }
 
 variable "istio_namespace" {
   description = "Namespace to which Istio Helm chart will be deployed"
   type        = string
   default     = "istio-system"
+}
+variable "ingress_namespace" {
+  description = "Namespace to which Istio Helm chart will be deployed"
+  type        = string
+  default     = "istio-ingress"
 }
 
 variable "kiali_namespace" {

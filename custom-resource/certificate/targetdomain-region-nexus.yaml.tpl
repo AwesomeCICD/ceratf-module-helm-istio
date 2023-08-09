@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: nexus-${target_domain_stringified}
-  namespace: ${istio_namespace}
+  namespace: ${ingress_namespace}
 spec:
   secretName: nexus-${target_domain_stringified}
   duration: 2160h0m0s # 90d

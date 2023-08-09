@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: dev-${target_domain_stringified}
-  namespace: ${istio_namespace}
+  namespace: ${ingress_namespace}
 spec:
   secretName: ${target_domain_stringified}-2
   duration: 2160h0m0s # 90d

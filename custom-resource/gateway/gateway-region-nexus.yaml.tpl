@@ -2,15 +2,15 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: ${circleci_region}-istio-gateway-nexus
-  namespace: ${istio_namespace}
+  namespace: ${ingress_namespace}
 spec:
   selector:
-    istio: ingress # use Istio default gateway implementation
+    istio: ingressgateway # use Istio default gateway implementation
   servers:
   - port:
        name: http
        number: 80
-       protocol: HTTP2
+       protocol: HTTP
     tls:
        httpsRedirect: true
     hosts:

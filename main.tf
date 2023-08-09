@@ -23,7 +23,7 @@ resource "helm_release" "istio_base" {
   atomic           = true                    #purges chart on failed deploy
   force_update     = true
   recreate_pods    = true
-  cleanup_on_fail  = true 
+  cleanup_on_fail  = true
 
   values = [
     file("${path.module}/helm-values/istio-base.yaml")
@@ -46,10 +46,10 @@ resource "helm_release" "istiod" {
   atomic           = true
   force_update     = true
   recreate_pods    = true
-  cleanup_on_fail  = true 
+  cleanup_on_fail  = true
 
   values = [
-    file("${path.module}/helm-values/istiod.yaml")
+   file("${path.module}/helm-values/istiod.yaml")
   ]
 
   depends_on = [
@@ -59,26 +59,34 @@ resource "helm_release" "istiod" {
 }
 
 
+resource "kubernetes_namespace" "istio-ingress" {
+  metadata {
+    name   = var.ingress_namespace
+    labels = var.namespace_labels
+  }
+}
+
+
 resource "helm_release" "istio_ingress" {
 
-  name = "istio-ingress"
+  name = "istio-ingressgateway"
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "gateway"
-  namespace        = var.istio_namespace
+  namespace        = var.ingress_namespace
   version          = var.istio_chart_version
   create_namespace = false
   atomic           = true
   force_update     = true
   recreate_pods    = true
-  cleanup_on_fail  = true 
+  cleanup_on_fail  = true
 
   values = [
     file("${path.module}/helm-values/istio-ingress.yaml")
   ]
 
   depends_on = [
-    kubernetes_namespace.istio,
+    kubernetes_namespace.istio-ingress,
     helm_release.istio_base,
     helm_release.istiod
   ]
@@ -94,30 +102,6 @@ resource "helm_release" "metrics_server" {
 
 }
 
-resource "helm_release" "istio_egress" {
-
-  name = "istio-egress"
-
-  repository       = "https://istio-release.storage.googleapis.com/charts"
-  chart            = "gateway"
-  namespace        = var.istio_namespace
-  version          = var.istio_chart_version
-  create_namespace = false
-  atomic           = true
-  force_update     = true
-  recreate_pods    = true
-  cleanup_on_fail  = true 
-
-  values = [
-    file("${path.module}/helm-values/istio-egress.yaml")
-  ]
-
-  depends_on = [
-    kubernetes_namespace.istio,
-    helm_release.istio_base,
-    helm_release.istiod
-  ]
-}
 
 # Istio DNS resources
 
@@ -130,7 +114,8 @@ resource "aws_route53_record" "records" {
     "monitor.",
     "nexus.",
     "server4.",
-    "vault."
+    "vault.",
+    "app"
   ])
 
   zone_id = var.r53_subdomain_zone_id
@@ -139,6 +124,7 @@ resource "aws_route53_record" "records" {
   ttl     = 5
 
   records = [data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname]
+  depends_on = [ helm_release.istio_ingress ]
 }
 
 resource "aws_route53_record" "apex_record" {
@@ -221,7 +207,9 @@ resource "helm_release" "kiali_operator" {
   ]
 
   depends_on = [
-    kubernetes_namespace.istio
+    kubernetes_namespace.istio,
+    helm_release.istiod,
+    helm_release.prometheus
   ]
 }
 
@@ -264,6 +252,10 @@ resource "helm_release" "cert_manager" {
     )
   ]
 
+  depends_on = [
+    helm_release.istio_ingress  
+  ]
+
 }
 
 #-------------------------------------------------------------------------------
@@ -287,7 +279,7 @@ resource "helm_release" "jaeger_operator" {
 
   depends_on = [
     kubernetes_namespace.istio,
-    helm_release.cert_manager
+    helm_release.istiod
   ]
 }
 
@@ -354,6 +346,7 @@ resource "helm_release" "grafana" {
 
   depends_on = [
     kubernetes_namespace.istio,
+    helm_release.istiod,
     kubernetes_config_map_v1.istio_grafana_dashboards,
     kubernetes_config_map_v1.istio_services_grafana_dashboards
   ]
