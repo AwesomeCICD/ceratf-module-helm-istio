@@ -14,7 +14,7 @@ spec:
     tls:
        httpsRedirect: true
     hosts:
-    - "${target_domain}" # BOA prod
+    - "${target_domain}" # App/Demo 
     - "monitor.${target_domain}" # Kiali / Grafana
     - "vault.${target_domain}" # Vault
   - port:
@@ -25,6 +25,6 @@ spec:
       mode: SIMPLE
       credentialName: "${target_domain_stringified}"
     hosts:
-    - "${target_domain}" # BOA prod
+    - "${target_domain}" # App/Demo 
     - "monitor.${target_domain}" # Kiali / Grafana
     - "vault.${target_domain}" # Vault

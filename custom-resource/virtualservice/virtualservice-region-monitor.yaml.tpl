@@ -16,7 +16,7 @@ spec:
         uri: /
       route:
       - destination:
-          host: grafana
+          host: grafana.istio-system.svc.cluster.local
           port:
             number: 3000
     - match:
@@ -26,11 +26,11 @@ spec:
       # uri: /
       route:
       - destination:
-          host: prometheus-server
+          host: prometheus-server.istio-system.svc.cluster.local
           port:
             number: 80
     - route:
       - destination:
-          host: kiali
+          host: kiali.istio-system.svc.cluster.local
           port:
             number: 20001
