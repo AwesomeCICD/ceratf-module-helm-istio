@@ -49,7 +49,7 @@ resource "helm_release" "istiod" {
   cleanup_on_fail  = true
 
   values = [
-   file("${path.module}/helm-values/istiod.yaml")
+    file("${path.module}/helm-values/istiod.yaml")
   ]
 
   depends_on = [
@@ -123,8 +123,8 @@ resource "aws_route53_record" "records" {
   type    = "CNAME"
   ttl     = 5
 
-  records = [data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname]
-  depends_on = [ helm_release.istio_ingress ]
+  records    = [data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname]
+  depends_on = [helm_release.istio_ingress]
 }
 
 resource "aws_route53_record" "apex_record" {
@@ -253,7 +253,7 @@ resource "helm_release" "cert_manager" {
   ]
 
   depends_on = [
-    helm_release.istio_ingress  
+    helm_release.istio_ingress
   ]
 
 }
