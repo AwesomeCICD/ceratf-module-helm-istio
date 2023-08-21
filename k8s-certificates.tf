@@ -85,3 +85,19 @@ resource "kubectl_manifest" "certmanager_cert_targetdomain_region_server4" {
     helm_release.cert_manager
   ]
 }
+
+
+
+resource "kubectl_manifest" "certmanager_cert_targetdomain_region_demos" {
+  yaml_body = templatefile(
+    "${path.module}/custom-resource/certificate/targetdomain-region-demos.yaml.tpl",
+    {
+      ingress_namespace         = var.ingress_namespace,
+      target_domain             = var.target_domain,
+      target_domain_stringified = local.target_domain_stringified
+    }
+  )
+  depends_on = [
+    helm_release.cert_manager
+  ]
+}
