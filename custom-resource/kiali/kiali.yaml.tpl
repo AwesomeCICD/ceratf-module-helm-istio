@@ -18,11 +18,10 @@ spec:
         - app_label: "istiod"
           is_core: true
           is_proxy: false
-        - app_label: "istio-ingress"
+        - app_label: "istio-ingressgateway"
           is_core: true
           is_proxy: true
-          # default: namespace is undefined
-          namespace: istio-system
+          namespace: istio-ingress
         - app_label: "istio-egress"
           is_core: false
           is_proxy: true
