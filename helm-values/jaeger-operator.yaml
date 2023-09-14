@@ -10,10 +10,10 @@ image:
 
 certs:
   issuer:
-    create: false
+    create: true
     name: ""
   certificate:
-    create: false
+    create: true
     namespace: ""
     secretName: ""
 
