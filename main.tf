@@ -281,7 +281,8 @@ resource "helm_release" "jaeger_operator" {
 
   depends_on = [
     kubernetes_namespace.istio,
-    helm_release.istiod
+    helm_release.istiod,
+    helm_release.cert_manager
   ]
 }
 
