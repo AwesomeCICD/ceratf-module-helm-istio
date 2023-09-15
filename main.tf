@@ -365,6 +365,9 @@ resource "kubernetes_config_map_v1" "istio_grafana_dashboards" {
   }
 
   data = yamldecode(file("${path.module}/app-config/grafana/istio-grafana-dashboards.yaml"))
+  depends_on = [
+    kubernetes_namespace.istio
+  ]
 }
 
 resource "kubernetes_config_map_v1" "istio_services_grafana_dashboards" {
@@ -375,4 +378,7 @@ resource "kubernetes_config_map_v1" "istio_services_grafana_dashboards" {
   }
 
   data = yamldecode(file("${path.module}/app-config/grafana/istio-services-grafana-dashboards.yaml"))
+  depends_on = [
+    kubernetes_namespace.istio
+  ]
 }
