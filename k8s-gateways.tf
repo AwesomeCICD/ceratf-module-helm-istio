@@ -67,6 +67,22 @@ resource "kubectl_manifest" "istio_gateway_region_server4" {
   ]
 }
 
+resource "kubectl_manifest" "istio_gateway_region_fieldguide" {
+  force_new = true
+  yaml_body = templatefile(
+    "${path.module}/custom-resource/gateway/gateway-region-fieldguide.yaml.tpl",
+    {
+      ingress_namespace         = var.ingress_namespace,
+      circleci_region           = var.circleci_region,
+      target_domain             = var.target_domain,
+      target_domain_stringified = local.target_domain_stringified
+    }
+  )
+  depends_on = [
+    helm_release.istio_ingress
+  ]
+}
+
 
 
 
