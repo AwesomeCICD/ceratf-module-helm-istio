@@ -117,7 +117,9 @@ resource "aws_route53_record" "records" {
     "vault.",
     "app",
     "demo",
-    "dr-demo"
+    "dr-demo",
+    "fieldguide",
+    "dev.fieldguide"
   ])
 
   zone_id = var.r53_subdomain_zone_id
