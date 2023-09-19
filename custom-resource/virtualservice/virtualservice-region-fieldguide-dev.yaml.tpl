@@ -1,7 +1,7 @@
 kind: VirtualService
 apiVersion: networking.istio.io/v1alpha3
 metadata:
-  name: ${circleci_region}-prod-fieldguide
+  name: ${circleci_region}-dev-fieldguide
   namespace: ${ingress_namespace}
 spec:
   hosts:      # which incoming host are we applying the proxy rules to???
