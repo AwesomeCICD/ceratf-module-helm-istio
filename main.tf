@@ -115,11 +115,11 @@ resource "aws_route53_record" "records" {
     "nexus.",
     "server4.",
     "vault.",
-    "app",
-    "demo",
-    "dr-demo",
-    "fieldguide",
-    "dev.fieldguide"
+    "app.",
+    "demo.",
+    "dr-demo.",
+    "fieldguide.",
+    "dev.fieldguide."
   ])
 
   zone_id = var.r53_subdomain_zone_id
