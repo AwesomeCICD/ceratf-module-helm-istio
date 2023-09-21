@@ -144,6 +144,12 @@ resource "aws_route53_record" "fieldguide_global_record" {
     evaluate_target_health = true
   }
 
+  weighted_routing_policy {
+    weight = 100 #every region has equal weight, failover based on alias health check is all we rely on
+  }
+
+  set_identifier = "fieldguide-${var.circleci_region}"
+
   depends_on = [helm_release.istio_ingress]
 }
 
