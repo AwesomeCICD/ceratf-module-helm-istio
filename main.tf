@@ -131,6 +131,23 @@ resource "aws_route53_record" "records" {
   depends_on = [helm_release.istio_ingress]
 }
 
+resource "aws_route53_record" "fieldguide_global_record" {
+  zone_id = data.terraform_remote_state.ceratf_regional_global.outputs.r53_root_zone_id
+
+  name = "fieldguide"
+  type = "A"
+
+  # Using alias gives us health checks without explicit definition of 'HealthCheck'
+  #records = [data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname]
+  alias {
+    name                   = data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname
+    zone_id                = data.aws_elb.istio_ingress.zone_id
+    evaluate_target_health = true
+  }
+
+  depends_on = [helm_release.istio_ingress]
+}
+
 resource "aws_route53_record" "apex_record" {
 
   zone_id = var.r53_subdomain_zone_id
