@@ -6,6 +6,7 @@ metadata:
 spec:
   hosts:      # which incoming host are we applying the proxy rules to???
     - "fieldguide.${target_domain}"
+    - "fieldguide.circleci-labs.com"
   gateways:
     - ${circleci_region}-fieldguide-gateway
   http:

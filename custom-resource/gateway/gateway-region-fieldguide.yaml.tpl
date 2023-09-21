@@ -14,6 +14,7 @@ spec:
     tls:
        httpsRedirect: true
     hosts:
+    - "fieldguide.circleci-labs.com" #global GTM
     - "fieldguide.${target_domain}" # prod
     - "dev.fieldguide.${target_domain}" # dev
   - port:
@@ -24,5 +25,6 @@ spec:
       mode: SIMPLE
       credentialName: "fieldguide-${target_domain_stringified}"
     hosts:
+    - "fieldguide.circleci-labs.com"
     - "fieldguide.${target_domain}" 
     - "dev.fieldguide.${target_domain}" 
