@@ -18,7 +18,7 @@ spec:
       selector:
         dnsZones:
           - ${target_domain}
-    - dns02:
+    - dns01:
         route53:
           region: ${aws_region}
           hostedZoneID: ${r53_root_zone_id}
