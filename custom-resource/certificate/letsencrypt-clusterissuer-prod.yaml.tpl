@@ -18,3 +18,10 @@ spec:
       selector:
         dnsZones:
           - ${target_domain}
+    - dns02:
+        route53:
+          region: ${aws_region}
+          hostedZoneID: ${r53_root_zone_id}
+      selector:
+        dnsNames:
+          - fieldguide.circleci-labs.com
