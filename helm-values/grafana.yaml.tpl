@@ -692,6 +692,7 @@ dashboards: {}
 dashboardsConfigMaps:
   istio: istio-grafana-dashboards                   #created by Terraform
   istio-services: istio-services-grafana-dashboards #created by Terraform
+  dr-demo: dr-demo-grafana-dashboards #created by Terraform
 #  default: ""
 
 ## Grafana's primary configuration

@@ -408,3 +408,15 @@ resource "kubernetes_config_map_v1" "istio_services_grafana_dashboards" {
     kubernetes_namespace.istio
   ]
 }
+resource "kubernetes_config_map_v1" "dr_demo_grafana_dashboards" {
+
+  metadata {
+    name      = "dr-demo-grafana-dashboards"
+    namespace = var.istio_namespace
+  }
+
+  data = yamldecode(file("${path.module}/app-config/grafana/dr-demo-grafana-dashboards.yaml"))
+  depends_on = [
+    kubernetes_namespace.istio
+  ]
+}

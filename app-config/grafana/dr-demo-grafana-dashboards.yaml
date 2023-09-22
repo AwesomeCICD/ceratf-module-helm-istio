@@ -1,0 +1,297 @@
+dr-demo-grafana-dashboards.json: |
+  {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 8,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 2,
+        "panels": [],
+        "title": "Row title",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "gridPos": {
+          "h": 25,
+          "w": 12,
+          "x": 0,
+          "y": 1
+        },
+        "id": 1,
+        "links": [
+          {
+            "targetBlank": true,
+            "title": "Open Demo App",
+            "url": "https://dr-demo.emea.circleci-labs.com"
+          }
+        ],
+        "options": {
+          "code": {
+            "language": "plaintext",
+            "showLineNumbers": false,
+            "showMiniMap": false
+          },
+          "content": "<iframe width=\"100%\" height=\"100%\" src=\"https://dr-demo.emea.circleci-labs.com\">",
+          "mode": "html"
+        },
+        "pluginVersion": "10.1.1",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "expr": "",
+            "instant": false,
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Panel Title",
+        "type": "text"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 1
+        },
+        "id": 3,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "10.1.1",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "editorMode": "code",
+            "expr": " sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-canary.*\",\n            response_code!~\"5.*\"}[60s])\n          )\n          /\n          sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-canary.*\"}[60s])\n          )",
+            "instant": false,
+            "legendFormat": "Canary Health",
+            "range": true,
+            "refId": "Canary Success"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "editorMode": "code",
+            "expr": " sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-stable.*\",\n            response_code!~\"5.*\"}[60s])\n          )\n          /\n          sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-stable.*\"}[60s])\n          )",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Stable Health",
+            "range": true,
+            "refId": "Stable Success %"
+          }
+        ],
+        "title": "Canary Health Status",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 72,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineStyle": {
+                "dash": [
+                  10,
+                  10
+                ],
+                "fill": "dash"
+              },
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "percent"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 9
+        },
+        "id": 4,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "10.1.1",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "editorMode": "code",
+            "expr": " sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-canary.*\"}[60s])\n          )\n          /\n          sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-.*\"}[60s])\n          )",
+            "instant": false,
+            "legendFormat": "Canary Health",
+            "range": true,
+            "refId": "Canary Success"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "editorMode": "code",
+            "expr": " sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-stable.*\"}[60s])\n          )\n          /\n          sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-.*\"}[60s])\n          )",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Stable Health",
+            "range": true,
+            "refId": "Stable Success %"
+          }
+        ],
+        "title": "Traffic Distribution",
+        "type": "timeseries"
+      }
+    ],
+    "refresh": "",
+    "schemaVersion": 38,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Dr. Dashboard",
+    "uid": "da41d9fa-4f9b-48fa-bd0a-a558ce12660c",
+    "version": 1,
+    "weekStart": ""
+  }
