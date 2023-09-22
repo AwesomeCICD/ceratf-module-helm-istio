@@ -337,7 +337,6 @@ resource "helm_release" "prometheus" {
   namespace        = var.istio_namespace
   create_namespace = false
   atomic           = true
-  force_update     = true
   recreate_pods    = true
 
   values = [
