@@ -716,6 +716,8 @@ grafana.ini:
     #domain: "{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ .Values.ingress.hosts | first }}{{ else }}''{{ end }}"
   auth.anonymous:
     enabled: true
+  panels:
+    disable_sanitize_html: true
 ## grafana Authentication can be enabled with the following values on grafana.ini
  # server:
       # The full public facing url you use in browser, used for redirects and emails
