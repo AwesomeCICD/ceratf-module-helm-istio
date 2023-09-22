@@ -21,65 +21,8 @@ dr-demo-grafana-dashboards.json: |
     "graphTooltip": 0,
     "id": 8,
     "links": [],
-    "liveNow": false,
+    "liveNow": true,
     "panels": [
-      {
-        "collapsed": false,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 0
-        },
-        "id": 2,
-        "panels": [],
-        "title": "Row title",
-        "type": "row"
-      },
-      {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
-        "gridPos": {
-          "h": 25,
-          "w": 12,
-          "x": 0,
-          "y": 1
-        },
-        "id": 1,
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "Open Demo App",
-            "url": "https://dr-demo.emea.circleci-labs.com"
-          }
-        ],
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "<iframe width=\"100%\" height=\"100%\" src=\"https://dr-demo.emea.circleci-labs.com\">",
-          "mode": "html"
-        },
-        "pluginVersion": "10.1.1",
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
-            },
-            "expr": "",
-            "instant": false,
-            "range": true,
-            "refId": "A"
-          }
-        ],
-        "title": "Panel Title",
-        "type": "text"
-      },
       {
         "datasource": {
           "type": "prometheus",
@@ -111,9 +54,9 @@ dr-demo-grafana-dashboards.json: |
         },
         "gridPos": {
           "h": 8,
-          "w": 12,
-          "x": 12,
-          "y": 1
+          "w": 3,
+          "x": 0,
+          "y": 0
         },
         "id": 3,
         "options": {
@@ -138,7 +81,7 @@ dr-demo-grafana-dashboards.json: |
               "uid": "PBFA97CFB590B2093"
             },
             "editorMode": "code",
-            "expr": " sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-canary.*\",\n            response_code!~\"5.*\"}[60s])\n          )\n          /\n          sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-canary.*\"}[60s])\n          )",
+            "expr": " sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-canary.*\",\n            response_code!~\"5.*\"}[20s])\n          )\n          /\n          sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-canary.*\"}[20s])\n          )",
             "instant": false,
             "legendFormat": "Canary Health",
             "range": true,
@@ -150,7 +93,7 @@ dr-demo-grafana-dashboards.json: |
               "uid": "PBFA97CFB590B2093"
             },
             "editorMode": "code",
-            "expr": " sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-stable.*\",\n            response_code!~\"5.*\"}[60s])\n          )\n          /\n          sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-stable.*\"}[60s])\n          )",
+            "expr": " sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-stable.*\",\n            response_code!~\"5.*\"}[20s])\n          )\n          /\n          sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-stable.*\"}[20s])\n          )",
             "hide": false,
             "instant": false,
             "legendFormat": "Stable Health",
@@ -172,14 +115,14 @@ dr-demo-grafana-dashboards.json: |
               "mode": "palette-classic"
             },
             "custom": {
-              "axisCenteredZero": false,
+              "axisCenteredZero": true,
               "axisColorMode": "text",
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
               "drawStyle": "line",
               "fillOpacity": 86,
-              "gradientMode": "none",
+              "gradientMode": "hue",
               "hideFrom": {
                 "legend": false,
                 "tooltip": false,
@@ -216,53 +159,18 @@ dr-demo-grafana-dashboards.json: |
                 {
                   "color": "green",
                   "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
                 }
               ]
             },
             "unit": "percentunit"
           },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Stable Health"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "semi-dark-green",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Canary Health"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "semi-dark-blue",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            }
-          ]
+          "overrides": []
         },
         "gridPos": {
           "h": 8,
-          "w": 12,
-          "x": 12,
-          "y": 9
+          "w": 20,
+          "x": 3,
+          "y": 0
         },
         "id": 4,
         "options": {
@@ -285,7 +193,7 @@ dr-demo-grafana-dashboards.json: |
               "uid": "PBFA97CFB590B2093"
             },
             "editorMode": "code",
-            "expr": " sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-canary.*\"}[60s])\n          )\n          /\n          sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-.*\"}[60s])\n          )",
+            "expr": " sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-canary.*\"}[30s])\n          )\n          /\n          sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-.*\"}[30s])\n          )",
             "instant": false,
             "legendFormat": "Canary Health",
             "range": true,
@@ -297,7 +205,7 @@ dr-demo-grafana-dashboards.json: |
               "uid": "PBFA97CFB590B2093"
             },
             "editorMode": "code",
-            "expr": " sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-stable.*\"}[60s])\n          )\n          /\n          sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-.*\"}[60s])\n          )",
+            "expr": " sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-stable.*\"}[30s])\n          )\n          /\n          sum(irate(istio_requests_total{\n            reporter=\"source\",\n            destination_service=~\"istio-rollout-.*\"}[30s])\n          )",
             "hide": false,
             "instant": false,
             "legendFormat": "Stable Health",
@@ -307,6 +215,50 @@ dr-demo-grafana-dashboards.json: |
         ],
         "title": "Traffic Distribution",
         "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "gridPos": {
+          "h": 25,
+          "w": 23,
+          "x": 0,
+          "y": 8
+        },
+        "id": 1,
+        "links": [
+          {
+            "targetBlank": true,
+            "title": "Open Demo App",
+            "url": "https://dr-demo.emea.circleci-labs.com"
+          }
+        ],
+        "options": {
+          "code": {
+            "language": "plaintext",
+            "showLineNumbers": false,
+            "showMiniMap": false
+          },
+          "content": "<iframe width=\"100%\" height=\"100%\" src=\"https://dr-demo.emea.circleci-labs.com\">",
+          "mode": "html"
+        },
+        "pluginVersion": "10.1.1",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "expr": "",
+            "instant": false,
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Panel Title",
+        "type": "text"
       }
     ],
     "refresh": "5s",
@@ -317,13 +269,13 @@ dr-demo-grafana-dashboards.json: |
       "list": []
     },
     "time": {
-      "from": "now-6h",
+      "from": "now-30m",
       "to": "now"
     },
     "timepicker": {},
     "timezone": "",
     "title": "Dr. Dashboard",
     "uid": "da41d9fa-4f9b-48fa-bd0a-a558ce12660c",
-    "version": 3,
+    "version": 5,
     "weekStart": ""
   }
