@@ -91,16 +91,17 @@ dr-demo-grafana-dashboards.json: |
               "mode": "thresholds"
             },
             "mappings": [],
+            "max": 100,
             "thresholds": {
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
+                  "color": "dark-red",
                   "value": null
                 },
                 {
-                  "color": "red",
-                  "value": 80
+                  "color": "green",
+                  "value": 0.9
                 }
               ]
             },
@@ -177,7 +178,7 @@ dr-demo-grafana-dashboards.json: |
               "axisPlacement": "auto",
               "barAlignment": 0,
               "drawStyle": "line",
-              "fillOpacity": 72,
+              "fillOpacity": 86,
               "gradientMode": "none",
               "hideFrom": {
                 "legend": false,
@@ -193,7 +194,7 @@ dr-demo-grafana-dashboards.json: |
                 ],
                 "fill": "dash"
               },
-              "lineWidth": 1,
+              "lineWidth": 0,
               "pointSize": 5,
               "scaleDistribution": {
                 "type": "linear"
@@ -224,7 +225,38 @@ dr-demo-grafana-dashboards.json: |
             },
             "unit": "percentunit"
           },
-          "overrides": []
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Stable Health"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "semi-dark-green",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Canary Health"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "semi-dark-blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
         },
         "gridPos": {
           "h": 8,
@@ -277,7 +309,7 @@ dr-demo-grafana-dashboards.json: |
         "type": "timeseries"
       }
     ],
-    "refresh": "",
+    "refresh": "5s",
     "schemaVersion": 38,
     "style": "dark",
     "tags": [],
@@ -292,6 +324,6 @@ dr-demo-grafana-dashboards.json: |
     "timezone": "",
     "title": "Dr. Dashboard",
     "uid": "da41d9fa-4f9b-48fa-bd0a-a558ce12660c",
-    "version": 1,
+    "version": 3,
     "weekStart": ""
   }
