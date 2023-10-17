@@ -1086,7 +1086,7 @@ imageRenderer:
     limitIngress: true
     # Enable a NetworkPolicy to limit outbound traffic to only the created grafana pods
     limitEgress: false
-  resources: {}
+  resources: 
     limits:
       cpu: 100m
       memory: 100Mi
