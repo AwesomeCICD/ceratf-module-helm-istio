@@ -66,7 +66,7 @@ extraLabels: {}
   # Specifies extra labels for the operator deployment:
   # foo: bar
 
-resources: {}
+resources: 
   limits:
    cpu: 100m
    memory: 128Mi
