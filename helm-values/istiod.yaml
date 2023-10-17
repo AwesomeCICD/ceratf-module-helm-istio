@@ -212,10 +212,10 @@ global:
   defaultResources:
     requests:
       cpu: 10m
-        memory: 128Mi
-      limits:
-        cpu: 100m
-        memory: 128Mi
+      memory: 128Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
 
   # Default hub for Istio images.
   # Releases are published to docker hub under 'istio' project.
@@ -339,8 +339,8 @@ global:
         cpu: 100m
         memory: 128Mi
       limits:
-        cpu: 500m
-        memory: 512Mi
+        cpu: 250m 
+        memory: 256Mi
 
     # Default port for Pilot agent health checks. A value of 0 will disable health checking.
     statusPort: 15020
