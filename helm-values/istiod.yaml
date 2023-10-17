@@ -7,7 +7,7 @@ pilot:
   autoscaleMax: 5
   replicaCount: 1
   rollingMaxSurge: 100%
-  rollingMaxUnavailable: 25%
+  rollingMaxUnavailable: 50%
 
   hub: ""
   tag: ""
@@ -20,8 +20,11 @@ pilot:
   # Resources for a small pilot install
   resources:
     requests:
-      cpu: 500m
-      memory: 2048Mi
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 200m
+      memory: 512Mi
 
   # Set to `type: RuntimeDefault` to use the default profile if available.
   seccompProfile: {}
@@ -209,10 +212,10 @@ global:
   defaultResources:
     requests:
       cpu: 10m
-    #   memory: 128Mi
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
+        memory: 128Mi
+      limits:
+        cpu: 100m
+        memory: 128Mi
 
   # Default hub for Istio images.
   # Releases are published to docker hub under 'istio' project.
@@ -336,8 +339,8 @@ global:
         cpu: 100m
         memory: 128Mi
       limits:
-        cpu: 2000m
-        memory: 1024Mi
+        cpu: 500m
+        memory: 512Mi
 
     # Default port for Pilot agent health checks. A value of 0 will disable health checking.
     statusPort: 15020
