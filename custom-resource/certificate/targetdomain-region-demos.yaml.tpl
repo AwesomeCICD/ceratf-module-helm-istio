@@ -16,9 +16,7 @@ spec:
     - server auth
     - client auth
   dnsNames:
-    - "app.${target_domain}"
-    - "demo.${target_domain}"
-    - "dr-demo.${target_domain}"
+    - "*.demo.${target_domain}"
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer

@@ -35,6 +35,22 @@ resource "kubectl_manifest" "istio_gateway_region_dev" {
   ]
 }
 
+resource "kubectl_manifest" "istio_gateway_region_demos" {
+  force_new = true
+  yaml_body = templatefile(
+    "${path.module}/custom-resource/gateway/gateway-region-demos.yaml.tpl",
+    {
+      ingress_namespace         = var.ingress_namespace,
+      circleci_region           = var.circleci_region,
+      target_domain             = var.target_domain,
+      target_domain_stringified = local.target_domain_stringified
+    }
+  )
+  depends_on = [
+    helm_release.istio_ingress
+  ]
+}
+
 resource "kubectl_manifest" "istio_gateway_region_nexus" {
   force_new = true
   yaml_body = templatefile(
