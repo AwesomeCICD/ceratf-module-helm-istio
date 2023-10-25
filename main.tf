@@ -116,7 +116,7 @@ resource "aws_route53_record" "records" {
     "server4.",
     "vault.",
     "app.",
-    "demo.",
+    "*.demo.",
     "dr-demo.",
     "fieldguide.",
     "dev.fieldguide."
