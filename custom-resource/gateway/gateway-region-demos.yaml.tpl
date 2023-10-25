@@ -8,6 +8,14 @@ spec:
     istio: ingressgateway # use Istio default gateway implementation
   servers:
   - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    tls:
+      httpsRedirect: true
+    hosts:
+    - "*.demo.${target_domain}" 
+  - port:
       number: 443
       name: https
       protocol: HTTPS
