@@ -646,6 +646,8 @@ serverFiles:
         - source_labels: [__meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
           action: keep
           regex: istiod;http-monitoring
+        scrape_interval: 2s
+        scrape_timeout: 1s
       - job_name: 'envoy-stats'
         metrics_path: /stats/prometheus
         kubernetes_sd_configs:
