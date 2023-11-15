@@ -328,6 +328,22 @@ resource "kubectl_manifest" "jaeger_server" {
 # PROMETHEUS RESOURCES 
 #-------------------------------------------------------------------------------
 
+resource "kubernetes_storage_class" "expandable_storage" {
+  metadata {
+    name = "expandable-gp2"
+  }
+  storage_provisioner = "kubernetes.io/aws-ebs"
+  reclaim_policy      = "Delete"
+  parameters = {
+    type = "gp2"
+  }
+  allow_volume_expansion = true
+  volume_binding_mode    = "WaitForFirstConsumer"
+}
+
+
+
+
 resource "helm_release" "prometheus" {
 
   name = "prometheus"
@@ -344,7 +360,8 @@ resource "helm_release" "prometheus" {
   ]
 
   depends_on = [
-    kubernetes_namespace.istio
+    kubernetes_namespace.istio,
+    kubernetes_storage_class.expandable_storage
   ]
 }
 
