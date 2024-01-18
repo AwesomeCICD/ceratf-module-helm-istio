@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   terraform: circleci/terraform@3.2.1
-
+  semver: cci-labs/semver@0.0.3
 
 jobs:
   tf-validate:
@@ -9,50 +9,22 @@ jobs:
     steps:
       - terraform/fmt
       - terraform/validate
-  tag-it:
-    executor: terraform/default
-    steps:
-      - checkout
-      - run:
-          name: confirm semver
-          command: |
-            version=$(git tag -i | tail -1)
-            SEMVER_INCREMENT=`git log -1 --pretty=%B | sed -En 's/.*\[semver: ?(major|minor|patch|skip)\].*/\1/pi' | tr '[:upper:]' '[:lower:]'`
-            if [ -z ${SEMVER_INCREMENT} ];then
-              echo "Merge commit did not indicate which SemVer increment to make. Please ammend commit with [semver:FOO] where FOO is major, minor, or patch"
-              exit 1
-            elif [ "$SEMVER_INCREMENT" == "skip" ];then
-              echo "SEMVER in commit indicated to skip tag"
-              exit 0
-            else
-              echo "Semver: $version will be bumped as $SEMVER_INCREMENT"
-              MAJOR=`echo $version |awk -F. '{ print $1 }'`
-              MINOR=`echo $version |awk -F. '{ print $2 }'`
-              PATCH=`echo $version |awk -F. '{ print $3 }'`
-              case $SEMVER_INCREMENT in
-                major)
-                  MAJOR=$(( MAJOR + 1 ))
-                  ;;
-                minor)
-                  MINOR=$(( MINOR + 1 ))
-                  ;;
-                patch)
-                  PATCH=$(( PATCH + 1 ))
-                  ;;   
-              esac
-              echo "New Version: ${MAJOR}.${MINOR}.${PATCH}"     
-              git config user.name "CERA Bot"
-              git config user.email "solutions@circleci.com"
-              git tag ${MAJOR}.${MINOR}.${PATCH}
-              git push --tags
-            fi
 
 workflows:
   main:
     jobs:
       - tf-validate:
           name: Validate Terraform Plan
-      - tag-it:
+      - semver/bump:
+          pre-steps: 
+            - semver/getfromgit
+          post-steps: 
+            - run: 
+                name: Use new version values
+                command: |
+                  echo "Tagging as: ${MAJOR}.${MINOR}.${PATCH}"
+                  git tag ${MAJOR}.${MINOR}.${PATCH}
+                  git push --tags
           requires: [Validate Terraform Plan]
           filters:
             branches:
