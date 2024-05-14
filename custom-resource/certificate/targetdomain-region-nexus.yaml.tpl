@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: nexus-${target_domain_stringified}
   duration: 2160h0m0s # 90d
-  renewBefore: 360h0m0s # 15d
+  renewBefore: 720h0m0s # 15d
   isCA: null #false
   privateKey:
     algorithm: RSA
