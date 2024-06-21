@@ -1,3 +1,8 @@
+# yaml-language-server: $schema=values.schema.json
+# Default values for prometheus.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
 rbac:
   create: true
 
@@ -15,10 +20,33 @@ serviceAccounts:
     name: ""
     annotations: {}
 
+    ## Opt out of automounting Kubernetes API credentials.
+    ## It will be overriden by server.automountServiceAccountToken value, if set.
+    # automountServiceAccountToken: false
+
+## Additional labels to attach to all resources
+commonMetaLabels: {}
+
 ## Monitors ConfigMap changes and POSTs to a URL
 ## Ref: https://github.com/prometheus-operator/prometheus-operator/tree/main/cmd/prometheus-config-reloader
 ##
 configmapReload:
+  ## URL for configmap-reload to use for reloads
+  ##
+  reloadUrl: ""
+
+  ## env sets environment variables to pass to the container. Can be set as name/value pairs,
+  ## read from secrets or configmaps.
+  env: []
+    # - name: SOMEVAR
+    #   value: somevalue
+    # - name: PASSWORD
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: mysecret
+    #       key: password
+    #       optional: false
+
   prometheus:
     ## If false, the configmap-reload container will not be deployed
     ##
@@ -32,7 +60,7 @@ configmapReload:
     ##
     image:
       repository: quay.io/prometheus-operator/prometheus-config-reloader
-      tag: v0.63.0
+      tag: v0.74.0
       # When digest is set to a non-empty value, images will be pulled by digest (regardless of tag value).
       digest: ""
       pullPolicy: IfNotPresent
@@ -40,12 +68,17 @@ configmapReload:
     # containerPort: 9533
 
     ## Additional configmap-reload container arguments
+    ## Set to null for argumentless flags
     ##
     extraArgs: {}
+
     ## Additional configmap-reload volume directories
     ##
     extraVolumeDirs: []
 
+    ## Additional configmap-reload volume mounts
+    ##
+    extraVolumeMounts: []
 
     ## Additional configmap-reload mounts
     ##
@@ -69,6 +102,10 @@ server:
   ##
   name: server
 
+  ## Opt out of automounting Kubernetes API credentials.
+  ## If set it will override serviceAccounts.server.automountServiceAccountToken value for ServiceAccount.
+  # automountServiceAccountToken: false
+
   ## Use a ClusterRole (and ClusterRoleBinding)
   ## - If set to false - we define a RoleBinding in the defined namespaces ONLY
   ##
@@ -78,6 +115,14 @@ server:
   ## You MUST also set namespaces to the ones you have access to and want monitored by Prometheus.
   ##
   # useExistingClusterRoleName: nameofclusterrole
+
+  ## If set it will override prometheus.server.fullname value for ClusterRole and ClusterRoleBinding
+  ##
+  clusterRoleNameOverride: ""
+
+  # Enable only the release namespace for monitoring. By default all namespaces are monitored.
+  # If releaseNamespace and namespaces are both set a merged list will be monitored.
+  releaseNamespace: false
 
   ## namespaces to monitor (instead of monitoring all - clusterwide). Needed if you want to run without Cluster-admin privileges.
   # namespaces:
@@ -89,6 +134,19 @@ server:
   #   sidecarContainers:
   #      webserver:
   #        image: nginx
+  # OR for adding OAuth authentication to Prometheus
+  #   sidecarContainers:
+  #     oauth-proxy:
+  #       image: quay.io/oauth2-proxy/oauth2-proxy:v7.1.2
+  #       args:
+  #       - --upstream=http://127.0.0.1:9090
+  #       - --http-address=0.0.0.0:8081
+  #       - ...
+  #       ports:
+  #       - containerPort: 8081
+  #         name: oauth-proxy
+  #         protocol: TCP
+  #       resources: {}
   sidecarContainers: {}
 
   # sidecarTemplateValues - context to be used in template for sidecarContainers
@@ -113,6 +171,10 @@ server:
     digest: ""
     pullPolicy: IfNotPresent
 
+  ## Prometheus server command
+  ##
+  command: []
+
   ## prometheus server priorityClassName
   ##
   priorityClassName: ""
@@ -126,11 +188,11 @@ server:
   ## The URL prefix at which the container can be accessed. Useful in the case the '-web.external-url' includes a slug
   ## so that the various internal URLs are still able to access as they are in the default case.
   ## (Optional)
-  prefixURL: "" #"/"
+  prefixURL: ""
 
   ## External URL which can access prometheus
   ## Maybe same with Ingress host name
-  baseURL: "" #https://monitor.japac.circleci-labs.com/"
+  baseURL: ""
 
   ## Additional server container environment variables
   ##
@@ -152,6 +214,7 @@ server:
   # List of flags to override default parameters, e.g:
   # - --enable-feature=agent
   # - --storage.agent.retention.max-time=30m
+  # - --config.file=/etc/config/prometheus.yml
   defaultFlagsOverride: []
 
   extraFlags:
@@ -209,8 +272,10 @@ server:
     #   value: "Bearer ABCDEabcde12345"
 
   ## Additional Prometheus server container arguments
+  ## Set to null for argumentless flags
   ##
   extraArgs: {}
+    # web.enable-remote-write-receiver: null
 
   ## Additional InitContainers to initialize the pod
   ##
@@ -277,6 +342,9 @@ server:
     ##
     extraLabels: {}
 
+    ## Redirect ingress to an additional defined port on the service
+    # servicePort: 8081
+
     ## Prometheus server Ingress hostnames with optional path
     ## Must be provided if Ingress is enabled
     ##
@@ -315,7 +383,7 @@ server:
   #       - "example.com"
 
   ## Node tolerations for server scheduling to nodes with taints
-  ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+  ## Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
   ##
   tolerations: []
     # - key: "key"
@@ -324,7 +392,7 @@ server:
     #   effect: "NoSchedule|PreferNoSchedule|NoExecute(1.6 only)"
 
   ## Node labels for Prometheus server pod assignment
-  ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
+  ## Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
   ##
   nodeSelector: {}
 
@@ -332,12 +400,32 @@ server:
   ##
   affinity: {}
 
+  ## Pod anti-affinity can prevent the scheduler from placing Prometheus server replicas on the same node.
+  ## The value "soft" means that the scheduler should *prefer* to not schedule two replica pods onto the same node but no guarantee is provided.
+  ## The value "hard" means that the scheduler is *required* to not schedule two replica pods onto the same node.
+  ## The default value "" will disable pod anti-affinity so that no anti-affinity rules will be configured (unless set in `server.affinity`).
+  ##
+  podAntiAffinity: ""
+
+  ## If anti-affinity is enabled sets the topologyKey to use for anti-affinity.
+  ## This can be changed to, for example, failure-domain.beta.kubernetes.io/zone
+  ##
+  podAntiAffinityTopologyKey: kubernetes.io/hostname
+
+  ## Pod topology spread constraints
+  ## ref. https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/
+  topologySpreadConstraints: []
+
   ## PodDisruptionBudget settings
   ## ref: https://kubernetes.io/docs/concepts/workloads/pods/disruptions/
   ##
   podDisruptionBudget:
     enabled: false
     maxUnavailable: 1
+    # minAvailable: 1
+    ## unhealthyPodEvictionPolicy is available since 1.27.0 (beta)
+    ## https://kubernetes.io/docs/tasks/run-application/configure-pdb/#unhealthy-pod-eviction-policy
+    # unhealthyPodEvictionPolicy: IfHealthyBudget
 
   ## Use an alternate scheduler, e.g. "stork".
   ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
@@ -349,6 +437,11 @@ server:
     ## If false, use emptyDir
     ##
     enabled: true
+
+    ## If set it will override the name of the created persistent volume claim
+    ## generated by the stateful set.
+    ##
+    statefulSetNameOverride: ""
 
     ## Prometheus server data Persistent Volume access modes
     ## Must match those of existing PV or dynamic provisioner
@@ -376,7 +469,7 @@ server:
 
     ## Prometheus server data Persistent Volume size
     ##
-    size: 20Gi
+    size: 8Gi
 
     ## Prometheus server data Persistent Volume Storage Class
     ## If defined, storageClassName: <storageClass>
@@ -385,8 +478,8 @@ server:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    storageClass: "expandable-gp2"
-
+    storageClass: "gp2"
+    #storageClass: "-"
     ## Prometheus server data Persistent Volume Binding Mode
     ## If defined, volumeBindingMode: <volumeBindingMode>
     ## If undefined (the default) or set to null, no volumeBindingMode spec is
@@ -426,7 +519,7 @@ server:
 
   ## Labels to be added to Prometheus server pods
   ##
-  podLabels:
+  podLabels: 
     sidecar.istio.io/inject: "false"
 
   ## Prometheus AlertManager configuration
@@ -450,6 +543,15 @@ server:
   ## Use a StatefulSet if replicaCount needs to be greater than 1 (see below)
   ##
   replicaCount: 1
+
+  ## Number of old history to retain to allow rollback
+  ## Default Kubernetes value is set to 10
+  ##
+  revisionHistoryLimit: 10
+
+  ## Annotations to be added to ConfigMap
+  ##
+  configMapAnnotations: {}
 
   ## Annotations to be added to deployment
   ##
@@ -476,6 +578,15 @@ server:
         enabled: false
         servicePort: 10901
         # nodePort: 10901
+
+    ## Statefulset's persistent volume claim retention policy
+    ## pvcDeleteOnStsDelete and pvcDeleteOnStsScale determine whether
+    ## statefulset's PVCs are deleted (true) or retained (false) on scaling down
+    ## and deleting statefulset, respectively. Requires 1.27.0+.
+    ## Ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention
+    ##
+    pvcDeleteOnStsDelete: false
+    pvcDeleteOnStsScale: false
 
   ## Prometheus server readiness and liveness probe initial delay and timeout
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
@@ -520,6 +631,9 @@ server:
   # Use hostPort
   # hostPort: 9090
 
+  # Use portName
+  portName: ""
+
   ## Vertical Pod Autoscaler config
   ## Ref: https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler
   verticalAutoscaler:
@@ -563,7 +677,7 @@ server:
     clusterIP: ""
 
     ## List of IP addresses at which the Prometheus server service is available
-    ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
+    ## Ref: https://kubernetes.io/docs/concepts/services-networking/service/#external-ips
     ##
     externalIPs: []
 
@@ -586,16 +700,32 @@ server:
       enabled: false
       replica: 0
 
+    ## Additional port to define in the Service
+    additionalPorts: []
+    # additionalPorts:
+    # - name: authenticated
+    #   port: 8081
+    #   targetPort: 8081
+
   ## Prometheus server pod termination grace period
   ##
   terminationGracePeriodSeconds: 300
 
   ## Prometheus data retention period (default if not specified is 15 days)
   ##
-  retention: "5d"
+  retention: "1d"
+
+  ## Prometheus' data retention size. Supported units: B, KB, MB, GB, TB, PB, EB.
+  ##
+  retentionSize: "5GB"
 
 ## Prometheus server ConfigMap entries for rule files (allow prometheus labels interpolation)
 ruleFiles: {}
+
+## Prometheus server ConfigMap entries for scrape_config_files
+## (allows scrape configs defined in additional files)
+##
+scrapeConfigFiles: []
 
 ## Prometheus server ConfigMap entries
 ##
@@ -634,8 +764,8 @@ serverFiles:
     scrape_configs:
       - job_name: prometheus
         static_configs:
-        - targets:
-          - localhost:9090
+          - targets:
+            - localhost:9090
       - job_name: 'istiod'
         kubernetes_sd_configs:
         - role: endpoints
@@ -656,6 +786,21 @@ serverFiles:
           regex: '.*-envoy-prom'
         scrape_interval: 2s
         scrape_timeout: 1s
+
+      # A scrape configuration for running Prometheus on a Kubernetes cluster.
+      # This uses separate scrape configs for cluster components (i.e. API server, node)
+      # and services to allow each to use different authentication configs.
+      #
+      # Kubernetes labels will be added as Prometheus labels on metrics via the
+      # `labelmap` relabeling action.
+
+      # Scrape config for API servers.
+      #
+      # Kubernetes exposes API servers as endpoints to the default/kubernetes
+      # service so this uses `endpoints` role and uses relabelling to only keep
+      # the endpoints associated with the default/kubernetes service using the
+      # default named port `https`. This works for single API server deployments as
+      # well as HA API server deployments.
       - job_name: 'kubernetes-apiservers'
 
         kubernetes_sd_configs:
@@ -984,6 +1129,9 @@ serverFiles:
           - source_labels: [__meta_kubernetes_pod_phase]
             regex: Pending|Succeeded|Failed|Completed
             action: drop
+          - source_labels: [__meta_kubernetes_pod_node_name]
+            action: replace
+            target_label: node
 
       # Example Scrape config for pods which should be scraped slower. An useful example
       # would be stackriver-exporter which queries an API on every scrape of the pod
@@ -1041,6 +1189,9 @@ serverFiles:
           - source_labels: [__meta_kubernetes_pod_phase]
             regex: Pending|Succeeded|Failed|Completed
             action: drop
+          - source_labels: [__meta_kubernetes_pod_node_name]
+            action: replace
+            target_label: node
 
 # adds additional scrape configs to prometheus.yml
 # must be a string so you have to add a | after extraScrapeConfigs:
@@ -1079,7 +1230,8 @@ forceNamespace: ""
 
 # Extra manifests to deploy as an array
 extraManifests: []
-  # - apiVersion: v1
+  # - |
+  #   apiVersion: v1
   #   kind: ConfigMap
   #   metadata:
   #   labels:
@@ -1114,7 +1266,7 @@ kube-state-metrics:
   ##
   enabled: true
 
-## promtheus-node-exporter sub-chart configurable values
+## prometheus-node-exporter sub-chart configurable values
 ## Please see https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-node-exporter
 ##
 prometheus-node-exporter:
@@ -1128,7 +1280,7 @@ prometheus-node-exporter:
   containerSecurityContext:
     allowPrivilegeEscalation: false
 
-## pprometheus-pushgateway sub-chart configurable values
+## prometheus-pushgateway sub-chart configurable values
 ## Please see https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-pushgateway
 ##
 prometheus-pushgateway:

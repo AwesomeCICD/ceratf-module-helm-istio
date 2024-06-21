@@ -68,7 +68,7 @@ variable "namespace_labels" {
 
 variable "prometheus_version" {
   description = "Version of prom/prometheus image to deploy."
-  default     = "v2.34.0"
+  default     = "25.22.0"
 }
 
 variable "kiali_operator_chart_version" {
