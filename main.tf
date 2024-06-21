@@ -268,7 +268,7 @@ resource "helm_release" "cert_manager" {
   namespace        = var.cert_manager_namespace
   create_namespace = true
   atomic           = true
-  version          = "v1.15.0"
+  version          = "1.15.0"
 
   values = [
     templatefile(
