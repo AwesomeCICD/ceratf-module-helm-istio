@@ -132,7 +132,7 @@ resource "aws_route53_record" "records" {
 }
 
 resource "aws_route53_record" "fieldguide_global_record" {
-  zone_id = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_id
+  zone_id = var.root_domain_zone_id
   name    = "fieldguide"
   type    = "A"
 
@@ -197,7 +197,7 @@ resource "aws_iam_policy" "k8s_route53_access" {
     "${path.module}/iam/k8s_r53_role_policy.json.tpl",
     {
       r53_zone_id      = var.r53_subdomain_zone_id,
-      r53_root_zone_id = data.terraform_remote_state.ceratf_deployment_global.outputs.r53_root_zone_id
+      r53_root_zone_id = var.root_domain_zone_id
     }
   )
 }

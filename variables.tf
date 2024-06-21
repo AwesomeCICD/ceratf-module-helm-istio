@@ -78,3 +78,7 @@ variable "kiali_operator_chart_version" {
 
 variable "aws_region" {}
 variable "aws_account_no" {}
+
+variable "root_domain_zone_id" {
+  type = string
+}
