@@ -82,3 +82,6 @@ variable "aws_account_no" {}
 variable "root_domain_zone_id" {
   type = string
 }
+variable "root_domain_zone_name" {
+  type = string
+}
