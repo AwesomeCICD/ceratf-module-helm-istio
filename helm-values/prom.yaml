@@ -479,7 +479,7 @@ server:
     ##   GKE, AWS & OpenStack)
     ##
     #storageClass: "expandable-gp2"
-    storageClass: ""
+    storageClass: "-"
     ## Prometheus server data Persistent Volume Binding Mode
     ## If defined, volumeBindingMode: <volumeBindingMode>
     ## If undefined (the default) or set to null, no volumeBindingMode spec is
