@@ -175,9 +175,10 @@ serviceAccount:
   # +docs:property
   name: ${k8s_r53_access_sa_name}
 
-  # Optional additional annotations to add to the controller's Service Account.
-  # +docs:property
-  # annotations: {}
+  # Optional additional annotations to add to the controller's ServiceAccount
+  annotations: # see https://cert-manager.io/docs/configuration/acme/dns01/route53/#service-annotation
+    eks.amazonaws.com/role-arn: ${r53_access_role_arn}    # Optional additional labels to add to the webhook's ServiceAccount
+
 
   # Optional additional labels to add to the controller's Service Account.
   # +docs:property
