@@ -29,13 +29,3 @@ data "aws_elb" "istio_ingress" {
 data "aws_iam_openid_connect_provider" "cluster_oidc_provider_arn" {
   arn = var.cluster_oidc_provider_arn
 }
-
-data "terraform_remote_state" "ceratf_deployment_global" {
-  backend = "s3"
-
-  config = {
-    bucket = "se-cluster-tf"
-    region = "us-west-2"
-    key    = "se-eks-cluster/global/terraform.tfstate"
-  }
-}
