@@ -469,7 +469,7 @@ server:
 
     ## Prometheus server data Persistent Volume size
     ##
-    size: 20Gi
+    size: 8Gi
 
     ## Prometheus server data Persistent Volume Storage Class
     ## If defined, storageClassName: <storageClass>
@@ -478,8 +478,8 @@ server:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    storageClass: "expandable-gp2"
-
+    #storageClass: "expandable-gp2"
+    storageClass: ""
     ## Prometheus server data Persistent Volume Binding Mode
     ## If defined, volumeBindingMode: <volumeBindingMode>
     ## If undefined (the default) or set to null, no volumeBindingMode spec is
@@ -713,11 +713,11 @@ server:
 
   ## Prometheus data retention period (default if not specified is 15 days)
   ##
-  retention: "5d"
+  retention: "1d"
 
   ## Prometheus' data retention size. Supported units: B, KB, MB, GB, TB, PB, EB.
   ##
-  retentionSize: "10GB"
+  retentionSize: "5GB"
 
 ## Prometheus server ConfigMap entries for rule files (allow prometheus labels interpolation)
 ruleFiles: {}
