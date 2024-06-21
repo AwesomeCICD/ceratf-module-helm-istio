@@ -11,7 +11,7 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:
-    #subdomains
+    #regional domain certs
     - dns01:
         route53:
           region: ${aws_region}
@@ -19,11 +19,11 @@ spec:
       selector:
         dnsZones:
           - ${target_domain}
-    #root domain
+    #global fieldguide cert
     - dns01:
         route53:
           region: ${aws_region}
           hostedZoneID: ${r53_root_zone_id}
       selector:
         dnsNames:
-          - ${r53_root_zone_name}
+          - fieldguide.${r53_root_zone_name}
