@@ -11,6 +11,7 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:
+    #subdomains
     - dns01:
         route53:
           region: ${aws_region}
@@ -18,10 +19,11 @@ spec:
       selector:
         dnsZones:
           - ${target_domain}
+    #root domain
     - dns01:
         route53:
           region: ${aws_region}
           hostedZoneID: ${r53_root_zone_id}
       selector:
         dnsNames:
-          - fieldguide.circleci-labs.com
+          - ${r53_root_zone_name}

@@ -6,6 +6,7 @@ resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_prod" {
       aws_region            = var.aws_region,
       r53_subdomain_zone_id = var.r53_subdomain_zone_id,
       r53_root_zone_id      = var.root_domain_zone_id,
+      r53_root_zone_name    = var.root_domain_zone_name,
       irsa_role_arn         = aws_iam_role.k8s_route53_access.arn,
       target_domain         = var.target_domain
     }
@@ -22,6 +23,7 @@ resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_staging" {
       ingress_namespace     = var.ingress_namespace,
       aws_region            = var.aws_region,
       r53_subdomain_zone_id = var.r53_subdomain_zone_id,
+      r53_root_zone_name    = var.root_domain_zone_name,
       irsa_role_arn         = aws_iam_role.k8s_route53_access.arn,
       target_domain         = var.target_domain
     }
