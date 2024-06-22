@@ -67,7 +67,8 @@ defaults:
     annotations: {}
     loadBalancerIP: ""
     loadBalancerSourceRanges: []
-    externalTrafficPolicy: ""
+    #IMPORTANT - see externalTrafficPolicy in docs
+    externalTrafficPolicy: "Local"
     externalIPs: []
     ipFamilyPolicy: ""
     ipFamilies: []
