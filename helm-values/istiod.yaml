@@ -363,8 +363,8 @@ defaults:
           cpu: 10m
           memory: 50Mi
         limits:
-          cpu: 50m
-          memory: 64Mi
+          cpu: 200m
+          memory: 128Mi
 
       # Default port for Pilot agent health checks. A value of 0 will disable health checking.
       statusPort: 15020
