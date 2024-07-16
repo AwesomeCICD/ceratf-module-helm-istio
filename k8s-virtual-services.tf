@@ -115,6 +115,7 @@ resource "kubectl_manifest" "istio_virtualservice_region_fieldguide" {
     {
       ingress_namespace = var.ingress_namespace,
       circleci_region   = var.circleci_region,
+      root_domain       = var.root_domain_zone_name,
       target_domain     = var.target_domain
     }
   )
@@ -129,6 +130,7 @@ resource "kubectl_manifest" "istio_virtualservice_region_fieldguide_dev" {
     {
       ingress_namespace = var.ingress_namespace,
       circleci_region   = var.circleci_region,
+      root_domain       = var.root_domain_zone_name,
       target_domain     = var.target_domain
     }
   )
