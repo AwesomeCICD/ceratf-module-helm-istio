@@ -125,6 +125,7 @@ resource "kubectl_manifest" "certmanager_cert_targetdomain_region_fieldguide" {
     {
       ingress_namespace         = var.ingress_namespace,
       target_domain             = var.target_domain,
+      root_domain               = var.root_domain_zone_name,
       target_domain_stringified = local.target_domain_stringified
     }
   )

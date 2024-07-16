@@ -16,7 +16,7 @@ spec:
     - server auth
     - client auth
   dnsNames:
-    - "fieldguide.circleci-labs.com"
+    - "fieldguide.${root_domain}"
     - "fieldguide.${target_domain}" 
     - "dev.fieldguide.${target_domain}" 
   issuerRef:
