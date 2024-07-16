@@ -107,6 +107,7 @@ resource "kubectl_manifest" "istio_gateway_region_fieldguide" {
       ingress_namespace         = var.ingress_namespace,
       circleci_region           = var.circleci_region,
       target_domain             = var.target_domain,
+      root_domain               = var.root_domain_zone_name,
       target_domain_stringified = local.target_domain_stringified
     }
   )

@@ -8,6 +8,15 @@ spec:
     istio: ingressgateway # use Istio default gateway implementation
   servers:
   - port:
+       name: http
+       number: 80
+       protocol: HTTP
+    tls:
+       httpsRedirect: true
+    hosts:
+    - "dev.${target_domain}" # App/Demo 
+    - "dev.vault.${target_domain}" # Vault
+  - port:
       number: 443
       name: https
       protocol: HTTPS
@@ -15,5 +24,5 @@ spec:
       mode: SIMPLE
       credentialName: "${target_domain_stringified}-2"
     hosts:
-    - "dev.${target_domain}" # BOA dev
+    - "dev.${target_domain}" # cba dev
     - "dev.vault.${target_domain}" # Vault dev
