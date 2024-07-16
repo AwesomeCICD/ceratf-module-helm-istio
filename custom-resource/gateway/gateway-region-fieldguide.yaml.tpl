@@ -25,6 +25,6 @@ spec:
       mode: SIMPLE
       credentialName: "fieldguide-${target_domain_stringified}"
     hosts:
-    - "fieldguide.circleci-labs.com"
+    - "fieldguide.${root_domain}" #global GTM
     - "fieldguide.${target_domain}" 
     - "dev.fieldguide.${target_domain}" 
