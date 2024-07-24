@@ -289,10 +289,6 @@ resource "helm_release" "jaeger_operator" {
   atomic           = true
   version          = var.jaeger_chart_version
 
-  postrender {
-    binary_path = "kustomize"
-  }
-
   values = [
     file("${path.module}/helm-values/jaeger-operator.yaml")
   ]
