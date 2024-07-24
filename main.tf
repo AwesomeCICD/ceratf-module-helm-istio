@@ -278,6 +278,26 @@ resource "helm_release" "cert_manager" {
 # JAEGER RESOURCES 
 #-------------------------------------------------------------------------------
 
+resource "helm_release" "jaeger_operator" {
+
+  name = "jaeger-operator"
+
+  repository       = "https://jaegertracing.github.io/helm-charts"
+  chart            = "jaeger-operator"
+  namespace        = var.istio_namespace
+  create_namespace = false
+  atomic           = true
+  version          = var.jaeger_chart_version
+
+
+  values = [
+    file("${path.module}/helm-values/jaeger-operator.yaml")
+  ]
+
+  depends_on = [
+  ]
+}
+
 resource "kubectl_manifest" "jaeger_server" {
   yaml_body = templatefile(
     "${path.module}/custom-resource/jaeger/jaeger.yaml.tpl",
@@ -286,9 +306,7 @@ resource "kubectl_manifest" "jaeger_server" {
     }
   )
   depends_on = [
-    kubernetes_namespace.istio,
-    helm_release.istiod,
-    helm_release.cert_manager
+    helm_release.jaeger_operator
   ]
 }
 

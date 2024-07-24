@@ -85,3 +85,9 @@ variable "root_domain_zone_id" {
 variable "root_domain_zone_name" {
   type = string
 }
+
+variable "jaeger_chart_version" {
+  description = "Helm chart version"
+  type        = string
+  default     = "1.59.0"
+}
