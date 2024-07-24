@@ -4,7 +4,7 @@
 
 image:
   repository: jaegertracing/jaeger-operator
-  tag: 1.59.0
+  tag: 1.57.0
   pullPolicy: IfNotPresent
   imagePullSecrets: []
 
@@ -84,3 +84,8 @@ securityContext: {}
 
 priorityClassName:
 
+
+# Specifies weather host network should be used
+hostNetwork: false
+
+metricsPort: 8383
