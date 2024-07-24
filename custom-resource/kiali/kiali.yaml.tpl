@@ -52,7 +52,7 @@ spec:
         # Jaeger service name is "tracing" and is in the "telemetry" namespace.
         # Make sure the URL you provide corresponds to the non-GRPC enabled endpoint
         # if you set "use_grpc" to false.
-        in_cluster_url: "http://jaeger-operator-metrics.istio-system:8383/jaeger"
+        in_cluster_url: "http://jaeger-allinone-query.istio-system:16685/jaeger"
         use_grpc: false
         # Public facing URL of Jaeger
         url: "/jaeger"

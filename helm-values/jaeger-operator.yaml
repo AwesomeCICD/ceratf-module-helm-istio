@@ -29,14 +29,17 @@ webhooks:
 
 jaeger:
   # Specifies whether Jaeger instance should be created
-  create: true
+  create: false
+  # CCI FE NOTE: We dont create it here because we push a `jaeger` type that will will trigger operator 
+  # To create it later.
+  #
   # namespace where Jaeger resource should be created default to .Release.Namespace
   namespace: istio-system
   spec: {}
 
 rbac:
   # Specifies whether RBAC resources should be created
-  create: true
+  create: false # see bug , we create our own - https://github.com/bouchardmathieu-qc/jaegertracing-helm-charts/pull/1/files
   pspEnabled: false
   clusterRole: true
 
