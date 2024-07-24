@@ -53,6 +53,6 @@ spec:
         # Make sure the URL you provide corresponds to the non-GRPC enabled endpoint
         # if you set "use_grpc" to false.
         in_cluster_url: "http://jaeger-allinone-query.istio-system:16685/jaeger"
-        use_grpc: false
+        use_grpc: true
         # Public facing URL of Jaeger
         url: "/jaeger"
