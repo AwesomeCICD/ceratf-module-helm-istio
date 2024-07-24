@@ -11,7 +11,7 @@ spec:
   http:
     - match:
       - uri:
-          prefix: "/grafana/"
+          prefix: "/grafana"
       rewrite:
         uri: /
       route:
@@ -21,7 +21,7 @@ spec:
             number: 3000
     - match:
       - uri:
-          prefix: "/prometheus/"
+          prefix: "/prometheus"
       rewrite:
        uri: /
       route:
@@ -29,6 +29,16 @@ spec:
           host: prometheus-server.istio-system.svc.cluster.local
           port:
             number: 80
+    - match:
+      - uri:
+          prefix: "/jaeger"
+      rewrite:
+       uri: /
+      route:
+      - destination:
+          host: jaeger-allinone-query.istio-system.svc.cluster.local
+          port:
+            number: 16686
     - route:
       - destination:
           host: kiali.istio-system.svc.cluster.local
