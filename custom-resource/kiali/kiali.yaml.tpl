@@ -49,7 +49,6 @@ spec:
         # Enabled by default. Kiali will anyway fallback to disabled if
         # Jaeger is unreachable.
         enabled: true
-        # Jaeger service name is "tracing" and is in the "telemetry" namespace.
         # Make sure the URL you provide corresponds to the non-GRPC enabled endpoint
         # if you set "use_grpc" to false.
         in_cluster_url: "http://jaeger-allinone-query.istio-system:16685/"

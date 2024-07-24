@@ -11,9 +11,9 @@ spec:
   http:
     - match:
       - uri:
-          prefix: "/grafana"
+          prefix: "/grafana/"
       rewrite:
-        uri: ""
+        uri: /
       route:
       - destination:
           host: grafana.istio-system.svc.cluster.local
@@ -21,9 +21,9 @@ spec:
             number: 3000
     - match:
       - uri:
-          prefix: "/prometheus"
+          prefix: "/prometheus/"
       rewrite:
-       uri: ""
+       uri: /
       route:
       - destination:
           host: prometheus-server.istio-system.svc.cluster.local
