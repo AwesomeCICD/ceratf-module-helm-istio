@@ -1,10 +1,10 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: ${target_domain_stringified}-demos
+  name: ${target_domain_stringified}-subdomains
   namespace: ${ingress_namespace}
 spec:
-  secretName: ${target_domain_stringified}-demos
+  secretName: ${target_domain_stringified}-subdomains
   duration: 2160h0m0s # 90d
   renewBefore: 720h0m0s # 30d
   isCA: null #false
