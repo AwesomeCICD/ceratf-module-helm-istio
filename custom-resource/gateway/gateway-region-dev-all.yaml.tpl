@@ -14,8 +14,7 @@ spec:
     tls:
        httpsRedirect: true
     hosts:
-    - "dev.${target_domain}" # App/Demo 
-    - "dev.*.${target_domain}" # All Dev
+    - "*.dev.${target_domain}" # App/Demo 
   - port:
       number: 443
       name: https
@@ -24,5 +23,4 @@ spec:
       mode: SIMPLE
       credentialName: "${target_domain_stringified}-dev-all"
     hosts:
-    - "dev.${target_domain}" # cba dev
-    - "dev.*.${target_domain}" # allinone dev
+    - "*.dev.${target_domain}" # cba dev
