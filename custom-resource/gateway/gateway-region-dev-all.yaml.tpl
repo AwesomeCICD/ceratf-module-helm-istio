@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: ${circleci_region}-fieldguide-gateway
+  name: ${circleci_region}-istio-gateway-dev-all
   namespace: ${ingress_namespace}
 spec:
   selector:
@@ -14,17 +14,15 @@ spec:
     tls:
        httpsRedirect: true
     hosts:
-    - "fieldguide.${root_domain}" #global GTM
-    - "fieldguide.${target_domain}" # prod
-    - "dev.fieldguide.${target_domain}" # dev
+    - "dev.${target_domain}" # App/Demo 
+    - "dev.*.${target_domain}" # All Dev
   - port:
       number: 443
       name: https
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: "fieldguide-${target_domain_stringified}"
+      credentialName: "${target_domain_stringified}-dev-all"
     hosts:
-    - "fieldguide.${root_domain}" #global GTM
-    - "fieldguide.${target_domain}" 
-    - "dev.fieldguide.${target_domain}" 
+    - "dev.${target_domain}" # cba dev
+    - "dev.*.${target_domain}" # allinone dev

@@ -1,10 +1,10 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: dev-${target_domain_stringified}
+  name: ${target_domain_stringified}-dev
   namespace: ${ingress_namespace}
 spec:
-  secretName: ${target_domain_stringified}-2
+  secretName: ${target_domain_stringified}-dev
   duration: 2160h0m0s # 90d
   renewBefore: 720h0m0s # 15d
   isCA: null #false
@@ -17,8 +17,8 @@ spec:
     - client auth
   dnsNames:
     - "dev.${target_domain}" # BOA dev
-    - "dev.vault.${target_domain}" # Vault dev
+    - "dev.*.${target_domain}" # 
   issuerRef:
-    name: letsencrypt-prod
+    name: letsencrypt-staging
     kind: ClusterIssuer
     group: cert-manager.io

@@ -16,4 +16,14 @@ spec:
           hostedZoneID: ${r53_subdomain_zone_id}
       selector:
         dnsZones:
-          - ${target_domain}
+          - dev.${target_domain}
+          - dev.*.${target_domain}
+    #global fieldguide cert
+    - dns01:
+        route53:
+          region: ${aws_region}
+          hostedZoneID: ${r53_root_zone_id}
+      selector:
+        dnsNames:
+          - dev.fieldguide.${r53_root_zone_name}
+

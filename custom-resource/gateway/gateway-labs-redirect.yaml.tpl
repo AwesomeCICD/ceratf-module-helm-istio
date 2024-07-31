@@ -1,18 +1,26 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: ${circleci_region}-istio-gateway-drdemo
+  name: circleci-labs
   namespace: ${ingress_namespace}
 spec:
   selector:
     istio: ingressgateway # use Istio default gateway implementation
   servers:
   - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    tls:
+      httpsRedirect: true
+    hosts:
+    - "*.circleci-labs.com"
+  - port:
       number: 443
       name: https
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: "${target_domain_stringified}-drdemo"
+      credentialName: "circleci-labs"
     hosts:
-    - "dr-demo.${target_domain}" 
+    - "*.circleci-labs.com"

@@ -1,12 +1,12 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: nexus-${target_domain_stringified}
+  name: ${target_domain_stringified}-demos
   namespace: ${ingress_namespace}
 spec:
-  secretName: nexus-${target_domain_stringified}
+  secretName: ${target_domain_stringified}-demos
   duration: 2160h0m0s # 90d
-  renewBefore: 720h0m0s # 15d
+  renewBefore: 720h0m0s # 30d
   isCA: null #false
   privateKey:
     algorithm: RSA
@@ -16,8 +16,8 @@ spec:
     - server auth
     - client auth
   dnsNames:
-    - "nexus.${target_domain}"
-    - "docker.nexus.${target_domain}"
+    - "*.${target_domain}"
+    - "*.demo.${target_domain}"
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
