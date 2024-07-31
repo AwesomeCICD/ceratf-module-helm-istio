@@ -24,6 +24,25 @@ resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_staging" {
       aws_region            = var.aws_region,
       r53_subdomain_zone_id = var.r53_subdomain_zone_id,
       r53_root_zone_name    = var.root_domain_zone_name,
+      r53_root_zone_id      = var.root_domain_zone_id,
+      irsa_role_arn         = aws_iam_role.k8s_route53_access.arn,
+      target_domain         = var.target_domain
+    }
+  )
+  depends_on = [
+    helm_release.cert_manager
+  ]
+}
+
+resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_labs" {
+  yaml_body = templatefile(
+    "${path.module}/custom-resource/certificate/letsencrypt-clusterissuer-circleci-labs.yaml.tpl",
+    {
+      ingress_namespace     = var.ingress_namespace,
+      aws_region            = var.aws_region,
+      r53_subdomain_zone_id = var.r53_subdomain_zone_id,
+      r53_root_zone_name    = var.root_domain_zone_name,
+      r53_root_zone_id      = var.root_domain_zone_id,
       irsa_role_arn         = aws_iam_role.k8s_route53_access.arn,
       target_domain         = var.target_domain
     }
@@ -61,9 +80,9 @@ resource "kubectl_manifest" "certmanager_cert_targetdomain_region_dev" {
   ]
 }
 
-resource "kubectl_manifest" "certmanager_cert_targetdomain_region_nexus" {
+resource "kubectl_manifest" "certmanager_cert_targetdomain_subdomains" {
   yaml_body = templatefile(
-    "${path.module}/custom-resource/certificate/targetdomain-region-nexus.yaml.tpl",
+    "${path.module}/custom-resource/certificate/targetdomain-region-subdomains.yaml.tpl",
     {
       ingress_namespace         = var.ingress_namespace,
       target_domain             = var.target_domain,
@@ -74,58 +93,13 @@ resource "kubectl_manifest" "certmanager_cert_targetdomain_region_nexus" {
     helm_release.cert_manager
   ]
 }
-
-resource "kubectl_manifest" "certmanager_cert_targetdomain_region_server4" {
-  yaml_body = templatefile(
-    "${path.module}/custom-resource/certificate/targetdomain-region-server4.yaml.tpl",
-    {
-      ingress_namespace         = var.ingress_namespace,
-      target_domain             = var.target_domain,
-      target_domain_stringified = local.target_domain_stringified
-    }
-  )
-  depends_on = [
-    helm_release.cert_manager
-  ]
-}
-
-
-
-resource "kubectl_manifest" "certmanager_cert_targetdomain_region_drdemos" {
-  yaml_body = templatefile(
-    "${path.module}/custom-resource/certificate/targetdomain-region-drdemo.yaml.tpl",
-    {
-      ingress_namespace         = var.ingress_namespace,
-      target_domain             = var.target_domain,
-      target_domain_stringified = local.target_domain_stringified
-    }
-  )
-  depends_on = [
-    helm_release.cert_manager
-  ]
-}
-
-resource "kubectl_manifest" "certmanager_cert_targetdomain_region_demos" {
-  yaml_body = templatefile(
-    "${path.module}/custom-resource/certificate/targetdomain-region-demos.yaml.tpl",
-    {
-      ingress_namespace         = var.ingress_namespace,
-      target_domain             = var.target_domain,
-      target_domain_stringified = local.target_domain_stringified
-    }
-  )
-  depends_on = [
-    helm_release.cert_manager
-  ]
-}
-
-resource "kubectl_manifest" "certmanager_cert_targetdomain_region_fieldguide" {
+resource "kubectl_manifest" "certmanager_cert_targetdomain_fieldguide" {
   yaml_body = templatefile(
     "${path.module}/custom-resource/certificate/targetdomain-region-fieldguide.yaml.tpl",
     {
       ingress_namespace         = var.ingress_namespace,
       target_domain             = var.target_domain,
-      root_domain               = var.root_domain_zone_name,
+      root_domain_zone_name     = var.root_domain_zone_name,
       target_domain_stringified = local.target_domain_stringified
     }
   )
@@ -133,3 +107,18 @@ resource "kubectl_manifest" "certmanager_cert_targetdomain_region_fieldguide" {
     helm_release.cert_manager
   ]
 }
+
+resource "kubectl_manifest" "certmanager_cert_circleci_labs" {
+  yaml_body = templatefile(
+    "${path.module}/custom-resource/certificate/circleci-labs-all.yaml.tpl",
+    {
+      ingress_namespace         = var.ingress_namespace,
+      target_domain             = var.target_domain,
+      target_domain_stringified = local.target_domain_stringified
+    }
+  )
+  depends_on = [
+    helm_release.cert_manager
+  ]
+}
+

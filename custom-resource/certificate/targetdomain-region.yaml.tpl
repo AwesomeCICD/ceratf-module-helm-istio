@@ -16,9 +16,7 @@ spec:
     - server auth
     - client auth
   dnsNames:
-    - "${target_domain}" # BOA prod
-    - "monitor.${target_domain}" # Kiali / Grafana
-    - "vault.${target_domain}" # Vault
+    - "${target_domain}" # root only
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer

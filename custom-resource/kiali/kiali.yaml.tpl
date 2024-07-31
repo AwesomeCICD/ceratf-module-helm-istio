@@ -45,3 +45,13 @@ spec:
       - name: "Istio Wasm Extension Dashboard"
     prometheus:
       url: http://prometheus-server:80
+    tracing:
+        # Enabled by default. Kiali will anyway fallback to disabled if
+        # Jaeger is unreachable.
+        enabled: true
+        # Make sure the URL you provide corresponds to the non-GRPC enabled endpoint
+        # if you set "use_grpc" to false.
+        in_cluster_url: "http://jaeger-allinone-query.istio-system:16685/"
+        use_grpc: true
+        # Public facing URL of Jaeger
+        url: "/jaeger"

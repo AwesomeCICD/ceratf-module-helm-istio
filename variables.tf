@@ -73,7 +73,7 @@ variable "prometheus_version" {
 
 variable "kiali_operator_chart_version" {
   description = "Version of kiali operator chart to deploy."
-  default     = "1.86.0"
+  default     = "1.87.0"
 }
 
 variable "aws_region" {}
@@ -84,4 +84,10 @@ variable "root_domain_zone_id" {
 }
 variable "root_domain_zone_name" {
   type = string
+}
+
+variable "jaeger_chart_version" {
+  description = "Helm chart version"
+  type        = string
+  default     = "2.54.0"
 }

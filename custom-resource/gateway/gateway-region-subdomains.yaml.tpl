@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: ${circleci_region}-istio-gateway
+  name: ${circleci_region}-istio-gateway-subdomains
   namespace: ${ingress_namespace}
 spec:
   selector:
@@ -14,17 +14,15 @@ spec:
     tls:
        httpsRedirect: true
     hosts:
-    - "${target_domain}" # App/Demo 
-    - "monitor.${target_domain}" # Kiali / Grafana
-    - "vault.${target_domain}" # Vault
+    - "*.${target_domain}" # All subdomains
+    - "*.demo.${target_domain}" # all demo domains
   - port:
       number: 443
       name: https
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: "${target_domain_stringified}"
+      credentialName: "${target_domain_stringified}-subdomains"
     hosts:
-    - "${target_domain}" # App/Demo 
-    - "monitor.${target_domain}" # Kiali / Grafana
-    - "vault.${target_domain}" # Vault
+    - "*.${target_domain}" # all subdomains
+    - "*.demo.${target_domain}" # all demo domains

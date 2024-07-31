@@ -107,19 +107,7 @@ resource "helm_release" "metrics_server" {
 
 resource "aws_route53_record" "records" {
   for_each = toset([
-    "app.server4.",
-    "dev.vault.",
-    "dev.",
-    "docker.nexus.",
-    "monitor.",
-    "nexus.",
-    "server4.",
-    "vault.",
-    "app.",
-    "*.demo.",
-    "dr-demo.",
-    "fieldguide.",
-    "dev.fieldguide."
+    "*."
   ])
 
   zone_id = var.r53_subdomain_zone_id
@@ -290,8 +278,8 @@ resource "helm_release" "cert_manager" {
 # JAEGER RESOURCES 
 #-------------------------------------------------------------------------------
 
+# Install operator (watches) without instance or clusterrole RBAC
 resource "helm_release" "jaeger_operator" {
-
   name = "jaeger-operator"
 
   repository       = "https://jaegertracing.github.io/helm-charts"
@@ -299,18 +287,31 @@ resource "helm_release" "jaeger_operator" {
   namespace        = var.istio_namespace
   create_namespace = false
   atomic           = true
-
+  version          = var.jaeger_chart_version
 
   values = [
     file("${path.module}/helm-values/jaeger-operator.yaml")
   ]
 
   depends_on = [
-    kubernetes_namespace.istio,
-    helm_release.istiod,
-    helm_release.cert_manager
   ]
 }
+
+resource "kubectl_manifest" "jaeger_clusterrole" {
+  # Bug in jaeger has invalid permissions.
+  # https://github.com/jaegertracing/helm-charts/issues/549
+  yaml_body = templatefile(
+    "${path.module}/custom-resource/jaeger/clusterrole.yaml.tpl",
+    {
+      istio_namespace = var.istio_namespace,
+      jaeger_name     = helm_release.jaeger_operator.name
+    }
+  )
+  depends_on = [
+    helm_release.jaeger_operator
+  ]
+}
+
 
 resource "kubectl_manifest" "jaeger_server" {
   yaml_body = templatefile(
@@ -320,7 +321,7 @@ resource "kubectl_manifest" "jaeger_server" {
     }
   )
   depends_on = [
-    helm_release.jaeger_operator
+    kubectl_manifest.jaeger_clusterrole
   ]
 }
 
