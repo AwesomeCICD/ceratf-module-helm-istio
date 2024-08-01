@@ -16,7 +16,7 @@ env: []
 tolerations: []
 resources:
   requests:
-    cpu: "10m"
+    cpu: "50m"
     memory: "64Mi"
 affinity: {}
 replicaCount: 1
@@ -110,12 +110,12 @@ watchesFile: ""
 # For what a Kiali CR spec can look like, see:
 # https://github.com/kiali/kiali-operator/blob/master/deploy/kiali/kiali_cr.yaml
 cr:
-  create: false
+  create: true
   name: kiali
   # If you elect to create a Kiali CR (--set cr.create=true)
   # and the operator is watching all namespaces (--set watchNamespace="")
   # then this is the namespace where the CR will be created (the default will be the operator namespace).
-  namespace: ""
+  namespace: "istio-system"
 
   # Annotations to place in the Kiali CR metadata.
   annotations: {}
@@ -130,17 +130,10 @@ cr:
       web_root: "/kiali"
     external_services:
       istio:
+        root_namespace: "istio-system"
+        ingress_gateway_namespace: "istio-ingress"
+        istio_api_enabled: true
         component_status:
-          components:
-          - app_label: "istiod"
-            is_core: true
-            is_proxy: false
-            namespace: istio-system
-          - app_label: "istio-ingressgateway"
-            is_core: true
-            is_proxy: true
-            # default: namespace is undefined
-            namespace: istio-ingress
           enabled: true
       grafana:
         url: http://grafana:3000
@@ -159,6 +152,16 @@ cr:
         - name: "Istio Wasm Extension Dashboard"
       prometheus:
         url: http://prometheus-server:80
+      tracing:
+-        # Enabled by default. Kiali will anyway fallback to disabled if
+-        # Jaeger is unreachable.
+-        enabled: true
+-        # Make sure the URL you provide corresponds to the non-GRPC enabled endpoint
+-        # if you set "use_grpc" to false.
+-        in_cluster_url: "http://jaeger-allinone-query.istio-system:16685/"
+-        use_grpc: true
+-        # Public facing URL of Jaeger
+-        url: "/jaeger"
 
 
 
