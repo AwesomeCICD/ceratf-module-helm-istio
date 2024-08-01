@@ -16,6 +16,7 @@ spec:
     hosts:
     - "*.${target_domain}" # All subdomains
     - "*.demo.${target_domain}" # all demo domains
+    - "*.dev.${target_domain}" # all demo domains
   - port:
       number: 443
       name: https
@@ -26,3 +27,4 @@ spec:
     hosts:
     - "*.${target_domain}" # all subdomains
     - "*.demo.${target_domain}" # all demo domains
+    - "*.dev.${target_domain}" # all demo domains

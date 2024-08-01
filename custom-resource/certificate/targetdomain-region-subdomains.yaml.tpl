@@ -18,6 +18,7 @@ spec:
   dnsNames:
     - "*.${target_domain}"
     - "*.demo.${target_domain}"
+    - "*.dev.${target_domain}"
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
