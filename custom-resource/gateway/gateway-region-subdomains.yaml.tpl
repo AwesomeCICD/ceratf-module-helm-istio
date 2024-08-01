@@ -17,6 +17,7 @@ spec:
     - "nexus/*.nexus.${target_domain}" # only vs in cba-dev prevents conflict
     - "*.demo.${target_domain}" # all demo domains
     - "*.dev.${target_domain}" # all demo domains
+    - "*.${target_domain}" # all demo domains
   - port:
       number: 443
       name: https
@@ -28,3 +29,4 @@ spec:
     - "nexus/*.nexus.${target_domain}" # only vs in cba-dev prevents conflict
     - "*.demo.${target_domain}" # all demo domains
     - "*.dev.${target_domain}" # all demo domains
+    - "*.${target_domain}" # all demo domains
