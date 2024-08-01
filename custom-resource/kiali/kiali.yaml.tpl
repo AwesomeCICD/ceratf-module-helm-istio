@@ -18,6 +18,7 @@ spec:
         - app_label: "istiod"
           is_core: true
           is_proxy: false
+          namespace: istio-system
         - app_label: "istio-ingressgateway"
           is_core: true
           is_proxy: true
