@@ -19,6 +19,7 @@ spec:
     - "*.${target_domain}"
     - "*.demo.${target_domain}"
     - "*.dev.${target_domain}"
+    - "*.nexus.${target_domain}"
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer

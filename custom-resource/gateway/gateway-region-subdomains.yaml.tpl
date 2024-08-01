@@ -17,6 +17,8 @@ spec:
     - "istio-ingress/*.${target_domain}" # only vs in cba-dev prevents conflict
     - "cba-dev/*.${target_domain}" # only vs in cba-dev prevents conflict
     - "vault/*.${target_domain}" # only vs in cba-dev prevents conflict
+    - "nexus/*.${target_domain}" # only vs in cba-dev prevents conflict
+    - "nexus/*.nexus.${target_domain}" # only vs in cba-dev prevents conflict
     - "*.demo.${target_domain}" # all demo domains
     - "*.dev.${target_domain}" # all demo domains
   - port:
@@ -30,5 +32,7 @@ spec:
     - "istio-ingress/*.${target_domain}" # only vs in cba-dev prevents conflict
     - "cba-dev/*.${target_domain}" # only vs in cba-dev prevents conflict
     - "vault/*.${target_domain}" # only vs in cba-dev prevents conflict
+    - "nexus/*.${target_domain}" # only vs in cba-dev prevents conflict
+    - "nexus/*.nexus.${target_domain}" # only vs in cba-dev prevents conflict
     - "*.demo.${target_domain}" # all demo domains
     - "*.dev.${target_domain}" # all demo domains
