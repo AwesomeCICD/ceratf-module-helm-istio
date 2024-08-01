@@ -14,10 +14,6 @@ spec:
     tls:
        httpsRedirect: true
     hosts:
-    - "istio-ingress/*.${target_domain}" # only vs in cba-dev prevents conflict
-    - "cba-dev/*.${target_domain}" # only vs in cba-dev prevents conflict
-    - "vault/*.${target_domain}" # only vs in cba-dev prevents conflict
-    - "nexus/*.${target_domain}" # only vs in cba-dev prevents conflict
     - "nexus/*.nexus.${target_domain}" # only vs in cba-dev prevents conflict
     - "*.demo.${target_domain}" # all demo domains
     - "*.dev.${target_domain}" # all demo domains
@@ -29,10 +25,6 @@ spec:
       mode: SIMPLE
       credentialName: "${target_domain_stringified}-subdomains"
     hosts:
-    - "istio-ingress/*.${target_domain}" # only vs in cba-dev prevents conflict
-    - "cba-dev/*.${target_domain}" # only vs in cba-dev prevents conflict
-    - "vault/*.${target_domain}" # only vs in cba-dev prevents conflict
-    - "nexus/*.${target_domain}" # only vs in cba-dev prevents conflict
     - "nexus/*.nexus.${target_domain}" # only vs in cba-dev prevents conflict
     - "*.demo.${target_domain}" # all demo domains
     - "*.dev.${target_domain}" # all demo domains
