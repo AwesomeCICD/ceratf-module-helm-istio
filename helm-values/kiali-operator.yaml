@@ -136,6 +136,7 @@ cr:
         config_map_name: istio
         component_status:
           enabled: true
+          components:
           - app_label: "istiod"
             is_core: true
             is_proxy: false
