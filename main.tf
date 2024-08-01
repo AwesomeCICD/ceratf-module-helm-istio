@@ -266,7 +266,7 @@ resource "helm_release" "cert_manager" {
 # JAEGER RESOURCES 
 #-------------------------------------------------------------------------------
 
-# Install operator (watches) without instance or clusterrole RBAC
+# Install operator (watches) without clusterrole RBAC (bug)
 resource "helm_release" "jaeger_operator" {
   name = "jaeger-operator"
 
@@ -297,19 +297,6 @@ resource "kubectl_manifest" "jaeger_clusterrole" {
   )
   depends_on = [
     helm_release.jaeger_operator
-  ]
-}
-
-
-resource "kubectl_manifest" "jaeger_server" {
-  yaml_body = templatefile(
-    "${path.module}/custom-resource/jaeger/jaeger.yaml.tpl",
-    {
-      istio_namespace = var.istio_namespace
-    }
-  )
-  depends_on = [
-    kubectl_manifest.jaeger_clusterrole
   ]
 }
 
