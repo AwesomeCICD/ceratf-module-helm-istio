@@ -16,7 +16,6 @@ spec:
     hosts:
     - "fieldguide.${root_domain_zone_name}" # global
     - "fieldguide.${target_domain}" # local DOmain
-    - "dev.fieldguide.${root_domain_zone_name}" # global
     - "dev.fieldguide.${target_domain}" # local DOmain
   - port:
       number: 443
@@ -28,5 +27,4 @@ spec:
     hosts:
     - "fieldguide.${root_domain_zone_name}" # global
     - "fieldguide.${target_domain}" # local DOmain
-    - "dev.fieldguide.${root_domain_zone_name}" # global
     - "dev.fieldguide.${target_domain}" # local DOmain
