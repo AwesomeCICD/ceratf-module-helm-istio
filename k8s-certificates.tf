@@ -2,6 +2,7 @@ resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_prod" {
   yaml_body = templatefile(
     "${path.module}/custom-resource/certificate/letsencrypt-clusterissuer-prod.yaml.tpl",
     {
+      issuer_name           = local.aux_target_domain_stringified,
       ingress_namespace     = var.ingress_namespace,
       aws_region            = var.aws_region,
       r53_subdomain_zone_id = var.r53_subdomain_zone_id,
@@ -40,6 +41,7 @@ resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_labs" {
     # !IMPROTANT - same file, different inputs
     "${path.module}/custom-resource/certificate/letsencrypt-clusterissuer-prod.yaml.tpl",
     {
+      issuer_name           = local.aux_target_domain_stringified,
       ingress_namespace     = var.ingress_namespace,
       aws_region            = var.aws_region,
       r53_subdomain_zone_id = var.r53_subdomain_zone_id_aux,

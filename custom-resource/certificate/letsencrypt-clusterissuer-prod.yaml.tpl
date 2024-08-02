@@ -2,14 +2,14 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-prod
+  name: ${issuer_name}
   namespace: istio-ingress
 spec:
   acme:
     email: solutions@circleci.com
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: letsencrypt-prod
+      name: ${issuer_name}
     solvers:
     #regional domain certs
     - dns01:
