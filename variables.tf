@@ -99,9 +99,3 @@ variable "aux_domain_zone_id" {
 variable "aux_domain_zone_name" {
   type = string
 }
-
-variable "jaeger_chart_version" {
-  description = "Helm chart version"
-  type        = string
-  default     = "2.55.0"
-}

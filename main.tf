@@ -263,45 +263,6 @@ resource "helm_release" "cert_manager" {
 }
 
 #-------------------------------------------------------------------------------
-# JAEGER RESOURCES 
-#-------------------------------------------------------------------------------
-
-# Install operator (watches) without clusterrole RBAC (bug)
-resource "helm_release" "jaeger_operator" {
-  name = "jaeger-operator"
-
-  repository       = "https://jaegertracing.github.io/helm-charts"
-  chart            = "jaeger-operator"
-  namespace        = var.istio_namespace
-  create_namespace = false
-  atomic           = true
-  version          = var.jaeger_chart_version
-
-  values = [
-    file("${path.module}/helm-values/jaeger-operator.yaml")
-  ]
-
-  depends_on = [
-  ]
-}
-
-resource "kubectl_manifest" "jaeger_clusterrole" {
-  # Bug in jaeger has invalid permissions.
-  # https://github.com/jaegertracing/helm-charts/issues/549
-  yaml_body = templatefile(
-    "${path.module}/custom-resource/jaeger/clusterrole.yaml.tpl",
-    {
-      istio_namespace = var.istio_namespace,
-      jaeger_name     = helm_release.jaeger_operator.name
-    }
-  )
-  depends_on = [
-    helm_release.jaeger_operator
-  ]
-}
-
-
-#-------------------------------------------------------------------------------
 # PROMETHEUS RESOURCES 
 #-------------------------------------------------------------------------------
 
