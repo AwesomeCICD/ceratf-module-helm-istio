@@ -1,10 +1,10 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: cirlceci-labs
+  name: ${aux_domain_stringified}
   namespace: ${ingress_namespace}
 spec:
-  secretName: cirlceci-labs
+  secretName: ${aux_domain_stringified}
   duration: 2160h0m0s # 90d
   renewBefore: 720h0m0s # 15d
   isCA: null #false
@@ -16,10 +16,11 @@ spec:
     - server auth
     - client auth
   dnsNames:
-    - "dev.cirlceci-labs.com" 
-    - "cirlceci-labs.com" 
-    - "*.cirlceci-labs.com"
+    - "${aux_root_domain_zone_name}" 
+    - "*.${aux_root_domain_zone_name}"
+    - "${aux_domain}"
+    - "*.${aux_domain}"
   issuerRef:
-    name: letsencrypt-cirlceci-labs
+    name: letsencrypt-${aux_domain_stringified}
     kind: ClusterIssuer
     group: cert-manager.io

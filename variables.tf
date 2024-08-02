@@ -28,6 +28,14 @@ variable "r53_subdomain_zone_id" {
   description = "Hosted zone ID for domain."
 }
 
+variable "target_domain_aux" {
+  description = "Alternate Domain for which certs will be provisioned."
+}
+
+variable "r53_subdomain_zone_id_aux" {
+  description = "Hosted zone ID for Alternate domain."
+}
+
 ### Optional 
 
 variable "istio_chart_version" {
@@ -83,6 +91,12 @@ variable "root_domain_zone_id" {
   type = string
 }
 variable "root_domain_zone_name" {
+  type = string
+}
+variable "aux_domain_zone_id" {
+  type = string
+}
+variable "aux_domain_zone_name" {
   type = string
 }
 

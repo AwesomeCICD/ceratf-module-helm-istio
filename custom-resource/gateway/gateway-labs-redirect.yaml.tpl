@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: circleci-labs
+  name: gateway-${aux_domain_stringified}
   namespace: ${ingress_namespace}
 spec:
   selector:
@@ -14,13 +14,19 @@ spec:
     tls:
       httpsRedirect: true
     hosts:
-    - "*.circleci-labs.com"
+    - "${aux_domain_zone_name}" 
+    - "*.${aux_domain_zone_name}"
+    - "${aux_domain}"
+    - "*.${aux_domain}"
   - port:
       number: 443
       name: https
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: "circleci-labs"
+      credentialName: letsencrypt-${aux_domain_stringified}
     hosts:
-    - "*.circleci-labs.com"
+    - "${aux_domain_zone_name}" 
+    - "*.${aux_domain_zone_name}"
+    - "${aux_domain}"
+    - "*.${aux_domain}"

@@ -35,16 +35,18 @@ resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_staging" {
 }
 
 resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_labs" {
+  count = var.target_domain_aux ? 1 : 0
   yaml_body = templatefile(
-    "${path.module}/custom-resource/certificate/letsencrypt-clusterissuer-circleci-labs.yaml.tpl",
+    # !IMPROTANT - same file, different inputs
+    "${path.module}/custom-resource/certificate/letsencrypt-clusterissuer-prod.yaml.tpl",
     {
       ingress_namespace     = var.ingress_namespace,
       aws_region            = var.aws_region,
-      r53_subdomain_zone_id = var.r53_subdomain_zone_id,
-      r53_root_zone_name    = var.root_domain_zone_name,
-      r53_root_zone_id      = var.root_domain_zone_id,
+      r53_subdomain_zone_id = var.r53_subdomain_zone_id_aux,
+      r53_root_zone_name    = var.aux_domain_zone_name,
+      r53_root_zone_id      = var.aux_domain_zone_id,
       irsa_role_arn         = aws_iam_role.k8s_route53_access.arn,
-      target_domain         = var.target_domain
+      target_domain         = var.target_domain_aux
     }
   )
   depends_on = [
@@ -95,12 +97,14 @@ resource "kubectl_manifest" "certmanager_cert_targetdomain_fieldguide" {
 }
 
 resource "kubectl_manifest" "certmanager_cert_circleci_labs" {
+  count = var.target_domain_aux ? 1 : 0
   yaml_body = templatefile(
-    "${path.module}/custom-resource/certificate/circleci-labs-all.yaml.tpl",
+    "${path.module}/custom-resource/certificate/alt-domain.yaml.tpl",
     {
       ingress_namespace         = var.ingress_namespace,
-      target_domain             = var.target_domain,
-      target_domain_stringified = local.target_domain_stringified
+      aux_root_domain_zone_name = var.aux_domain_zone_name,
+      aux_domain                = var.target_domain_aux,
+      aux_domain_stringified    = local.aux_target_domain_stringified
     }
   )
   depends_on = [
