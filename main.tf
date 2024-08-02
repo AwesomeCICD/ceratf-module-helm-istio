@@ -143,7 +143,7 @@ resource "aws_route53_record" "fieldguide_global_record" {
 
 
 resource "aws_route53_record" "fieldguide_aux_global_record" {
-  count = var.target_domain_aux != "" ? 1 : 0
+  count   = var.target_domain_aux != "" ? 1 : 0
   zone_id = var.aux_domain_zone_id
   name    = "fieldguide"
   type    = "A"
@@ -166,7 +166,6 @@ resource "aws_route53_record" "fieldguide_aux_global_record" {
 }
 
 resource "aws_route53_record" "apex_record" {
-
   zone_id = var.r53_subdomain_zone_id
   name    = var.target_domain
   type    = "A"
@@ -181,7 +180,7 @@ resource "aws_route53_record" "apex_record" {
 
 
 resource "aws_route53_record" "aux_apex_record" {
-
+  count   = var.target_domain_aux != "" ? 1 : 0
   zone_id = var.r53_subdomain_zone_id_aux
   name    = var.target_domain_aux
   type    = "A"
@@ -234,6 +233,26 @@ resource "aws_iam_role_policy_attachment" "k8s_route53_access" {
   policy_arn = aws_iam_policy.k8s_route53_access.arn
 }
 
+#
+# Optional policy (and attach) for Alt Domain
+#
+resource "aws_iam_policy" "k8s_route53_access_aux" {
+  count = var.target_domain_aux != "" ? 1 : 0
+  name  = "cera-${var.circleci_region}-eks-regional-r53-access-aux"
+  policy = templatefile(
+    "${path.module}/iam/k8s_r53_role_policy.json.tpl",
+    {
+      r53_zone_id      = var.r53_subdomain_zone_id_aux,
+      r53_root_zone_id = var.aux_domain_zone_id
+    }
+  )
+}
+
+resource "aws_iam_role_policy_attachment" "k8s_route53_access_aux" {
+  count      = var.target_domain_aux != "" ? 1 : 0
+  role       = aws_iam_role.k8s_route53_access.name
+  policy_arn = aws_iam_policy.k8s_route53_access_aux[0].arn
+}
 
 
 

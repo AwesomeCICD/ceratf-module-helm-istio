@@ -26,4 +26,4 @@ spec:
           hostedZoneID: ${r53_root_zone_id}
       selector:
         dnsNames:
-          - fieldguide.${r53_root_zone_name}
+          - ${r53_root_zone_name}
