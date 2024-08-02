@@ -179,6 +179,21 @@ resource "aws_route53_record" "apex_record" {
   }
 }
 
+
+resource "aws_route53_record" "aux_apex_record" {
+
+  zone_id = var.r53_subdomain_zone_id_aux
+  name    = var.target_domain_aux
+  type    = "A"
+
+  #see data.tf for details
+  alias {
+    name                   = data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname
+    zone_id                = data.aws_elb.istio_ingress.zone_id
+    evaluate_target_health = true
+  }
+}
+
 ####
 # Create AWS and k8s resources for cert manager to perform DNS01 auth
 # See https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html
