@@ -15,7 +15,6 @@ spec:
        httpsRedirect: true
     hosts:
     - "fieldguide.${root_domain_zone_name}" # global
-    - "fieldguide.${target_domain}" # local DOmain
     - "dev.fieldguide.${target_domain}" # local DOmain
   - port:
       number: 443
@@ -26,5 +25,4 @@ spec:
       credentialName: "${target_domain_stringified}-fieldguide"
     hosts:
     - "fieldguide.${root_domain_zone_name}" # global
-    - "fieldguide.${target_domain}" # local DOmain
     - "dev.fieldguide.${target_domain}" # local DOmain
