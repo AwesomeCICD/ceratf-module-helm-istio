@@ -35,7 +35,7 @@ resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_staging" {
 }
 
 resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_labs" {
-  count = var.target_domain_aux ? 1 : 0
+  count = var.target_domain_aux != "" ? 1 : 0
   yaml_body = templatefile(
     # !IMPROTANT - same file, different inputs
     "${path.module}/custom-resource/certificate/letsencrypt-clusterissuer-prod.yaml.tpl",
@@ -97,7 +97,7 @@ resource "kubectl_manifest" "certmanager_cert_targetdomain_fieldguide" {
 }
 
 resource "kubectl_manifest" "certmanager_cert_circleci_labs" {
-  count = var.target_domain_aux ? 1 : 0
+  count = var.target_domain_aux != "" ? 1 : 0
   yaml_body = templatefile(
     "${path.module}/custom-resource/certificate/alt-domain.yaml.tpl",
     {

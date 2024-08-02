@@ -56,7 +56,7 @@ resource "kubectl_manifest" "istio_gateway_region_subdomains" {
 }
 
 resource "kubectl_manifest" "istio_gateway_circleci_labs" {
-  count     = var.target_domain_aux ? 1 : 0
+  count     = var.target_domain_aux != "" ? 1 : 0
   force_new = true
   yaml_body = templatefile(
     "${path.module}/custom-resource/gateway/gateway-labs-redirect.yaml.tpl",
