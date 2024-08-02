@@ -18,6 +18,6 @@ spec:
   dnsNames:
     - "${target_domain}" # root only
   issuerRef:
-    name: letsencrypt-prod
+    name: letsencrypt-${target_domain_stringified}
     kind: ClusterIssuer
     group: cert-manager.io

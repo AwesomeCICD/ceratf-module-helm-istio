@@ -21,6 +21,6 @@ spec:
     - "*.dev.${target_domain}"
     - "*.nexus.${target_domain}"
   issuerRef:
-    name: letsencrypt-prod
+    name: letsencrypt-${target_domain_stringified}
     kind: ClusterIssuer
     group: cert-manager.io

@@ -20,6 +20,6 @@ spec:
     - "fieldguide.${target_domain}" # local DOmain
     - "dev.fieldguide.${target_domain}" # local DOmain
   issuerRef:
-    name: letsencrypt-prod
+    name: letsencrypt-${target_domain_stringified}
     kind: ClusterIssuer
     group: cert-manager.io

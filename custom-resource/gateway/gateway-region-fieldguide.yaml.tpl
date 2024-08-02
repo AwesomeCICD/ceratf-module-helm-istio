@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: istio-gateway-fieldguide
+  name: ${target_domain_stringified}-fieldguide
   namespace: ${ingress_namespace}
 spec:
   selector:

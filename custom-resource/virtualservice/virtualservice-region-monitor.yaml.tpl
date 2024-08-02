@@ -8,7 +8,6 @@ spec:
     - "monitor.${target_domain}"
   gateways:
     - ${circleci_region}-istio-gateway-subdomains
-    - circleci-labs
   http:
     - match:
       - uri:
