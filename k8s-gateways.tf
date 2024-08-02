@@ -63,9 +63,9 @@ resource "kubectl_manifest" "istio_gateway_circleci_labs" {
     {
       ingress_namespace      = var.ingress_namespace,
       circleci_region        = var.circleci_region,
-      aux_domain             = var.target_domain_aux,
+      aux_domain             = var.target_domain_aux, #region
       aux_domain_stringified = local.aux_target_domain_stringified
-      aux_domain_zone_name   = var.aux_domain_zone_name,
+      aux_domain_zone_name   = var.aux_domain_zone_name, #global
     }
   )
   depends_on = [

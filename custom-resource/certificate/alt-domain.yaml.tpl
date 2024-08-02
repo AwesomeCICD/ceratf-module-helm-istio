@@ -18,7 +18,6 @@ spec:
   dnsNames:
     - "${aux_root_domain_zone_name}" 
     - "*.${aux_root_domain_zone_name}"
-    - "${aux_domain}"
     - "*.${aux_domain}"
   issuerRef:
     name: letsencrypt-${aux_domain_stringified}
