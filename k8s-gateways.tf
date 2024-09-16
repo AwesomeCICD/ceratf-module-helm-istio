@@ -1,26 +1,22 @@
 #-------------------------------------------------------------------------------
 # ISTIO GATEWAYS
 #-------------------------------------------------------------------------------
-resource "kubectl_manifest" "istio_gateway_root" {
+resource "kubectl_manifest" "global_istio_gateway_root" {
   # REGIONAL (subdomain) root record
   force_new = true
   yaml_body = templatefile(
-    "${path.module}/custom-resource/gateway/gateway-region-root.yaml.tpl",
+    "${path.module}/custom-resource/gateway/gateway-global-root.yaml.tpl",
     {
       ingress_namespace         = var.ingress_namespace,
       circleci_region           = var.circleci_region,
-      target_domain             = var.target_domain,
-      root_domain_zone_name     = var.root_domain_zone_name,
-      target_domain_aux         = var.target_domain_aux,
-      aux_domain_zone_name      = var.aux_domain_zone_name,
-      target_domain_stringified = local.target_domain_stringified
+      target_domain             = var.root_domain_zone_name,
+      target_domain_stringified = local.root_domain_stringified
     }
   )
   depends_on = [
     helm_release.istio_ingress
   ]
 }
-
 
 resource "kubectl_manifest" "istio_gateway_fieldguide" {
   force_new = true
@@ -58,22 +54,6 @@ resource "kubectl_manifest" "istio_gateway_region" {
 }
 
 
-resource "kubectl_manifest" "istio_gateway_global" {
-  # GLobal root domain
-  force_new = true
-  yaml_body = templatefile(
-    "${path.module}/custom-resource/gateway/gateway-global-root.yaml.tpl",
-    {
-      ingress_namespace         = var.ingress_namespace,
-      circleci_region           = var.circleci_region,
-      target_domain             = var.root_domain_zone_name,
-      target_domain_stringified = local.root_domain_stringified
-    }
-  )
-  depends_on = [
-    helm_release.istio_ingress
-  ]
-}
 
 
 resource "kubectl_manifest" "istio_gateway_region_subdomains" {
