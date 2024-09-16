@@ -59,11 +59,12 @@ resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_labs" {
 
 resource "kubectl_manifest" "certmanager_cert_targetdomain_global" {
   yaml_body = templatefile(
-    "${path.module}/custom-resource/certificate/targetdomain-region.yaml.tpl",
+    "${path.module}/custom-resource/certificate/targetdomain-global.yaml.tpl",
     {
       ingress_namespace         = var.ingress_namespace,
       target_domain             = var.root_domain_zone_name,
       target_domain_stringified = local.root_domain_stringified
+      issuer_name               = "letsencrypt-${local.target_domain_stringified}"  # uses same issuer as rest of cluster.
     }
   )
   depends_on = [
