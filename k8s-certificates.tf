@@ -57,6 +57,20 @@ resource "kubectl_manifest" "certmanager_letsencrypt_clusterissuer_labs" {
   ]
 }
 
+resource "kubectl_manifest" "certmanager_cert_targetdomain_global" {
+  yaml_body = templatefile(
+    "${path.module}/custom-resource/certificate/targetdomain-region.yaml.tpl",
+    {
+      ingress_namespace         = var.ingress_namespace,
+      target_domain             = var.root_domain_zone_name,
+      target_domain_stringified = local.root_domain_stringified
+    }
+  )
+  depends_on = [
+    helm_release.cert_manager
+  ]
+}
+
 resource "kubectl_manifest" "certmanager_cert_targetdomain_region" {
   yaml_body = templatefile(
     "${path.module}/custom-resource/certificate/targetdomain-region.yaml.tpl",
