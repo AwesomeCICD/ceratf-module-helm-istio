@@ -53,9 +53,6 @@ resource "kubectl_manifest" "istio_gateway_region" {
   ]
 }
 
-
-
-
 resource "kubectl_manifest" "istio_gateway_region_subdomains" {
   force_new = true
   yaml_body = templatefile(
