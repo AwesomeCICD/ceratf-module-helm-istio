@@ -140,7 +140,27 @@ resource "aws_route53_record" "fieldguide_global_record" {
 
   depends_on = [helm_release.istio_ingress]
 }
+resource "aws_route53_record" "landing_global_record" {
+  zone_id = var.root_domain_zone_id
+  name    = "."
+  type    = "A"
 
+  # Using alias gives us health checks without explicit definition of 'HealthCheck'
+  #records = [data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname]
+  alias {
+    name                   = data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname
+    zone_id                = data.aws_elb.istio_ingress.zone_id
+    evaluate_target_health = true
+  }
+
+  weighted_routing_policy {
+    weight = 100 #every region has equal weight, failover based on alias health check is all we rely on
+  }
+
+  set_identifier = "landing-${var.circleci_region}"
+
+  depends_on = [helm_release.istio_ingress]
+}
 
 resource "aws_route53_record" "fieldguide_aux_global_record" {
   count   = var.target_domain_aux != "" ? 1 : 0
