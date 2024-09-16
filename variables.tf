@@ -28,6 +28,7 @@ variable "r53_subdomain_zone_id" {
   description = "Hosted zone ID for domain."
 }
 
+# SUBDOMAIN
 variable "target_domain_aux" {
   description = "Alternate Domain for which certs will be provisioned."
 }
