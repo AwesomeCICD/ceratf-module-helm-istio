@@ -142,7 +142,7 @@ resource "aws_route53_record" "fieldguide_global_record" {
 }
 resource "aws_route53_record" "landing_global_record" {
   zone_id = var.root_domain_zone_id
-  name    = "."
+  name    = var.root_domain_zone_name
   type    = "A"
 
   # Using alias gives us health checks without explicit definition of 'HealthCheck'
