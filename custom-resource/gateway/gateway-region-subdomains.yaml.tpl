@@ -14,7 +14,7 @@ spec:
     tls:
        httpsRedirect: true
     hosts:
-    - "nexus/*.nexus.${target_domain}" # only vs in cba-dev prevents conflict
+    - "*.nexus.${target_domain}" # only vs in cba-dev prevents conflict
     - "*.demo.${target_domain}" # all demo domains
     - "*.dev.${target_domain}" # all appspace dev domains
     - "dev.${target_domain}" # cba dev domains
@@ -28,7 +28,7 @@ spec:
       mode: SIMPLE
       credentialName: "${target_domain_stringified}-subdomains"
     hosts:
-    - "nexus/*.nexus.${target_domain}" # only vs in cba-dev prevents conflict
+    - "*.nexus.${target_domain}" # only vs in cba-dev prevents conflict
     - "*.demo.${target_domain}" # all demo domains
     - "*.dev.${target_domain}" # all appspace dev domains
     - "dev.${target_domain}" # cba dev domains
