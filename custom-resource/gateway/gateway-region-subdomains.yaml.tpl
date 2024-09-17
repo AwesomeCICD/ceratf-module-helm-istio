@@ -16,8 +16,10 @@ spec:
     hosts:
     - "nexus/*.nexus.${target_domain}" # only vs in cba-dev prevents conflict
     - "*.demo.${target_domain}" # all demo domains
-    - "*.dev.${target_domain}" # all demo domains
-    - "*.${target_domain}" # all demo domains
+    - "*.dev.${target_domain}" # all appspace dev domains
+    - "dev.${target_domain}" # cba dev domains
+    - "vault.${target_domain}" 
+    - "monitor.${target_domain}" 
   - port:
       number: 443
       name: https
@@ -28,5 +30,7 @@ spec:
     hosts:
     - "nexus/*.nexus.${target_domain}" # only vs in cba-dev prevents conflict
     - "*.demo.${target_domain}" # all demo domains
-    - "*.dev.${target_domain}" # all demo domains
-    - "*.${target_domain}" # all demo domains
+    - "*.dev.${target_domain}" # all appspace dev domains
+    - "dev.${target_domain}" # cba dev domains
+    - "vault.${target_domain}" 
+    - "monitor.${target_domain}" 
