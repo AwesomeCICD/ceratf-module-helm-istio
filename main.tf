@@ -217,7 +217,7 @@ resource "aws_route53_record" "aux_apex_record" {
 
 resource "aws_route53_record" "sso_global_record" {
   count   = var.circleci_region == "namer" ? 1 : 0
-  zone_id = var.aux_domain_zone_id
+  zone_id = var.root_domain_zone_id
   name    = "sso"
   type    = "A"
 
