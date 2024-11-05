@@ -28,4 +28,5 @@ spec:
         dnsNames:
           - fieldguide.${r53_root_zone_name}
           - ${r53_root_zone_name}
+          - sso.${r53_root_zone_name}
       
