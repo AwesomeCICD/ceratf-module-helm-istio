@@ -64,7 +64,7 @@ resource "kubectl_manifest" "certmanager_cert_targetdomain_global" {
       ingress_namespace         = var.ingress_namespace,
       target_domain             = var.root_domain_zone_name,
       target_domain_stringified = local.root_domain_stringified
-      issuer_name               = "letsencrypt-${local.target_domain_stringified}"  # uses same issuer as rest of cluster.
+      issuer_name               = "letsencrypt-${local.target_domain_stringified}" # uses same issuer as rest of cluster.
     }
   )
   depends_on = [
@@ -132,13 +132,13 @@ resource "kubectl_manifest" "certmanager_cert_circleci_labs" {
 }
 
 resource "kubectl_manifest" "certmanager_cert_global_sso" {
-  count   = var.var.circleci_region == "namer" ? 1 : 0
+  count = var.circleci_region == "namer" ? 1 : 0
   yaml_body = templatefile(
     "${path.module}/custom-resource/certificate/targetdomain-global.yaml.tpl",
     {
       ingress_namespace         = var.ingress_namespace,
       target_domain             = "sso.${var.target_domain}",
-      root_domain_zone_name     = var.root_domain_zone_name,
+      issuer_name               = "letsencrypt-${local.target_domain_stringified}", 
       target_domain_stringified = "sso-${local.target_domain_stringified}"
     }
   )
