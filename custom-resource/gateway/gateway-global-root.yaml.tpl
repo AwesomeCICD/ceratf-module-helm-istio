@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: global-istio-gateway-root
+  name: ${name}
   namespace: ${ingress_namespace}
 spec:
   selector:
