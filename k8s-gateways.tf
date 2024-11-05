@@ -2,15 +2,32 @@
 # ISTIO GATEWAYS
 #-------------------------------------------------------------------------------
 resource "kubectl_manifest" "global_istio_gateway_root" {
-  # REGIONAL (subdomain) root record
+  # root record
   force_new = true
   yaml_body = templatefile(
     "${path.module}/custom-resource/gateway/gateway-global-root.yaml.tpl",
     {
       ingress_namespace         = var.ingress_namespace,
-      circleci_region           = var.circleci_region,
+      name                      = "global-istio-gateway-root",
       target_domain             = var.root_domain_zone_name,
       target_domain_stringified = local.root_domain_stringified
+    }
+  )
+  depends_on = [
+    helm_release.istio_ingress
+  ]
+}
+
+resource "kubectl_manifest" "global_istio_gateway_sso" {
+  # global sso record
+  force_new = true
+  yaml_body = templatefile(
+    "${path.module}/custom-resource/gateway/gateway-global-root.yaml.tpl",
+    {
+      ingress_namespace         = var.ingress_namespace,
+      name                      = "global-istio-gateway-sso",
+      target_domain             = "sso.${var.root_domain_zone_name}",
+      target_domain_stringified = "sso-${local.root_domain_stringified}"
     }
   )
   depends_on = [
