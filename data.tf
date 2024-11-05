@@ -3,7 +3,7 @@ locals {
   k8s_r53_access_sa_name        = "cera-${var.circleci_region}-eks-regional-r53-access"
   target_domain_stringified     = replace(var.target_domain, ".", "-")
   aux_target_domain_stringified = replace(var.target_domain_aux, ".", "-")
-  root_domain_stringified     = replace(var.root_domain_zone_name, ".", "-")
+  root_domain_stringified       = replace(var.root_domain_zone_name, ".", "-")
 }
 
 data "kubernetes_service_v1" "istio_ingress" {

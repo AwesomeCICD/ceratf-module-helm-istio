@@ -213,6 +213,33 @@ resource "aws_route53_record" "aux_apex_record" {
   }
 }
 
+
+
+resource "aws_route53_record" "sso_global_record" {
+  count   = var.circleci_region == "namer" ? 1 : 0
+  zone_id = var.aux_domain_zone_id
+  name    = "sso"
+  type    = "A"
+
+  # Using alias gives us health checks without explicit definition of 'HealthCheck'
+  #records = [data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname]
+  alias {
+    name                   = data.kubernetes_service_v1.istio_ingress.status.0.load_balancer.0.ingress.0.hostname
+    zone_id                = data.aws_elb.istio_ingress.zone_id
+    evaluate_target_health = true
+  }
+
+  weighted_routing_policy {
+    weight = 100 #every region has equal weight, failover based on alias health check is all we rely on
+  }
+
+  set_identifier = "sso-${var.circleci_region}"
+
+  depends_on = [helm_release.istio_ingress]
+}
+
+
+
 ####
 # Create AWS and k8s resources for cert manager to perform DNS01 auth
 # See https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html
