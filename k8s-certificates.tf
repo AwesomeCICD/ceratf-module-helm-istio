@@ -131,3 +131,18 @@ resource "kubectl_manifest" "certmanager_cert_circleci_labs" {
   ]
 }
 
+resource "kubectl_manifest" "certmanager_cert_global_sso" {
+  count   = var.var.circleci_region == "namer" ? 1 : 0
+  yaml_body = templatefile(
+    "${path.module}/custom-resource/certificate/targetdomain-global.yaml.tpl",
+    {
+      ingress_namespace         = var.ingress_namespace,
+      target_domain             = "sso.${var.target_domain}",
+      root_domain_zone_name     = var.root_domain_zone_name,
+      target_domain_stringified = "sso-${local.target_domain_stringified}"
+    }
+  )
+  depends_on = [
+    helm_release.cert_manager
+  ]
+}
