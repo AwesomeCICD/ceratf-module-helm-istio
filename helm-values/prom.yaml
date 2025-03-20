@@ -1140,6 +1140,9 @@ serverFiles:
           - source_labels: [ __meta_kubernetes_namespace ]
             regex: 'istio-ingress'
             action: drop
+          - source_labels: [ __name__ ]
+            regex: 'istio_.*'
+            action: drop
 
       # Example Scrape config for pods which should be scraped slower. An useful example
       # would be stackriver-exporter which queries an API on every scrape of the pod
