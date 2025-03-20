@@ -239,7 +239,7 @@ server:
   global:
     ## How frequently to scrape targets by default
     ##
-    scrape_interval: 10s
+    scrape_interval: 30s
     ## How long until a scrape request times out
     ##
     scrape_timeout: 2s
@@ -716,7 +716,7 @@ server:
 
   ## Prometheus' data retention size. Supported units: B, KB, MB, GB, TB, PB, EB.
   ##
-  retentionSize: "5GB"
+  retentionSize: "2GB"
 
 ## Prometheus server ConfigMap entries for rule files (allow prometheus labels interpolation)
 ruleFiles: {}
@@ -775,6 +775,8 @@ serverFiles:
         - source_labels: [__meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
           action: keep
           regex: istiod;http-monitoring
+
+      # we onl need total traffic count, ignore size, time and 10K other metrics)
       - job_name: 'envoy-stats'
         metrics_path: /stats/prometheus
         kubernetes_sd_configs:
@@ -783,8 +785,12 @@ serverFiles:
         - source_labels: [__meta_kubernetes_pod_container_port_name]
           action: keep
           regex: '.*-envoy-prom'
-        scrape_interval: 2s
+        scrape_interval: 10s
         scrape_timeout: 1s
+        metric_relabel_configs:
+          - source_labels: [ __name__ ]
+            regex: 'istio_requests_total'
+            action: keep
 
       # A scrape configuration for running Prometheus on a Kubernetes cluster.
       # This uses separate scrape configs for cluster components (i.e. API server, node)
@@ -1085,7 +1091,6 @@ serverFiles:
       # * `prometheus.io/port`: Scrape the pod on the indicated port instead of the default of `9102`.
       - job_name: 'kubernetes-pods'
         honor_labels: true
-
         kubernetes_sd_configs:
           - role: pod
 
@@ -1131,6 +1136,10 @@ serverFiles:
           - source_labels: [__meta_kubernetes_pod_node_name]
             action: replace
             target_label: node
+        metric_relabel_configs:
+          - source_labels: [ __meta_kubernetes_namespace ]
+            regex: 'istio-ingress'
+            action: drop
 
       # Example Scrape config for pods which should be scraped slower. An useful example
       # would be stackriver-exporter which queries an API on every scrape of the pod
@@ -1191,7 +1200,6 @@ serverFiles:
           - source_labels: [__meta_kubernetes_pod_node_name]
             action: replace
             target_label: node
-
 # adds additional scrape configs to prometheus.yml
 # must be a string so you have to add a | after extraScrapeConfigs:
 # example adds prometheus-blackbox-exporter scrape config
