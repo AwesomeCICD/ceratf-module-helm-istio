@@ -82,7 +82,7 @@ variable "prometheus_version" {
 
 variable "kiali_operator_chart_version" {
   description = "Version of kiali operator chart to deploy."
-  default     = "1.88.0"
+  default     = "2.10.0"
 }
 
 variable "aws_region" {}
