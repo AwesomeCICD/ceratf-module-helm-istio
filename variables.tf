@@ -42,7 +42,7 @@ variable "r53_subdomain_zone_id_aux" {
 variable "istio_chart_version" {
   description = "Helm chart version"
   type        = string
-  default     = "1.22.1"
+  default     = "1.26.0"
 }
 
 variable "istio_namespace" {
@@ -82,7 +82,7 @@ variable "prometheus_version" {
 
 variable "kiali_operator_chart_version" {
   description = "Version of kiali operator chart to deploy."
-  default     = "1.88.0"
+  default     = "2.10.0"
 }
 
 variable "aws_region" {}
