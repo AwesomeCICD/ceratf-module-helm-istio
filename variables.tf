@@ -42,7 +42,7 @@ variable "r53_subdomain_zone_id_aux" {
 variable "istio_chart_version" {
   description = "Helm chart version"
   type        = string
-  default     = "1.22.1"
+  default     = "1.26.0"
 }
 
 variable "istio_namespace" {
