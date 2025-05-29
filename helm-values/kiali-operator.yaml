@@ -105,7 +105,10 @@ cr:
     deployment:
       cluster_wide_access: true
     auth:
-      strategy: anonymous
+      # kiali allows istio editing, which might be exploitable.
+      # token stragey requires a valid K8s SA Token, which we can get via AWS SSO. 
+      # i.e. kubectl get secrets circle-shop -o jsonpath='{.data.token}'  -n circle-shop | base64 -d | pbcopy
+      strategy: token
     server:
       web_root: "/kiali"
     external_services:
